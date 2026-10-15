@@ -1,11 +1,11 @@
 # Status
 
-**Current milestone:** M0 Foundation (target `v0.1.0`). Package version `0.1.0-dev` (development versions are never released).
+**Current milestone:** M0 Foundation complete, released as `v0.1.0` by CI. Next: M1.
 
 ## Done
 - Private references in `keystonehosting/TEMP` under `artifact/`.
 - `docs/SPEC.md`, `AGENTS.md`, `CLAUDE.md`, leak-check pre-push hook (`scripts/leak-check.mjs`, `scripts/install-hooks.sh`).
-- Analyst pass, part 1: YourAIScroll and My Prompt dossier (`docs/dossier/youraiscroll/`, `docs/dossier/my-prompt/`, `docs/dossier/endpoints-youraiscroll.md`).
+- Analyst pass: AI Toolbox, YourAIScroll and My Prompt dossier in `docs/dossier/` (leak-checked; verbatim UI phrases paraphrased).
 - ACE 1.22.0 imported at `671dfc8` (commit "Import ACE 1.22.0 source"), then restructured into `src/core` + `src/adapters` (TypeScript, WXT, Preact).
 - Archive schema v1 (Zod + `schemas/artifact-archive-v1.json`, kept in sync by a test).
 - Zod payload schemas: ChatGPT, Claude, Grok, batchexecute envelope.
@@ -15,10 +15,10 @@
 - Docs: README, PRIVACY, SECURITY, CONTRIBUTING, CHANGELOG, THIRD_PARTY_NOTICES, architecture, adding-a-site, decisions (D1–D9), provider-notes, permissions.
 
 ## In progress
-- Analyst pass, part 2: AI Toolbox dossier (`docs/dossier/ai-toolbox/`, `docs/dossier/endpoints.md`), running as an isolated subagent.
+- Nothing.
 
 ## Next exact step
-- When the AI Toolbox dossier lands: run the leak check, commit it, write `docs/reports/M0.md`, set the version to `0.1.0` and push, so CI cuts the `v0.1.0` pre-release. Then start M1 with structured reads (ChatGPT `backend-api`, Claude `chat_conversations`, Grok `load-responses`, Gemini `hNvQHb`, AI Studio `ResolveDriveResource`).
+- Start M1: set the version to `0.2.0-dev`, then add structured reads (ChatGPT `backend-api`, Claude `chat_conversations`, Grok `load-responses`, Gemini `hNvQHb`, AI Studio `ResolveDriveResource`) behind a page-world fetch hook.
 
 ## Blockers
 - No browser available to the build session. All live tests are pending (D5).

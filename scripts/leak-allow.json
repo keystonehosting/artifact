@@ -1,4 +1,9 @@
 {
   "localeKeys": {},
+  "facts": {
+    "https://alkalimakersuite-pa.clients6.google.com/$rpc/google.internal.alkali.applications.makersuite.v1.MakerSuiteService/ResolveDriveResource": "Google AI Studio's own RPC endpoint (site fact, docs/provider-notes.md)",
+    "https://alkalimakersuite-pa.clients6.google.com/$rpc/google.internal.alkali.applications.makersuite.v1.MakerSuiteService/ListPrompts": "Google AI Studio's own RPC endpoint (site fact, docs/provider-notes.md)",
+    "https://alkalimakersuite-pa.clients6.google.com/$rpc/google.internal.alkali.applications.makersuite.v1.MakerSuiteService/": "Google AI Studio's own RPC service path (site fact, docs/provider-notes.md)"
+  },
   "windows": {}
 }

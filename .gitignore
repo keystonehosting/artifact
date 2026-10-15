@@ -1,67 +1,11 @@
-# Dependencies
 node_modules/
-
-# Astro generated types (web/)
-.astro/
-
-# Build and distribution outputs
-dist/
 .output/
 .wxt/
-releases/
-publish/
-web-ext-artifacts/
-*.zip
-*.crx
-*.xpi
-
-# Site build output (generated from web/ by CI)
-docs/
-
-# Environment & local configurations
-.env
-.env*
-*.env
-
-# Local scratch and notes
-Scratch/
-/.worktrees
-.opencode/
-internal/
-
-# Logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-# Test coverage
+dist/
 coverage/
-.nyc_output/
-playwright-report/
 test-results/
-
-# Editor & IDE directories
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-.idea/
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.swp
-*.swo
-*~
-
-# OS generated files
+playwright-report/
+*.log
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
+.env
+.env.*

@@ -137,7 +137,9 @@ refHashes = refHashes.subarray(0, n).sort();
 //   1. ACE (MPL-2.0) as imported: every blob of the commit tagged `ace-import`.
 //   2. Runtime dependencies in node_modules (package.json "dependencies").
 //   3. License texts anywhere in node_modules.
-//   4. Window hashes listed in scripts/leak-allow.json "windows" (each entry is
+//   4. Interop facts listed in scripts/leak-allow.json "facts": literal endpoint
+//      URLs and similar identifiers that belong to the AI sites, with a reason.
+//   5. Window hashes listed in scripts/leak-allow.json "windows" (each entry is
 //      the SHA-256 of a normalized 64-char window plus a reason), reviewed by hand.
 const removed = new Uint8Array(refHashes.length);
 function indexOf(arr, key) {
@@ -204,6 +206,9 @@ if (existsSync(nm)) {
 const allowPath = join(repoRoot, 'scripts', 'leak-allow.json');
 const allow = existsSync(allowPath) ? JSON.parse(readFileSync(allowPath, 'utf8')) : {};
 const allowedWindows = new Set(Object.keys(allow.windows || {}));
+// Interoperability facts of third-party sites (endpoint URLs, RPC paths) that
+// the closed tools also contain. Each entry is the literal fact and a reason.
+for (const fact of Object.keys(allow.facts || {})) subtract(fact);
 
 // Reference-only strings.
 const hostStrings = [['infi', 'dev'].join('-'), ['youraiscroll', 'com'].join('.')];
