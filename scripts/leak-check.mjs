@@ -16,6 +16,7 @@
 // can be set with ARTIFACT_REF_DIR. If it is missing the check fails closed.
 
 import { execFileSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative, resolve, basename, extname } from 'node:path';
 
@@ -130,22 +131,14 @@ let n = 0;
 for (const { s } of closedTexts) forEachWindow(s, (k) => { refHashes[n++] = k; });
 refHashes = refHashes.subarray(0, n).sort();
 
-// Drop windows that also occur in open-source license texts and libraries
-// installed in node_modules: those are not closed code.
-const allowedSources = [];
-const nm = join(repoRoot, 'node_modules');
-if (existsSync(nm)) {
-  const collect = (dir, depth) => {
-    let entries;
-    try { entries = readdirSync(dir, { withFileTypes: true }); } catch { return; }
-    for (const e of entries) {
-      const p = join(dir, e.name);
-      if (e.isDirectory() && depth < 3 && !e.name.startsWith('.')) collect(p, depth + 1);
-      else if (e.isFile() && /^(licen[cs]e|copying|notice)/i.test(e.name)) allowedSources.push(p);
-    }
-  };
-  collect(nm, 0);
-}
+// Drop windows that also occur in open material: those are not closed code.
+// The closed builds bundle open-source libraries, common CSS and the AI sites'
+// own markup and icons, all of which legitimately appear here too.
+//   1. ACE (MPL-2.0) as imported: every blob of the commit tagged `ace-import`.
+//   2. Runtime dependencies in node_modules (package.json "dependencies").
+//   3. License texts anywhere in node_modules.
+//   4. Window hashes listed in scripts/leak-allow.json "windows" (each entry is
+//      the SHA-256 of a normalized 64-char window plus a reason), reviewed by hand.
 const removed = new Uint8Array(refHashes.length);
 function indexOf(arr, key) {
   let lo = 0;
@@ -159,14 +152,53 @@ function indexOf(arr, key) {
   }
   return -1;
 }
-for (const f of allowedSources) {
-  forEachWindow(normalize(readFileSync(f, 'utf8')), (k) => {
+function subtract(text) {
+  forEachWindow(normalize(text), (k) => {
     let i = indexOf(refHashes, k);
     if (i < 0) return;
     while (i > 0 && refHashes[i - 1] === k) i--;
     while (i < refHashes.length && refHashes[i] === k) removed[i++] = 1;
   });
 }
+const TEXT_EXT = /\.(m?js|cjs|ts|css|html?|json|svg|txt|md|map)$/i;
+let openFiles = 0;
+try {
+  const tree = execFileSync('git', ['ls-tree', '-r', '-z', 'ace-import^{tree}'], { encoding: 'utf8', maxBuffer: 1 << 30 });
+  for (const entry of tree.split('\0')) {
+    const m = /^\d+ blob ([0-9a-f]+)\t(.*)$/.exec(entry);
+    if (!m) continue;
+    const buf = execFileSync('git', ['cat-file', 'blob', m[1]], { maxBuffer: 1 << 30 });
+    if (isText(buf)) { subtract(buf.toString('utf8')); openFiles++; }
+  }
+} catch {
+  // No ace-import tag in this clone: nothing to subtract from ACE.
+}
+const nm = join(repoRoot, 'node_modules');
+if (existsSync(nm)) {
+  const pkg = JSON.parse(readFileSync(join(repoRoot, 'package.json'), 'utf8'));
+  for (const dep of Object.keys(pkg.dependencies || {})) {
+    const dir = join(nm, dep);
+    if (!existsSync(dir)) continue;
+    for (const f of walk(dir)) {
+      if (!TEXT_EXT.test(f) || statSync(f).size > 4 * 1024 * 1024) continue;
+      subtract(readFileSync(f, 'utf8'));
+      openFiles++;
+    }
+  }
+  const collect = (dir, depth) => {
+    let entries;
+    try { entries = readdirSync(dir, { withFileTypes: true }); } catch { return; }
+    for (const e of entries) {
+      const p = join(dir, e.name);
+      if (e.isDirectory() && depth < 3 && !e.name.startsWith('.')) collect(p, depth + 1);
+      else if (e.isFile() && /^(licen[cs]e|copying|notice)/i.test(e.name)) { subtract(readFileSync(p, 'utf8')); openFiles++; }
+    }
+  };
+  collect(nm, 0);
+}
+const allowPath = join(repoRoot, 'scripts', 'leak-allow.json');
+const allow = existsSync(allowPath) ? JSON.parse(readFileSync(allowPath, 'utf8')) : {};
+const allowedWindows = new Set(Object.keys(allow.windows || {}));
 
 // Reference-only strings.
 const hostStrings = [['infi', 'dev'].join('-'), ['youraiscroll', 'com'].join('.')];
@@ -184,14 +216,29 @@ const flatten = (obj, prefix = '') => {
 for (const p of [join(refDir, 'ai-toolbox', 'locales', 'en.json'), join(refDir, 'ai-toolbox', '_locales', 'en', 'messages.json')]) {
   if (existsSync(p)) flatten(JSON.parse(readFileSync(p, 'utf8')));
 }
-const allowPath = join(repoRoot, 'scripts', 'leak-allow.json');
-if (existsSync(allowPath)) {
-  const allow = JSON.parse(readFileSync(allowPath, 'utf8'));
-  for (const k of Object.keys(allow.localeKeys || {})) localeKeys.delete(k);
+for (const k of Object.keys(allow.localeKeys || {})) localeKeys.delete(k);
+// Finds locale keys by tokenizing identifiers (and dotted paths) instead of
+// one giant regex, which is far too slow on large fixture files.
+function findLocaleKeys(text) {
+  const found = new Set();
+  if (!localeKeys.size) return found;
+  const re = /[A-Za-z0-9_$]+(?:\.[A-Za-z0-9_$]+)*/g;
+  let m;
+  while ((m = re.exec(text))) {
+    const tok = m[0];
+    if (tok.length < 10) continue;
+    if (localeKeys.has(tok)) { found.add(tok); continue; }
+    if (!tok.includes('.')) continue;
+    const parts = tok.split('.');
+    for (let i = 0; i < parts.length; i++) {
+      for (let j = i + 1; j <= parts.length; j++) {
+        const sub = parts.slice(i, j).join('.');
+        if (sub.length >= 10 && localeKeys.has(sub)) found.add(sub);
+      }
+    }
+  }
+  return found;
 }
-const keyPattern = localeKeys.size
-  ? new RegExp(`(?<![A-Za-z0-9_$])(${[...localeKeys].map((k) => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})(?![A-Za-z0-9_$])`, 'g')
-  : null;
 
 // ---------- what to scan ----------
 
@@ -259,12 +306,15 @@ for (const item of items) {
     while (i > 0 && refHashes[i - 1] === k) i--;
     let live = false;
     while (i < refHashes.length && refHashes[i] === k) if (!removed[i++]) live = true;
-    if (live) hits.push(s.slice(start, start + WINDOW));
+    if (!live) return;
+    const w = s.slice(start, start + WINDOW);
+    if (allowedWindows.size && allowedWindows.has(createHash('sha256').update(w).digest('hex'))) return;
+    hits.push(w);
   });
   if (hits.length) {
     // Confirm exactly against the reference text before reporting.
     const confirmed = new Set();
-    for (const w of hits) {
+    for (const w of [...new Set(hits)].slice(0, 25)) {
       const ref = closedTexts.find((t) => t.s.includes(w));
       if (ref) confirmed.add(ref.file);
     }
@@ -274,13 +324,8 @@ for (const item of items) {
   if (!/\.md$/i.test(item.path)) {
     for (const h of hostStrings) if (text.includes(h)) problems.push(`${item.label}: contains a closed-reference server hostname`);
   }
-  if (keyPattern) {
-    keyPattern.lastIndex = 0;
-    const found = new Set();
-    let m;
-    while ((m = keyPattern.exec(text))) found.add(m[1]);
-    if (found.size) problems.push(`${item.label}: contains ${found.size} AI Toolbox locale key(s): ${[...found].slice(0, 10).join(', ')}`);
-  }
+  const found = findLocaleKeys(text);
+  if (found.size) problems.push(`${item.label}: contains ${found.size} AI Toolbox locale key(s): ${[...found].slice(0, 10).join(', ')}`);
 }
 
 if (problems.length) {
@@ -289,4 +334,4 @@ if (problems.length) {
   console.error('Remove the matching content before pushing. See AGENTS.md, "Leak check".');
   process.exit(1);
 }
-console.log(`leak-check: ok (${scanned} file(s) scanned against ${closedFiles.length} closed reference file(s), ${refHashes.length} windows, ${localeKeys.size} locale keys)`);
+console.log(`leak-check: ok (${scanned} file(s) scanned against ${closedFiles.length} closed reference file(s), ${refHashes.length} windows, ${openFiles} open file(s) subtracted, ${localeKeys.size} locale keys)`);
