@@ -33,3 +33,18 @@ ACE's source files carry no per-file MPL header. Artifact adds the MPL Exhibit A
 
 ## D9 — i18n key naming
 New message keys use `snake_case` with a module prefix (`export_markdown`, `meter_tooltip`...). This keeps them distinct from ACE's camelCase keys and from AI Toolbox's locale keys, which the leak check blocks.
+
+## D10 — Claude prompt-cache timer not shipped
+SPEC §6A allows the cache timer "only if verified live". Claude Counter's timer (MIT, `CACHE_WINDOW_MS`) is a fixed five-minute window counted from the last reply. It is a heuristic, not something the site reports, and no live session is available to check it against. It is not shipped. If a later live session finds a cache-expiry signal in Claude's own payloads, it can be added as an adapter `UsageReport.cacheExpiresAt`.
+
+## D11 — DOCX math stays as TeX
+Word's equation format (OMML) has no lossless TeX mapping. DOCX exports keep math as TeX source in a dedicated character style (Cambria Math, italic), so nothing is lost or silently mangled. HTML exports render math as MathML; Markdown keeps `$…$` / `$$…$$`.
+
+## D12 — PDF through the browser's print engine
+PDF is rendered locally by opening the chat in Artifact's preview tab and printing it ("Save as PDF"). This gives selectable, vector text and needs no PDF library or server. Exporting many chats to PDF at once (M4) is handled in D15 when that milestone lands.
+
+## D13 — Tier 2 switches hidden until their adapters ship
+Tier 2 sites appear in Settings when their adapters ship in M4. Until then, offering the switch would request a permission that does nothing.
+
+## D14 — Server-dependent AI Toolbox features skipped
+Announcements, launch-site prompts, review requests, discount surveys, team plans, the public leaderboard, payments and every upsell surface (497 of AI Toolbox's 1,965 strings, `docs/parity.md`) need a vendor server or exist to sell a premium plan. Artifact has no server and no paid plan (SPEC §6 "Deliberate skips").

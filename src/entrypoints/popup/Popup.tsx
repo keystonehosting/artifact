@@ -1,37 +1,44 @@
+// Toolbar popup: the chat in this tab, quick export in the default format,
+// copy as Markdown, open the side panel, and Self-test.
 import { useEffect, useState } from 'preact/hooks';
+import { browser } from 'wxt/browser';
 import type { Conversation } from '../../core/schema/archive';
 import type { SiteHealth } from '../../core/health/health';
 import { siteForUrl, type SiteInfo } from '../../core/sites/sites';
 import { activeTab, sendToTab } from '../../core/messaging/tabs';
 import { buildDocument } from '../../core/export/document';
 import { toMarkdown } from '../../core/export/markdown';
-import { toText } from '../../core/export/text';
-import { buildArchive, toJson } from '../../core/export/json';
-import { formatFilename } from '../../core/util/filename';
-import { saveFile } from '../../core/export/download';
+import { exportConversation, openPreview, optionsFromSettings } from '../../core/export/runner';
+import { loadSettings, type Settings } from '../../core/settings/settings';
 import { t } from '../../core/i18n/t';
 import { formatDiagnostics } from '../../core/health/diagnostics';
-import { browser } from 'wxt/browser';
+import { activeBranch } from '../../core/model/tree';
 
 type State =
   | { kind: 'loading' }
   | { kind: 'no-site' }
   | { kind: 'not-loaded'; site: SiteInfo }
-  | { kind: 'ready'; site: SiteInfo; tabId: number; conv: Conversation | null; health: SiteHealth };
+  | { kind: 'ready'; site: SiteInfo; tabId: number; windowId: number | null; conv: Conversation | null; health: SiteHealth };
+
+const FORMAT_LABEL: Record<string, string> = { md: 'Markdown', txt: 'Text', json: 'JSON', html: 'HTML', docx: 'DOCX', pdf: 'PDF', png: 'PNG' };
 
 export function Popup() {
   const [state, setState] = useState<State>({ kind: 'loading' });
+  const [settings, setSettings] = useState<Settings | null>(null);
   const [status, setStatus] = useState<{ text: string; error?: boolean } | null>(null);
   const [report, setReport] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
 
   useEffect(() => {
     void (async () => {
-      const tab = await activeTab();
-      const site = tab ? siteForUrl(tab.url) : null;
-      if (!tab || !site) return setState({ kind: 'no-site' });
+      setSettings(await loadSettings());
+      const [tab] = await browser.tabs.query({ active: true, currentWindow: true });
+      const at = await activeTab();
+      const site = at ? siteForUrl(at.url) : null;
+      if (!at || !site) return setState({ kind: 'no-site' });
       try {
-        const res = await sendToTab(tab.id, { type: 'content:read' });
-        setState({ kind: 'ready', site, tabId: tab.id, conv: res.conversation, health: res.health });
+        const res = await sendToTab(at.id, { type: 'content:read' });
+        setState({ kind: 'ready', site, tabId: at.id, windowId: tab?.windowId ?? null, conv: res.conversation, health: res.health });
         if (res.error) setStatus({ text: res.error, error: true });
       } catch {
         setState({ kind: 'not-loaded', site });
@@ -39,39 +46,48 @@ export function Popup() {
     })();
   }, []);
 
-  if (state.kind === 'loading') return <div class="popup muted">…</div>;
-  if (state.kind === 'no-site') return <div class="popup">{t('popup_no_site')}</div>;
+  const openPanel = async (windowId: number | null) => {
+    // Firefox exposes its sidebar API as browser.sidebarAction; it isn't in the Chrome types.
+    if (import.meta.env.BROWSER === 'firefox') await (browser as unknown as { sidebarAction: { open(): Promise<void> } }).sidebarAction.open();
+    else if (windowId !== null) await chrome.sidePanel.open({ windowId });
+    window.close();
+  };
+
+  if (state.kind === 'loading' || !settings) return <div class="popup muted">…</div>;
+  if (state.kind === 'no-site')
+    return (
+      <div class="popup">
+        <p>{t('popup_no_site')}</p>
+        <button onClick={() => browser.runtime.openOptionsPage()}>{t('tab_settings')}</button>
+      </div>
+    );
   if (state.kind === 'not-loaded') return <div class="popup">{t('popup_not_loaded')}</div>;
 
-  const { site, conv, health } = state;
-  const count = conv ? Object.values(conv.messages).filter((m) => !m.hidden).length : 0;
+  const { site, conv, health, tabId } = state;
+  const count = conv ? activeBranch(conv).filter((m) => !m.hidden).length : 0;
+  const fmt = settings.export.defaultFormat;
 
-  const run = async (format: 'md' | 'txt' | 'json' | 'copy') => {
+  const quickExport = async () => {
     if (!conv) return;
     setStatus(null);
+    setBusy(true);
     try {
-      const doc = buildDocument(conv);
-      const base = formatFilename(undefined, { platform: site.name, title: conv.title, model: conv.model, id: conv.siteChatId });
-      if (format === 'copy') {
-        await navigator.clipboard.writeText(toMarkdown(doc));
-        return setStatus({ text: t('export_copied') });
+      const opts = optionsFromSettings(settings);
+      if (fmt === 'pdf' || fmt === 'png') {
+        await openPreview(tabId, conv, opts, fmt);
+        return;
       }
-      const version = browser.runtime.getManifest().version;
-      const [body, ext, mime] =
-        format === 'md'
-          ? [toMarkdown(doc), 'md', 'text/markdown']
-          : format === 'txt'
-            ? [toText(doc), 'txt', 'text/plain']
-            : [toJson(buildArchive([conv], version)), 'json', 'application/json'];
-      await saveFile(`${base}.${ext}`, body, mime);
-      setStatus({ text: t('export_done', `${base}.${ext}`) });
+      const out = await exportConversation(tabId, conv, fmt, opts);
+      setStatus(out.failures.length ? { text: t('export_done_partial', [out.filename, String(out.failures.length)]), error: true } : { text: t('export_done', out.filename) });
     } catch (e) {
       setStatus({ text: t('export_failed', (e as Error).message), error: true });
+    } finally {
+      setBusy(false);
     }
   };
 
   const selfTest = async () => {
-    const res = await sendToTab(state.tabId, { type: 'content:selftest' });
+    const res = await sendToTab(tabId, { type: 'content:selftest' });
     setReport(formatDiagnostics([{ site: res.site, url: res.url, health: res.health }], browser.runtime.getManifest().version));
   };
 
@@ -86,12 +102,11 @@ export function Popup() {
         <>
           <div class="title" title={conv.title}>{conv.title}</div>
           {conv.source.approximate && <div class="muted">{t('popup_approximate')}</div>}
-          <div class="section-label">{t('export_heading')}</div>
           <div class="row">
-            <button class="primary" onClick={() => run('md')}>{t('export_markdown')}</button>
-            <button onClick={() => run('txt')}>{t('export_text')}</button>
-            <button onClick={() => run('json')}>{t('export_json')}</button>
-            <button onClick={() => run('copy')}>{t('export_copy_markdown')}</button>
+            <button class="primary" disabled={busy} onClick={quickExport}>{t('popup_export_as', FORMAT_LABEL[fmt] ?? fmt)}</button>
+            <button onClick={() => navigator.clipboard.writeText(toMarkdown(buildDocument(conv, optionsFromSettings(settings)))).then(() => setStatus({ text: t('export_copied') }))}>
+              {t('export_copy_markdown')}
+            </button>
           </div>
         </>
       ) : (
@@ -99,6 +114,7 @@ export function Popup() {
       )}
       <div class={`status${status?.error ? ' error' : ''}`} role="status">{status?.text}</div>
       <div class="row">
+        <button onClick={() => openPanel(state.windowId)}>{t('menu_open_panel')}</button>
         <button onClick={selfTest}>{t('selftest_run')}</button>
         {report && <button onClick={() => navigator.clipboard.writeText(report)}>{t('selftest_copy')}</button>}
       </div>

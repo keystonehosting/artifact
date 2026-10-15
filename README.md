@@ -22,10 +22,23 @@ Download the newer zip, unzip it over the old folder, and click the reload icon 
 
 Shipped in the current release:
 
-- **Export the open chat** as Markdown (YAML frontmatter, LaTeX kept, Obsidian-friendly), plain text or JSON, from the toolbar popup or the page's right-click menu. Copy as Markdown.
-- **Artifact archive format**: the JSON export follows [`schemas/artifact-archive-v1.json`](schemas/artifact-archive-v1.json). It holds the full branch tree, attachments and artifacts, plus ACE-compatible fields so tools that read ACE exports can read it too.
-- **Site health**: each site reports Healthy, Degraded or Broken with the reason. A site change shows up as Degraded instead of producing wrong data.
-- **Self-test and diagnostics**: runs every adapter check on the current page and produces a report you can paste into an issue. The report never contains message text, cookies, tokens or keys.
+- **Reads chats the way the site does.** Artifact copies the conversation data the page already loads (ChatGPT, Claude, Gemini, AI Studio, Grok). Failing that, it uses the site's own endpoints with your session. Failing that, it falls back to the page text, labelled approximate. All edits and regenerations are kept as branches.
+- **Context meter** above the composer, e.g. `82.4k / 200k · 41%`:
+  - colors at 50/75/90% (editable), `≈ N exchanges left`, and live draft tokens;
+  - a hover breakdown, the top-10 heaviest messages with jump-to, and a growth sparkline;
+  - a token count when you hover any message;
+  - warnings at 75% and 90% that you can snooze or mute.
+  
+  Counting uses the `o200k` tokenizer, exact for ChatGPT and estimated (≈) elsewhere. It is calibrated automatically on AI Studio, which reports its own count.
+- **Context limits from published sources only** (`src/core/limits/limits.json`, each with its URL and date). When a limit isn't published, the meter says "unknown", and you can enter your own in Settings.
+- **Plan usage:** Claude's 5-hour and weekly bars, Gemini's usage, and a ChatGPT widget that counts your sends against the caps you set, with an hourly heatmap.
+- **Export the chat** as Markdown, text, JSON, HTML, Word (DOCX), PDF or PNG (1× or 2×):
+  - **real uploaded files, generated images, Claude artifacts, created files and ChatGPT canvases are included as files** in a ZIP;
+  - every artifact version is kept, and any file the site wouldn't serve is listed in `MISSING_FILES.txt`;
+  - options: selected messages (Shift-click ranges), all branches, numbering, dates, table of contents, thinking, tool calls, file-name patterns, and Claude project instructions, knowledge files and memory.
+- **Copy as Markdown, preview tab, Send to Obsidian**, the right-click menu, and keyboard shortcuts.
+- **Side panel** with a dashboard, export and settings.
+- **Site health:** each site reports Healthy, Degraded or Broken with the reason. A site change shows up as Degraded instead of producing wrong data. **Self-test** produces a diagnostics report with no message text, cookies, tokens or keys.
 
 The full plan is in [`docs/SPEC.md`](docs/SPEC.md).
 

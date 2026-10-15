@@ -1,0 +1,18 @@
+<!doctype html>
+<!-- Synthetic ChatGPT page for e2e: renders two turns and, like the real
+     page, fetches its own conversation JSON, which Artifact's page hook
+     captures. Text is lorem ipsum. -->
+<html>
+  <head><title>Lorem ipsum - ChatGPT</title></head>
+  <body>
+    <nav aria-label="Chat history"><a href="/c/68f0a1b2-0000-4000-8000-000000000001">Lorem ipsum</a></nav>
+    <main>
+      <div data-message-author-role="user" data-message-id="u1"><div class="whitespace-pre-wrap">Lorem ipsum dolor?</div></div>
+      <div data-message-author-role="assistant" data-message-id="a1c" data-message-model-slug="gpt-x"><div class="markdown"><p>Sed do eiusmod.</p></div></div>
+      <form><div id="prompt-textarea" class="ProseMirror" contenteditable="true" style="min-height: 40px"><p><br></p></div><button data-testid="send-button">Send</button></form>
+    </main>
+    <script>
+      fetch('/backend-api/conversation/68f0a1b2-0000-4000-8000-000000000001', { headers: { authorization: 'Bearer test-token-for-e2e-only' } });
+    </script>
+  </body>
+</html>

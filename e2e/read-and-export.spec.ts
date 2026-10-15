@@ -10,7 +10,7 @@ for (const site of Object.keys(SITE_FIXTURES)) {
     const roles = Object.values(res.conversation!.messages).map((m) => m.role);
     expect(roles).toContain('user');
     expect(roles).toContain('assistant');
-    expect(res.conversation!.source.method).toBe('dom');
+    expect(res.conversation!.source.method).toBe(site === 'chatgptLive' ? 'intercept' : 'dom');
   });
 }
 
@@ -20,4 +20,14 @@ test('self-test reports per-check results without message text', async ({ contex
   const ids = res.health.checks.map((c) => c.id);
   expect(ids).toContain('dom.turns');
   expect(ids).toContain('chatgpt.composer');
+});
+
+test('health degrades with a reason when the data endpoint is blocked', async ({ context, extPage }) => {
+  // The chatgpt fixture's conversation endpoint is not served (blocked), so the
+  // adapter falls back to page text and reports Degraded instead of failing silently.
+  const { tabId } = await openSite(context, extPage, 'chatgpt');
+  const res = await sendToTab<{ conversation: { source: { method: string; approximate: boolean } }; health: { state: string; reason: string } }>(extPage, tabId, { type: 'content:read' });
+  expect(res.conversation.source).toEqual(expect.objectContaining({ method: 'dom', approximate: true }));
+  expect(res.health.state).toBe('degraded');
+  expect(res.health.reason).toMatch(/fetch|HTTP|failed/i);
 });

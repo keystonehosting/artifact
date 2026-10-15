@@ -12,6 +12,10 @@ import { isBackgroundMessage, type BackgroundMessage } from '../core/messaging/b
 import type { ContentRequests } from '../core/messaging/protocol';
 import { WorkerTokenizer } from '../core/tokenizer/host';
 import { hostAllowed } from '../core/net/hosts';
+import type { Conversation } from '../core/schema/archive';
+import { loadSettings } from '../core/settings/settings';
+import { openPreview } from '../core/export/preview';
+import { optionsFromSettings } from '../core/export/options';
 
 const MENU_EXPORT_MD = 'artifact-export-md';
 const MENU_OPEN_PANEL = 'artifact-open-panel';
@@ -25,7 +29,11 @@ async function ensureOffscreen(): Promise<void> {
   const contexts = await chrome.runtime.getContexts({ contextTypes: [chrome.runtime.ContextType.OFFSCREEN_DOCUMENT] });
   if (contexts.length) return;
   creatingOffscreen ??= chrome.offscreen
-    .createDocument({ url: 'tokenizer.html', reasons: [chrome.offscreen.Reason.WORKERS], justification: 'Count tokens in a worker without blocking pages.' })
+    .createDocument({
+      url: 'tokenizer.html',
+      reasons: [chrome.offscreen.Reason.WORKERS, chrome.offscreen.Reason.CLIPBOARD],
+      justification: 'Count tokens in a worker without blocking pages, and copy exports from keyboard commands.',
+    })
     .finally(() => {
       creatingOffscreen = null;
     });
@@ -41,6 +49,43 @@ async function tokenize(texts: string[]): Promise<number[]> {
   const res = (await browser.runtime.sendMessage({ type: 'offscreen:tokenize', texts })) as { counts?: number[]; error?: string };
   if (!res?.counts) throw new Error(res?.error ?? 'tokenizer unavailable');
   return res.counts;
+}
+
+async function copyText(text: string): Promise<boolean> {
+  if (isFirefox) {
+    await navigator.clipboard.writeText(text);
+    return true;
+  }
+  await ensureOffscreen();
+  const res = (await browser.runtime.sendMessage({ type: 'offscreen:copy', text })) as { ok?: boolean };
+  return res?.ok === true;
+}
+
+async function readActiveChat(): Promise<{ tabId: number; conv: Conversation; windowId: number } | null> {
+  const [tab] = await browser.tabs.query({ active: true, currentWindow: true });
+  if (tab?.id === undefined || !tab.url || !siteForUrl(tab.url)) return null;
+  const res = (await browser.tabs.sendMessage(tab.id, { type: 'content:read' })) as ContentRequests['content:read']['res'];
+  return res?.conversation ? { tabId: tab.id, conv: res.conversation, windowId: tab.windowId } : null;
+}
+
+async function onCommand(command: string): Promise<void> {
+  if (command === 'open-panel') {
+    const [tab] = await browser.tabs.query({ active: true, currentWindow: true });
+    if (isFirefox) await (browser as unknown as { sidebarAction: { open(): Promise<void> } }).sidebarAction.open();
+    else if (tab?.windowId !== undefined) await chrome.sidePanel.open({ windowId: tab.windowId });
+    return;
+  }
+  const chat = await readActiveChat();
+  if (!chat) return;
+  const settings = await loadSettings();
+  const opts = optionsFromSettings(settings);
+  if (command === 'copy-markdown') await copyText(toMarkdown(buildDocument(chat.conv, opts)));
+  else if (command === 'open-preview') await openPreview(chat.tabId, chat.conv, opts, 'view');
+  else if (command === 'export-chat') {
+    const md = toMarkdown(buildDocument(chat.conv, opts));
+    const name = `${formatFilename(opts.filenameTemplate, { platform: siteForUrl(chat.conv.url ?? '')?.name ?? 'AI', title: chat.conv.title, model: chat.conv.model, id: chat.conv.siteChatId })}.md`;
+    await browser.downloads.download({ url: `data:text/markdown;charset=utf-8,${encodeURIComponent(md)}`, filename: name, conflictAction: 'uniquify' });
+  }
 }
 
 async function fetchBytes(url: string): Promise<{ base64: string; mimeType: string } | { error: string }> {
@@ -76,6 +121,8 @@ export default defineBackground(() => {
     handle(msg as BackgroundMessage).then(sendResponse, (e: Error) => sendResponse({ error: e.message }));
     return true;
   });
+
+  browser.commands.onCommand.addListener((command) => void onCommand(command));
 
   browser.contextMenus.onClicked.addListener(async (info, tab) => {
     if (info.menuItemId === MENU_OPEN_PANEL && tab?.windowId !== undefined) {

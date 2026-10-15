@@ -28,15 +28,6 @@
   "popup_approximate": {
     "message": "Read from page text (approximate)"
   },
-  "export_markdown": {
-    "message": "Markdown"
-  },
-  "export_text": {
-    "message": "Text"
-  },
-  "export_json": {
-    "message": "JSON"
-  },
   "export_copy_markdown": {
     "message": "Copy as Markdown"
   },
@@ -237,5 +228,326 @@
   },
   "warning_dismiss": {
     "message": "Dismiss"
+  },
+  "common_add": {
+    "message": "Add"
+  },
+  "common_remove": {
+    "message": "Remove"
+  },
+  "dash_all_models": {
+    "message": "All models"
+  },
+  "dash_artifacts": {
+    "message": "Artifacts"
+  },
+  "dash_branches": {
+    "message": "Branches"
+  },
+  "dash_cap_count": {
+    "message": "Messages"
+  },
+  "dash_cap_hours": {
+    "message": "Hours"
+  },
+  "dash_caps_edit": {
+    "message": "Set your own limits"
+  },
+  "dash_caps_empty": {
+    "message": "Add the message caps of your plan to see how many you have left. Artifact counts your sends on this device."
+  },
+  "dash_caps_hint": {
+    "message": "Enter a model as it appears in the model picker, or * for all models, with the number of messages your plan allows per window."
+  },
+  "dash_chatgpt_limits": {
+    "message": "Your ChatGPT limits"
+  },
+  "dash_files": {
+    "message": "Files"
+  },
+  "dash_heatmap": {
+    "message": "Messages by hour"
+  },
+  "dash_heatmap_label": {
+    "message": "Messages sent by weekday and hour"
+  },
+  "dash_messages": {
+    "message": "Messages"
+  },
+  "dash_next_free": {
+    "message": "Next free at"
+  },
+  "dash_no_site": {
+    "message": "No AI site in this tab"
+  },
+  "dash_title": {
+    "message": "Title"
+  },
+  "dash_used": {
+    "message": "Used"
+  },
+  "dash_window": {
+    "message": "Window"
+  },
+  "export_all": {
+    "message": "All messages"
+  },
+  "export_branches": {
+    "message": "Branches"
+  },
+  "export_branches_active": {
+    "message": "The branch on screen"
+  },
+  "export_branches_all": {
+    "message": "All branches (edits and regenerations)"
+  },
+  "export_clear_selection": {
+    "message": "Clear selection"
+  },
+  "export_done_partial": {
+    "message": "Saved $NAME$. $COUNT$ files could not be downloaded; see MISSING_FILES.txt in the ZIP.",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      },
+      "count": {
+        "content": "$2"
+      }
+    }
+  },
+  "export_filename": {
+    "message": "File name"
+  },
+  "export_filename_tokens": {
+    "message": "Tokens: {platform} {title} {date} {time} {datetime} {model} {id}"
+  },
+  "export_files_note": {
+    "message": "This chat has $FILES$ files and $ARTIFACTS$ artifacts. When included, the export is a ZIP with the real files.",
+    "placeholders": {
+      "files": {
+        "content": "$1"
+      },
+      "artifacts": {
+        "content": "$2"
+      }
+    }
+  },
+  "export_format": {
+    "message": "Format"
+  },
+  "export_messages": {
+    "message": "Messages"
+  },
+  "export_numbering": {
+    "message": "Numbering"
+  },
+  "export_numbering_message": {
+    "message": "Each message"
+  },
+  "export_numbering_off": {
+    "message": "Off"
+  },
+  "export_numbering_turn": {
+    "message": "Each turn"
+  },
+  "export_obsidian": {
+    "message": "Send to Obsidian"
+  },
+  "export_opt_artifacts": {
+    "message": "Artifacts and canvases as files"
+  },
+  "export_opt_credit": {
+    "message": "Credit line"
+  },
+  "export_opt_dates": {
+    "message": "Message dates"
+  },
+  "export_opt_files": {
+    "message": "Uploaded and created files"
+  },
+  "export_opt_images": {
+    "message": "Images"
+  },
+  "export_opt_project": {
+    "message": "Project instructions, files and memory"
+  },
+  "export_opt_thinking": {
+    "message": "Thinking"
+  },
+  "export_opt_toc": {
+    "message": "Table of contents"
+  },
+  "export_opt_tools": {
+    "message": "Tool calls and results"
+  },
+  "export_options": {
+    "message": "Options"
+  },
+  "export_preview": {
+    "message": "Open preview"
+  },
+  "export_run": {
+    "message": "Export"
+  },
+  "export_selected": {
+    "message": "$COUNT$ selected",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "export_shift_hint": {
+    "message": "Click to select messages; Shift-click selects a range. With none selected, the whole branch is exported."
+  },
+  "preview_missing": {
+    "message": "This preview has expired. Open it again from Artifact."
+  },
+  "preview_print": {
+    "message": "Print or save as PDF"
+  },
+  "preview_rendering": {
+    "message": "Rendering…"
+  },
+  "preview_saved_png": {
+    "message": "Saved $COUNT$ PNG file(s).",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "settings_amber": {
+    "message": "Amber from"
+  },
+  "settings_appearance": {
+    "message": "Appearance"
+  },
+  "settings_clear_snoozes": {
+    "message": "Clear snoozed warnings"
+  },
+  "settings_default_format": {
+    "message": "Default format"
+  },
+  "settings_export": {
+    "message": "Export"
+  },
+  "settings_feature_badges": {
+    "message": "Token count on message hover"
+  },
+  "settings_feature_meter": {
+    "message": "Context meter"
+  },
+  "settings_feature_usage": {
+    "message": "Plan usage bars"
+  },
+  "settings_feature_warnings": {
+    "message": "Warnings when a chat fills up"
+  },
+  "settings_features": {
+    "message": "Features"
+  },
+  "settings_limit_hint": {
+    "message": "Use a model id as the site reports it, or site:<name> for a whole site. Your number replaces the published one."
+  },
+  "settings_limit_model": {
+    "message": "Model or site:<name>"
+  },
+  "settings_limit_overrides": {
+    "message": "Your context limits"
+  },
+  "settings_limit_tokens": {
+    "message": "Tokens"
+  },
+  "settings_meter": {
+    "message": "Context meter"
+  },
+  "settings_obsidian_folder": {
+    "message": "Obsidian folder"
+  },
+  "settings_obsidian_hint": {
+    "message": "The exact name of your vault, as shown in Obsidian."
+  },
+  "settings_obsidian_vault": {
+    "message": "Obsidian vault"
+  },
+  "settings_orange": {
+    "message": "Orange from"
+  },
+  "settings_plans": {
+    "message": "Plans and limits"
+  },
+  "settings_plans_hint": {
+    "message": "Context limits depend on your plan. Artifact detects it where the site exposes it; otherwise pick it here."
+  },
+  "settings_red": {
+    "message": "Red from"
+  },
+  "settings_show_draft": {
+    "message": "Count the draft you're typing"
+  },
+  "settings_site_denied": {
+    "message": "Permission for $SITE$ was not granted.",
+    "placeholders": {
+      "site": {
+        "content": "$1"
+      }
+    }
+  },
+  "settings_sites": {
+    "message": "Sites"
+  },
+  "settings_sites_hint": {
+    "message": "Artifact runs only on the sites you turn on."
+  },
+  "settings_theme": {
+    "message": "Theme"
+  },
+  "settings_theme_dark": {
+    "message": "Dark"
+  },
+  "settings_theme_light": {
+    "message": "Light"
+  },
+  "settings_theme_system": {
+    "message": "System"
+  },
+  "settings_title": {
+    "message": "Artifact settings"
+  },
+  "settings_warning_levels": {
+    "message": "Warn at (%)"
+  },
+  "settings_warnings_muted": {
+    "message": "Mute all warnings"
+  },
+  "tab_dashboard": {
+    "message": "Dashboard"
+  },
+  "tab_export": {
+    "message": "Export"
+  },
+  "tab_settings": {
+    "message": "Settings"
+  },
+  "popup_export_as": {
+    "message": "Export as $FORMAT$",
+    "placeholders": {
+      "format": {
+        "content": "$1"
+      }
+    }
+  },
+  "command_copy_markdown": {
+    "message": "Copy this chat as Markdown"
+  },
+  "command_export": {
+    "message": "Export this chat as Markdown"
+  },
+  "command_preview": {
+    "message": "Open this chat in a preview tab"
+  },
+  "command_open_panel": {
+    "message": "Open the Artifact panel"
   }
 }

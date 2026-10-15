@@ -24,7 +24,14 @@ No fact in this file has been confirmed live yet (see D5 in `docs/decisions.md`)
 | Access token | `GET /api/auth/session` → `accessToken` | Loominary | unconfirmed live |
 | Conversation | `GET /backend-api/conversation/<id>` with `Authorization: Bearer`, `oai-device-id` (cookie `oai-did`) → `mapping{id:{message,parent,children}}`, `current_node`, `title`, `create_time`, `update_time`, `default_model_slug` | Loominary; dossier | unconfirmed live |
 | Message fields | `author.role`, `content.content_type`, `content.parts[]`, `create_time` (epoch s), `metadata.model_slug`, `metadata.attachments[]`, `metadata.is_visually_hidden_from_conversation`, `recipient` | Loominary | unconfirmed live |
-| List | `GET /backend-api/conversations?offset&limit&order=updated` → `items[]` | Loominary; dossier | unconfirmed live |
+| List | `GET /backend-api/conversations?offset&limit=100&order=updated&is_archived=true|false` → `items[]` | Loominary; dossier | unconfirmed live |
+| Archive / delete | `PATCH /backend-api/conversation/<id>` with `{"is_archived": bool}` / `{"is_visible": false}` | dossier | unconfirmed live |
+| Rename | `PATCH /backend-api/conversation/<id>` with `{"title"}` | the page's own rename request (not in the dossier) | unconfirmed live |
+| Plan | `GET /backend-api/accounts/check/v4-2023-04-27` → `accounts{…}.account.plan_type` | dossier | unconfirmed live |
+| Files | `GET /backend-api/files/<id>/download` → `download_url`; `sediment://` pointers: `GET /backend-api/conversation/<id>/attachment/<pointer>/download` | dossier; Loominary | unconfirmed live |
+| Projects | `GET /backend-api/gizmos/snorlax/sidebar?owned_only=true&cursor` | dossier | unconfirmed live |
+| Canvas | assistant message with `recipient` `canmore.create_textdoc` / `canmore.update_textdoc` and JSON `{name,type,content}` / `{updates:[{pattern,replacement,multiple}]}`; tool reply `metadata.canvas.textdoc_id` | the page's payload as commonly documented; not in either dossier | unconfirmed live |
+| Page hook | the page's own `GET /backend-api/conversation/<id>` response is copied; its `Authorization` header is reused for Artifact's reads | live-page behavior assumed | unconfirmed live |
 
 ## Claude (`claude.ai`)
 
@@ -41,7 +48,13 @@ No fact in this file has been confirmed live yet (see D5 in `docs/decisions.md`)
 | List | `GET /api/organizations/<org>/chat_conversations`; v2 paged by `limit`/`offset` with `has_more` | Loominary; dossier (YourAIScroll) | unconfirmed live |
 | Projects | `GET /api/organizations/<org>/projects`, `/projects/<id>`, `/projects/<id>/docs` | Loominary | unconfirmed live |
 | Memory | `GET /api/organizations/<org>/memory` | Loominary | unconfirmed live |
-| Usage | `GET /api/organizations/<org>/usage` → `five_hour`, `seven_day` with `utilization`, `resets_at` | Claude Counter | unconfirmed live |
+| Usage | `GET /api/organizations/<org>/usage` → `five_hour`, `seven_day` with `utilization` (0–100), `resets_at`; or `limits[]` (`kind`, `percent`, `resets_at`, `is_active`) | Claude Counter; dossier | unconfirmed live |
+| Live usage | completion stream `data:` frame `{"type":"message_limit","message_limit":{"windows":{"5h"|"7d":{"utilization":0–1,"resets_at":epoch s}}}}` | Claude Counter; dossier | unconfirmed live |
+| Plan | `GET /api/account` → `memberships[].organization.rate_limit_tier` (`default_claude_ai` = Free) | dossier | unconfirmed live |
+| Created files | `GET /api/organizations/<org>/conversations/<id>/wiggle/download-file?path=` | dossier | unconfirmed live |
+| File tools | `tool_use` names `create_file` (`path`, `file_text`), `str_replace` (`path`, `old_str`, `new_str`), `present_files` (`filepaths[]`) | the page's payload as commonly documented | unconfirmed live |
+| Delete | `DELETE /api/organizations/<org>/chat_conversations/<id>` (page's own) | dossier | unconfirmed live |
+| Org | cookie `lastActiveOrg`, else `/api/organizations` | Claude Counter; Loominary | unconfirmed live |
 
 ## Gemini (`gemini.google.com`)
 
@@ -56,7 +69,11 @@ No fact in this file has been confirmed live yet (see D5 in `docs/decisions.md`)
 | Sidebar | `[data-test-id="chat-history-container"]` | ACE capture | fixture |
 | batchexecute | `POST /_/BardChatUi/data/batchexecute?rpcids&source-path&hl&_reqid&rt=c&bl&f.sid`, body `f.req`, `at`; page tokens `SNlM0e` (at), `cfb2h` (bl), `FdrFJe` (f.sid) | dossier | unconfirmed live |
 | Read RPC | `hNvQHb`, args `[<c_id>, 1000, null, 1, [1], [4], null, 1]`; turns newest first; user text `[2][0][0]`; candidates `[3][0][]` | dossier; ACE capture of a response | fixture (shape), unconfirmed live (args) |
-| List RPC | `MaZiqc` | dossier (both tools) | unconfirmed live |
+| List RPC | `MaZiqc`, first page `[]`, next `[20, cursor, [0, null, 1]]`; rows `[2]`: `[0]` id, `[1]` title, `[2]` pinned, `[5]` `[s, ns]`; cursor `[1]` | dossier (both tools) | unconfirmed live |
+| Gems | `CNgdBe` `[2, ["en"], 0]` → `[2]` rows: `[0]` id, `[1][0]` name | dossier | unconfirmed live |
+| Delete | `GzXR5e` `[c_id]` | dossier | unconfirmed live |
+| Usage | `jSf9Qc` `[]` → `[1]` rows: `[1]` fraction, `[2]` kind (1 current, 2 weekly), `[3]` reset `[s, ns]` | dossier | unconfirmed live |
+| Reply drafts | `turn[3][0][]` drafts `[rcId, [text], …]`; chosen draft id `turn[3][3]`; model label `turn[3][21]`; turn time `turn[4]` `[s, ns]` | ACE capture | fixture |
 
 ## Google AI Studio (`aistudio.google.com`)
 
@@ -66,7 +83,9 @@ No fact in this file has been confirmed live yet (see D5 in `docs/decisions.md`)
 | Turn element | `ms-chat-turn`, role on `.chat-turn-container.user/.model` or `[data-turn-role]`, content `.turn-content` | page structure as described by Loominary's DOM handling | unconfirmed live (synthetic fixture only) |
 | Title | `ms-toolbar h1`, `.toolbar-left h1` | dossier | unconfirmed live |
 | Read RPC | `POST https://alkalimakersuite-pa.clients6.google.com/$rpc/google.internal.alkali.applications.makersuite.v1.MakerSuiteService/ResolveDriveResource`, body `["<promptId>"]`, `content-type: application/json+protobuf`, `authorization: SAPISIDHASH`; title `[0][4][0]`, chunks `[0][13][0][]` (text `[0]`, role `[8]`, thought `[19]`) | dossier; Loominary intercepts the same response | unconfirmed live |
-| List RPC | `ListPrompts`, body `[]` | dossier | unconfirmed live |
+| List RPC | `ListPrompts`, body `[]`; rows `[0][]`: `[0]` `prompts/<id>`, `[4][0]` title, `[4][4][0]` seconds | dossier | unconfirmed live |
+| Token count | the page's own "used / limit" token counter, found by its text pattern next to a "Token" label (no class names relied on) | page behavior | unconfirmed live |
+| Inline images | data URLs or `[mimeType, base64]` pairs inside a chunk | heuristic | unconfirmed live |
 
 ## Grok (`grok.com`)
 
@@ -78,3 +97,6 @@ No fact in this file has been confirmed live yet (see D5 in `docs/decisions.md`)
 | Response tree | `GET /rest/app-chat/conversations/<id>/response-node?includeThreads=true` → `responseNodes[]` (`responseId`, `parentResponseId`, `sender`) | Loominary | unconfirmed live |
 | Responses | `POST /rest/app-chat/conversations/<id>/load-responses` `{responseIds}` → `responses[]` (`message`, `sender`, `createTime`, `model`, `thinkingTrace`, `generatedImageUrls`, `imageAttachments`, `fileAttachments`, `webSearchResults`) | Loominary | unconfirmed live |
 | List | `GET /rest/app-chat/conversations?pageSize&pageToken` → `conversations[]`, `nextPageToken` | Loominary; dossier | unconfirmed live |
+| Rename | `PUT /rest/app-chat/conversations/<id>` `{title, starred}` | dossier | unconfirmed live |
+| Delete | `DELETE /rest/app-chat/conversations/soft/<id>` | dossier | unconfirmed live |
+| Generated images | `generatedImageUrls[]` paths on `https://assets.grok.com/` | Loominary | unconfirmed live |

@@ -135,7 +135,8 @@ refHashes = refHashes.subarray(0, n).sort();
 // The closed builds bundle open-source libraries, common CSS and the AI sites'
 // own markup and icons, all of which legitimately appear here too.
 //   1. ACE (MPL-2.0) as imported: every blob of the commit tagged `ace-import`.
-//   2. Runtime dependencies in node_modules (package.json "dependencies").
+//   2. Runtime dependencies in node_modules (package.json "dependencies"), plus
+//      open-source packages listed in package.json "leakCheck.openCorpus".
 //   3. License texts anywhere in node_modules.
 //   4. Interop facts listed in scripts/leak-allow.json "facts": literal endpoint
 //      URLs and similar identifiers that belong to the AI sites, with a reason.
@@ -183,7 +184,8 @@ try {
 const nm = join(repoRoot, 'node_modules');
 if (existsSync(nm)) {
   const pkg = JSON.parse(readFileSync(join(repoRoot, 'package.json'), 'utf8'));
-  for (const dep of Object.keys(pkg.dependencies || {})) {
+  const corpus = [...Object.keys(pkg.dependencies || {}), ...((pkg.leakCheck && pkg.leakCheck.openCorpus) || [])];
+  for (const dep of corpus) {
     const dir = join(nm, dep);
     if (!existsSync(dir)) continue;
     for (const f of walk(dir)) {
@@ -203,6 +205,31 @@ if (existsSync(nm)) {
   };
   collect(nm, 0);
 }
+// Standard file-format boilerplate: a sample DOCX written by the open-source
+// `docx` package (when installed) contributes the OOXML markup every DOCX
+// writer must emit (ECMA-376 namespaces, relationships, drawing elements).
+try {
+  const docx = await import(join(repoRoot, 'node_modules', 'docx', 'dist', 'index.mjs'));
+  const { unzipSync, strFromU8 } = await import(join(repoRoot, 'node_modules', 'fflate', 'esm', 'index.mjs'));
+  const png = Uint8Array.from(Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==', 'base64'));
+  const d = new docx.Document({
+    numbering: { config: [{ reference: 'n', levels: [{ level: 0, format: docx.LevelFormat.DECIMAL, text: '%1.' }] }] },
+    sections: [{ children: [
+      new docx.Paragraph({ text: 'Title', heading: docx.HeadingLevel.TITLE }),
+      new docx.Paragraph({ text: 'H', heading: docx.HeadingLevel.HEADING_2 }),
+      new docx.Paragraph({ children: [new docx.TextRun({ text: 'b', bold: true, italics: true }), new docx.ExternalHyperlink({ link: 'https://example.test', children: [new docx.TextRun({ text: 'l', style: 'Hyperlink' })] })] }),
+      new docx.Paragraph({ text: 'x', bullet: { level: 0 } }),
+      new docx.Paragraph({ text: 'y', numbering: { reference: 'n', level: 0 } }),
+      new docx.Paragraph({ children: [new docx.ImageRun({ type: 'png', data: png, transformation: { width: 10, height: 10 } })] }),
+      new docx.Table({ rows: [new docx.TableRow({ children: [new docx.TableCell({ children: [new docx.Paragraph('c')] })] })] }),
+    ] }],
+  });
+  const buf = await docx.Packer.toBuffer(d);
+  for (const [, bytes] of Object.entries(unzipSync(new Uint8Array(buf)))) { subtract(strFromU8(bytes)); openFiles++; }
+} catch {
+  // docx not installed: nothing extra to subtract.
+}
+
 const allowPath = join(repoRoot, 'scripts', 'leak-allow.json');
 const allow = existsSync(allowPath) ? JSON.parse(readFileSync(allowPath, 'utf8')) : {};
 const allowedWindows = new Set(Object.keys(allow.windows || {}));

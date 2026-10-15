@@ -15,6 +15,7 @@ Uninstalling Artifact deletes its browser storage. Export first if you want to k
 |---|---|---|
 | The AI sites you use (ChatGPT, Claude, Gemini, AI Studio, Grok, and Tier 2 sites you enable) | When you use Artifact on those sites | Requests the site's own web app would make, with your existing session: reading conversations, listing chats, downloading your files, and actions you confirm (delete, archive, rename). |
 | File hosts of those sites (`*.oaiusercontent.com`, `*.googleusercontent.com`, `assets.grok.com`) | When an export includes files | Downloads your uploaded and generated files. |
+| `alkalimakersuite-pa.clients6.google.com` | When you use Artifact on Google AI Studio | AI Studio's own API, called the way the AI Studio page calls it, to read your saved chats. |
 
 That is the complete list for the current release. Later releases add two destinations, both off by default and listed here when they ship:
 

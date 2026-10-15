@@ -14,7 +14,8 @@ Why Artifact asks for each permission. Written so it can be pasted into store li
 | `alarms` | Schedules background work you turn on: auto-backup, indexing during idle time, and reminders. |
 | `scripting` | Runs Artifact on a Tier 2 site after you turn that site on and grant access to it. |
 | `sidePanel` (Chrome, Edge) | Artifact's home base opens in the browser side panel. Firefox uses its sidebar, which needs no permission. |
-| `offscreen` (Chrome, Edge) | Runs the tokenizer in a background worker, so counting tokens never slows the page. |
+| `offscreen` (Chrome, Edge) | Runs the tokenizer in a background worker, so counting tokens never slows the page, and copies to the clipboard for the keyboard shortcut. |
+| `clipboardWrite` | "Copy as Markdown" from the keyboard shortcut and menus. |
 
 ## Optional (requested only when you turn the feature on)
 

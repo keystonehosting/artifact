@@ -1,0 +1,37 @@
+/* Side panel and options page layout. */
+body { min-width: 320px; }
+.app { display: flex; flex-direction: column; min-height: 100vh; }
+.app-head { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-bottom: 1px solid var(--line); }
+.app-head h1 { font-size: 13px; margin: 0; font-weight: 600; flex: 1; }
+.tabs { display: flex; gap: 0; border-bottom: 1px solid var(--line); overflow-x: auto; scrollbar-width: none; }
+.tabs button { border: none; border-bottom: 2px solid transparent; border-radius: 0; background: none; height: 32px; padding: 0 10px; color: var(--fg-2); white-space: nowrap; }
+.tabs button.active { border-bottom-color: var(--accent); color: var(--fg); }
+.content { padding: 12px; display: flex; flex-direction: column; gap: 16px; }
+.section-head { margin-bottom: 6px; display: flex; gap: 8px; justify-content: space-between; align-items: baseline; }
+.section h2 { color: var(--fg-3); letter-spacing: 0.04em; text-transform: uppercase; font-size: 11px; font-weight: 600; margin: 0; }
+.field { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 4px 12px; padding: 4px 0; }
+.field > label { color: var(--fg); }
+.field.toggle { grid-template-columns: auto 1fr; }
+.field .hint { grid-column: 1 / -1; color: var(--fg-3); font-size: 12px; }
+.field input[type='number'] { width: 7em; }
+.field input[type='text'] { width: 100%; grid-column: 1 / -1; }
+.inline { display: inline-flex; gap: 6px; align-items: center; }
+.row { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 4px 12px; }
+table.dense { width: 100%; border-collapse: collapse; font-size: 12px; }
+table.dense th, table.dense td { text-align: left; padding: 3px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
+table.dense th { color: var(--fg-3); font-weight: 600; }
+table.dense td.num { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.progress { display: flex; align-items: center; gap: 8px; }
+.progress-bar { flex: 1; height: 4px; background: var(--bg-3); border-radius: 2px; overflow: hidden; }
+.progress-bar > i { display: block; height: 100%; background: var(--accent); }
+.msglist { max-height: 280px; overflow: auto; border: 1px solid var(--line); border-radius: var(--radius); }
+.msglist label { display: grid; grid-template-columns: auto 4.5em 1fr; gap: 6px; padding: 3px 6px; border-bottom: 1px solid var(--line); cursor: pointer; }
+.msglist label:last-child { border-bottom: none; }
+.msglist span.snip { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.heat { display: grid; grid-template-columns: 2.2em repeat(24, 1fr); gap: 1px; font-size: 10px; }
+.heat i { display: block; height: 10px; background: var(--accent); }
+.heat span { color: var(--fg-3); }
+.status { min-height: 18px; color: var(--fg-2); }
+.status.error { color: var(--bad); }
+.callout { border-left: 3px solid var(--warn); padding: 6px 10px; background: var(--bg-2); }
