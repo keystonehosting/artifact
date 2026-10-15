@@ -1,0 +1,71 @@
+name: Release
+
+# Builds Chrome, Edge and Firefox zips and publishes a GitHub Release.
+# Runs on a pushed v* tag, or on a push to the default branch whose
+# package.json version has no tag yet (the build session cannot push tags,
+# so the workflow creates the tag itself). Versions below 1.0.0 are pre-releases;
+# development versions (with a -suffix, e.g. 0.2.0-dev) are never released.
+on:
+  push:
+    tags: ['v*']
+    branches: ['**']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Decide whether to release
+        id: decide
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version=$(node -p "require('./package.json').version")
+          tag="v$version"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          if [ "${GITHUB_REF_TYPE}" != "tag" ] && [ "${version#*-}" != "$version" ]; then
+            echo "Development version $version: no release"
+            echo "go=false" >> "$GITHUB_OUTPUT"
+          elif [ "${GITHUB_REF_TYPE}" = "tag" ]; then
+            [ "${GITHUB_REF_NAME}" = "$tag" ] || { echo "Tag ${GITHUB_REF_NAME} does not match package.json $tag"; exit 1; }
+            echo "go=true" >> "$GITHUB_OUTPUT"
+          elif [ "${GITHUB_REF_NAME}" != "${{ github.event.repository.default_branch }}" ] && [ "${GITHUB_EVENT_NAME}" != "workflow_dispatch" ]; then
+            echo "go=false" >> "$GITHUB_OUTPUT"
+          elif gh release view "$tag" >/dev/null 2>&1; then
+            echo "Release $tag already exists"
+            echo "go=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "go=true" >> "$GITHUB_OUTPUT"
+          fi
+      - if: steps.decide.outputs.go == 'true'
+        run: pnpm install --frozen-lockfile
+      - if: steps.decide.outputs.go == 'true'
+        run: pnpm typecheck && pnpm lint && pnpm test
+      - if: steps.decide.outputs.go == 'true'
+        run: pnpm zip:all
+      - if: steps.decide.outputs.go == 'true'
+        name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.decide.outputs.tag }}
+        run: |
+          prerelease=""
+          case "$TAG" in v0.*) prerelease="--prerelease" ;; esac
+          notes=$(awk -v v="${TAG#v}" '$0 ~ "^## \\[?"v {f=1; next} /^## / && f {exit} f' CHANGELOG.md)
+          [ -n "$notes" ] || notes="See CHANGELOG.md."
+          if ! git rev-parse "$TAG" >/dev/null 2>&1; then
+            git tag "$TAG" "$GITHUB_SHA"
+            git push origin "$TAG"
+          fi
+          gh release create "$TAG" .output/*.zip --title "Artifact $TAG" --notes "$notes" $prerelease --verify-tag

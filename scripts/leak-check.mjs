@@ -324,7 +324,11 @@ for (const item of items) {
       const ref = closedTexts.find((t) => t.s.includes(w));
       if (ref) confirmed.add(ref.file);
     }
-    if (confirmed.size) problems.push(`${item.label}: ${hits.length} 64-char window(s) match closed reference file(s): ${[...confirmed].join(', ')}`);
+    if (confirmed.size) {
+      problems.push(`${item.label}: ${hits.length} 64-char window(s) match closed reference file(s): ${[...confirmed].join(', ')}`);
+      // The windows come from the file being pushed (this repo), so printing them reveals nothing closed.
+      if (process.env.LEAK_CHECK_VERBOSE) for (const w of [...new Set(hits)].slice(0, 40)) problems.push(`      ${w}`);
+    }
   }
 
   if (!/\.md$/i.test(item.path)) {

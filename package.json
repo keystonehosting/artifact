@@ -1,46 +1,61 @@
 {
-  "name": "ai-chat-exporter",
-  "version": "1.22.0",
+  "name": "artifact",
+  "description": "Artifact — your open-source AI toolkit",
+  "version": "0.1.0-dev",
+  "private": true,
   "license": "MPL-2.0",
   "type": "module",
+  "packageManager": "pnpm@10.28.0",
   "engines": {
-    "node": ">=26.0.0"
+    "node": ">=22"
   },
   "scripts": {
     "dev": "wxt",
+    "dev:firefox": "wxt -b firefox",
     "build": "wxt build",
-    "build:edge": "wxt build -b edge",
-    "build:firefox": "wxt build -b firefox",
-    "zip": "wxt zip",
-    "zip:edge": "wxt zip -b edge",
-    "zip:firefox": "wxt zip -b firefox",
+    "build:all": "wxt build -b chrome && wxt build -b edge && wxt build -b firefox",
+    "zip:all": "wxt zip -b chrome && wxt zip -b edge && wxt zip -b firefox",
     "postinstall": "wxt prepare",
-    "test": "node --test tests/*.test.*",
-    "test:e2e": "playwright test",
-    "test:e2e:install": "playwright install --with-deps chromium",
-    "test:e2e:update-snapshots": "playwright test --update-snapshots",
+    "typecheck": "tsc --noEmit",
     "lint": "eslint .",
-    "lint:ext": "web-ext lint --source-dir .output/firefox-mv3",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "e2e": "playwright test",
+    "leak-check": "node scripts/leak-check.mjs --worktree"
+  },
+  "dependencies": {
+    "dexie": "4.4.6",
+    "dompurify": "3.4.17",
+    "fflate": "0.8.3",
+    "gpt-tokenizer": "4.0.3",
+    "html2canvas-pro": "2.5.2",
+    "katex": "0.19.0",
+    "minisearch": "7.2.0",
+    "preact": "10.29.8",
+    "zod": "4.6.7"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@playwright/test": "^1.64.0",
-    "eslint": "^10.10.0",
-    "globals": "^17.12.0",
-    "linkedom": "^0.18.13",
-    "prettier": "^3.9.6",
-    "prettier-plugin-astro": "^1.0.0",
-    "web-ext": "^10.7.0",
-    "wxt": "^0.21.4"
+    "@playwright/test": "1.56.1",
+    "@preact/preset-vite": "2.10.6",
+    "@types/chrome": "0.3.5",
+    "@types/node": "^22.20.5",
+    "eslint": "10.12.0",
+    "fake-indexeddb": "6.2.5",
+    "globals": "^17.13.0",
+    "happy-dom": "21.0.1",
+    "prettier": "3.9.10",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.71.2",
+    "vitest": "3.2.7",
+    "wxt": "0.21.4"
   },
-  "dependencies": {
-    "decant-core": "^1.16.0",
-    "dompurify": "^3.4.14",
-    "html2canvas": "^1.4.1",
-    "katex": "^0.19.0",
-    "loglevel": "^1.9.2",
-    "prismjs": "^1.30.0"
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "spawn-sync"
+    ]
   }
 }

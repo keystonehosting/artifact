@@ -1,0 +1,10 @@
+body { width: 340px; }
+.popup { padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+.head { display: flex; align-items: center; gap: 8px; }
+.head h1 { font-size: 13px; font-weight: 600; margin: 0; flex: 1; }
+.title { white-space: nowrap; text-overflow: ellipsis; overflow: hidden; font-weight: 600; }
+.row { display: flex; gap: 6px; flex-wrap: wrap; }
+.section-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--fg-3); }
+.status { min-height: 18px; color: var(--fg-2); }
+.status.error { color: var(--bad); }
+pre.report { max-height: 160px; overflow: auto; background: var(--bg-2); border: 1px solid var(--line); padding: 6px; font: 11px/1.4 var(--mono); white-space: pre-wrap; margin: 0; }

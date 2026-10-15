@@ -1,0 +1,97 @@
+{
+  "extensionName": {
+    "message": "Artifact — your open-source AI toolkit"
+  },
+  "extensionShortName": {
+    "message": "Artifact"
+  },
+  "extensionDescription": {
+    "message": "Organize, search and export your ChatGPT, Claude, Gemini, AI Studio and Grok chats. Free, local, no account."
+  },
+  "popup_no_site": {
+    "message": "Open a chat on a supported AI site to use Artifact here."
+  },
+  "popup_not_loaded": {
+    "message": "Artifact isn't running on this tab yet. Reload the page."
+  },
+  "popup_no_chat": {
+    "message": "No messages found on this page."
+  },
+  "popup_messages": {
+    "message": "$COUNT$ messages",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "popup_approximate": {
+    "message": "Read from page text (approximate)"
+  },
+  "export_markdown": {
+    "message": "Markdown"
+  },
+  "export_text": {
+    "message": "Text"
+  },
+  "export_json": {
+    "message": "JSON"
+  },
+  "export_copy_markdown": {
+    "message": "Copy as Markdown"
+  },
+  "export_heading": {
+    "message": "Export this chat"
+  },
+  "export_done": {
+    "message": "Saved $NAME$",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      }
+    }
+  },
+  "export_copied": {
+    "message": "Copied to clipboard"
+  },
+  "export_failed": {
+    "message": "Export failed: $ERROR$",
+    "placeholders": {
+      "error": {
+        "content": "$1"
+      }
+    }
+  },
+  "health_healthy": {
+    "message": "Healthy"
+  },
+  "health_degraded": {
+    "message": "Degraded"
+  },
+  "health_broken": {
+    "message": "Broken"
+  },
+  "health_unknown": {
+    "message": "Not checked yet"
+  },
+  "health_reason": {
+    "message": "Health: $STATE$ — $REASON$",
+    "placeholders": {
+      "state": {
+        "content": "$1"
+      },
+      "reason": {
+        "content": "$2"
+      }
+    }
+  },
+  "selftest_run": {
+    "message": "Run Self-test"
+  },
+  "selftest_copy": {
+    "message": "Copy report"
+  },
+  "menu_export_markdown": {
+    "message": "Artifact: export this chat as Markdown"
+  }
+}

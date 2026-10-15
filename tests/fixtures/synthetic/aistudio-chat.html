@@ -1,0 +1,26 @@
+<!doctype html>
+<!-- Synthetic AI Studio chat page, written by hand to the structure Artifact's
+     DOM fallback expects (one ms-chat-turn per turn, role on
+     .chat-turn-container). Unconfirmed live: see docs/provider-notes.md. -->
+<html>
+  <head><title>Lorem chat - Google AI Studio</title></head>
+  <body>
+    <ms-toolbar><div class="toolbar-left"><h1 class="mode-title">Lorem ipsum chat</h1></div></ms-toolbar>
+    <ms-chat-session>
+      <ms-chat-turn>
+        <div class="chat-turn-container user" data-turn-role="User">
+          <div class="turn-content"><ms-cmark-node><p>Lorem ipsum dolor sit amet?</p></ms-cmark-node></div>
+        </div>
+      </ms-chat-turn>
+      <ms-chat-turn>
+        <div class="chat-turn-container model" data-turn-role="Model">
+          <ms-thought-chunk>Consectetur thinking.</ms-thought-chunk>
+          <div class="turn-content">
+            <ms-cmark-node><p>Sed do <strong>eiusmod</strong> tempor.</p>
+            <pre><code class="language-python">print("lorem")</code></pre></ms-cmark-node>
+          </div>
+        </div>
+      </ms-chat-turn>
+    </ms-chat-session>
+  </body>
+</html>

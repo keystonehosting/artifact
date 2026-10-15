@@ -1,34 +1,31 @@
-# Contributing to AI Chat Exporter
+# Contributing
 
-Thank you for your interest in contributing to AI Chat Exporter! I welcome bug reports, feature suggestions, and code contributions.
+## Setup
 
-## Getting Started
-
-1. Check existing [Issues](https://github.com/Covai-Labs/ace/issues) and [Pull Requests](https://github.com/Covai-Labs/ace/pulls) before submitting new ones to avoid duplicates.
-2. For local setup, prerequisites, build steps, and codebase architecture, refer to the [Development Guide](DEVELOPMENT.md).
-
-## Submitting Pull Requests
-
-Before submitting a Pull Request, please ensure your changes pass all local verification checks:
-
-```bash
-npm run lint && npm run format:check && npm test
+```sh
+pnpm install
+pnpm dev            # Chrome with hot reload
+pnpm dev:firefox
 ```
 
-Please keep Pull Requests focused on a single bug fix or feature, and provide descriptive commit messages.
+Node 22+ and pnpm 10.
 
-## Adding or Fixing a Platform Parser
+## Checks
 
-All platform parsers (ChatGPT, Claude, Gemini, DeepSeek, etc.) live in the shared **[decant-core](https://github.com/Covai-Labs/decant)** library, not in this repository.
+```sh
+pnpm typecheck && pnpm lint && pnpm test   # unit tests (Vitest)
+pnpm build && pnpm e2e                      # end-to-end (Playwright, loads the built extension)
+```
 
-If an AI platform changes its DOM or you want to add support for a new platform, please open your PR there. See [decant-core's CONTRIBUTING guide](https://github.com/Covai-Labs/decant/blob/main/CONTRIBUTING.md) for parser contribution guidelines, selector resilience rules, and test fixture instructions.
+E2E tests serve local captures at the real site URLs and block every other request, so they never touch the network.
 
----
+## Rules
 
-## Contributor License Agreement (CLA)
+- Read `AGENTS.md`. It applies to people too: no copied code from closed-source tools, no invented facts (cite endpoints, limits and selectors in `docs/provider-notes.md`), no placeholders in shipped code.
+- Every user-visible string goes through `src/public/_locales`. New keys are `snake_case` with a module prefix.
+- Reused open-source code is recorded in `THIRD_PARTY_NOTICES.md`. GPL/AGPL code is not used.
+- Adding a site: see `docs/adding-a-site.md`.
 
-By submitting a Pull Request or contributing code/materials to this repository, you explicitly agree to the following terms:
+## Translations
 
-1. **License Grant:** You grant the project maintainer(s) a perpetual, worldwide, non-exclusive, royalty-free, sublicensable, and transferable license to use, modify, reproduce, distribute, display, and re-license your contributions.
-2. **Future Re-licensing Rights:** The project maintainer(s) reserve the right to re-release, dual-license, or change the open-source or proprietary license of any future version of this project (including under permissive, copyleft, or commercial licenses) without requiring additional permission or consent from contributors.
-3. **Originality & Ownership:** You represent and warrant that your contribution is your original creation, or that you have full legal authority and authorization to submit it under these terms.
+Copy `src/public/_locales/en/messages.json` to `src/public/_locales/<lang>/messages.json` and translate the `message` values. Keep the placeholders (`$NAME$`). Open a pull request.

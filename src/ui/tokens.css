@@ -1,0 +1,72 @@
+/* Design tokens shared by extension pages. Restrained and dense: one accent,
+   used for focus and primary actions only. */
+:root {
+  --font: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, monospace;
+  --bg: #ffffff;
+  --bg-2: #f6f7f8;
+  --bg-3: #eceef0;
+  --fg: #16181b;
+  --fg-2: #4a5058;
+  --fg-3: #6b727b;
+  --line: #dde0e4;
+  --accent: #1f6b5c;
+  --accent-fg: #ffffff;
+  --ok: #2f7d4a;
+  --warn: #9a6200;
+  --bad: #b3261e;
+  --radius: 4px;
+  --row: 28px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #15171a;
+    --bg-2: #1c1f23;
+    --bg-3: #262a2f;
+    --fg: #e6e8ea;
+    --fg-2: #b4bac1;
+    --fg-3: #8d949c;
+    --line: #2f343a;
+    --accent: #5fb8a4;
+    --accent-fg: #0d1513;
+    --ok: #6cc28a;
+    --warn: #e0a33a;
+    --bad: #f08a80;
+  }
+}
+:root[data-theme='dark'] {
+  --bg: #15171a;
+  --bg-2: #1c1f23;
+  --bg-3: #262a2f;
+  --fg: #e6e8ea;
+  --fg-2: #b4bac1;
+  --fg-3: #8d949c;
+  --line: #2f343a;
+  --accent: #5fb8a4;
+  --accent-fg: #0d1513;
+  --ok: #6cc28a;
+  --warn: #e0a33a;
+  --bad: #f08a80;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--fg); font: 13px/1.4 var(--font); }
+button, input, select, textarea { font: inherit; color: inherit; }
+button {
+  height: var(--row); padding: 0 10px; border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--bg-2); cursor: pointer;
+}
+button:hover:not(:disabled) { background: var(--bg-3); }
+button:disabled { opacity: 0.5; cursor: default; }
+button.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+input[type='text'], input[type='search'], input[type='number'], input[type='password'], select, textarea {
+  height: var(--row); padding: 0 8px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg);
+}
+textarea { height: auto; padding: 6px 8px; }
+.muted { color: var(--fg-3); }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--fg-3); flex: none; }
+.dot.healthy { background: var(--ok); }
+.dot.degraded { background: var(--warn); }
+.dot.broken { background: var(--bad); }
+.sr-only { clip-path: inset(50%); position: absolute; height: 1px; width: 1px; overflow: hidden; white-space: nowrap; }

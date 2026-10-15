@@ -1,27 +1,18 @@
-# Security Policy
+# Security
 
-## Supported Versions
+## Reporting a vulnerability
 
-Only the latest release of AI Chat Exporter receives security updates.
+Please report vulnerabilities privately through GitHub: **Security → Report a vulnerability** on https://github.com/keystonehosting/artifact/security/advisories/new. Don't open a public issue.
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 1.x     | :white_check_mark: |
-| < 1.0   | :x:                |
+Include the browser and Artifact version, the site involved, and steps to reproduce. Never include real chat contents, cookies or API keys. You'll get an acknowledgement within 7 days.
 
-## Reporting a Vulnerability
+## Scope
 
-If you discover a security vulnerability or privacy concern in AI Chat Exporter:
+Of particular interest:
+- anything that lets a web page or chat content run code in the extension, or make it act without the user's request;
+- data leaving the browser to any destination not listed in `PRIVACY.md`;
+- API keys or tokens being logged, exported or exposed.
 
-1. **Do NOT open a public issue.**
-2. Please report the issue privately through [GitHub Security Advisories](https://github.com/Covai-Labs/ace/security/advisories/new).
-3. If you cannot use GitHub Advisories, please contact the maintainers directly.
+## Design rules
 
-### What to Include
-
-- A clear description of the vulnerability.
-- Step-by-step instructions to reproduce the issue.
-- Impact assessment (e.g., potential data exposure, privilege escalation).
-- Any potential remediations or patches if available.
-
-We will review your submission and coordinate a fix and advisory as quickly as possible.
+No remote code. Strict extension CSP. All rendered chat HTML is sanitized with DOMPurify. Artifacts are previewed only in sandboxed iframes. API keys live in `chrome.storage.local` and are never logged.

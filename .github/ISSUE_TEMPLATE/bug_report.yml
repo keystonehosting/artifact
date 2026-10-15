@@ -1,140 +1,37 @@
 name: Bug report
-description: Something isn't working correctly
-title: 'bug: '
-labels:
-  - bug
+description: Something in Artifact doesn't work as expected.
+labels: [bug]
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for reporting a bug. Please provide enough information for us to reproduce it.
-
-  - type: textarea
-    id: problem
+        Please don't paste chat contents, API keys, cookies or tokens. Artifact's **Copy diagnostics** report (popup → Run Self-test → Copy report) is safe to paste: it never contains message text or credentials.
+  - type: dropdown
+    id: site
     attributes:
-      label: What happened?
-      description: Describe the problem and what you expected to happen.
-      placeholder: |
-        Actual behaviour:
-        Expected behaviour:
+      label: Site
+      options: [ChatGPT, Claude, Gemini, Google AI Studio, Grok, Perplexity, DeepSeek, Le Chat, Kimi, Poe, Microsoft Copilot, GitHub Copilot, Google AI Mode, Not site-specific]
     validations:
       required: true
-
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and version
+      placeholder: Chrome 141, Firefox 144, Edge 141...
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened, and what did you expect?
+    validations:
+      required: true
   - type: textarea
     id: steps
     attributes:
       label: Steps to reproduce
-      description: Give us the smallest set of steps that reliably reproduces the problem.
-      placeholder: |
-        1. Open ...
-        2. Go to ...
-        3. Export as ...
-        4. See ...
-    validations:
-      required: true
-
-  - type: input
-    id: platform
-    attributes:
-      label: AI platform
-      description: Which AI service were you exporting from?
-      placeholder: 'ChatGPT, Claude, Gemini, Perplexity, etc.'
-    validations:
-      required: true
-
-  - type: dropdown
-    id: export-format
-    attributes:
-      label: Export format
-      description: Which format were you attempting to export?
-      options:
-        - Markdown (.md)
-        - HTML (.html)
-        - PDF (.pdf)
-        - PNG (.png)
-        - Word (.doc)
-        - JSON (.json)
-        - Not applicable / Extension UI issue
-    validations:
-      required: true
-
-  - type: dropdown
-    id: browser
-    attributes:
-      label: Browser
-      description: Which browser are you using? (If selecting an 'Other*' option, please specify details in the version/OS field below)
-      options:
-        - Mozilla Firefox
-        - Google Chrome
-        - Microsoft Edge
-        - Other Chromium-based browser
-        - Other Gecko-based browser
-        - Other
-    validations:
-      required: true
-
-  - type: dropdown
-    id: install-source
-    attributes:
-      label: Installation source
-      description: Where did you install the extension from?
-      options:
-        - Chrome Web Store
-        - Firefox Add-ons (AMO)
-        - Microsoft Edge Add-ons
-        - GitHub Releases (Manual / Unpacked zip)
-        - Built from source / Local dev
-        - Other
-    validations:
-      required: true
-
-  - type: input
-    id: browser-version-os
-    attributes:
-      label: Browser version & OS
-      description: Browser version and operating system (please mention the browser name if you selected 'Other*')
-      placeholder: 'e.g. Firefox 142 on Linux, Chrome 140 on Windows 11, Brave on macOS'
-    validations:
-      required: true
-
-  - type: input
-    id: extension-version
-    attributes:
-      label: AI Chat Exporter version
-      description: The extension version installed in your browser.
-      placeholder: 'e.g. 1.12.1'
-    validations:
-      required: true
-
   - type: textarea
-    id: debug-info
+    id: diagnostics
     attributes:
-      label: System / Debug info (optional)
-      description: If you used the "Copy System Info" button in the extension options/settings, paste it here.
-      placeholder: |
-        - Extension Version: ...
-        - Browser / OS: ...
+      label: Diagnostics report
       render: text
-
-  - type: textarea
-    id: logs
-    attributes:
-      label: Console errors or logs
-      description: If available, paste relevant console errors (from DevTools or extension background) here.
-      render: text
-
-  - type: textarea
-    id: screenshots
-    attributes:
-      label: Screenshots or additional context
-      description: Drag and drop screenshots or paste other relevant details here.
-
-  - type: checkboxes
-    id: checks
-    attributes:
-      label: Pre-submission checks
-      options:
-        - label: I have searched existing issues to ensure this is not a duplicate.
-          required: true
-        - label: I am using the latest release of the extension.
-          required: false

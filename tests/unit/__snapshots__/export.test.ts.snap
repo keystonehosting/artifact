@@ -1,0 +1,49 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Markdown export > writes frontmatter, the active branch, code with a safe fence, math and file links 1`] = `
+"---
+title: "Lorem ipsum: dolor"
+site: "Claude"
+source: "https://claude.ai/chat/11111111-1111-1111-1111-111111111111"
+model: "model-x"
+created: "2026-01-02T03:04:05.000Z"
+updated: "2026-01-02T04:00:00.000Z"
+exported: "2026-02-01T00:00:00.000Z"
+messages: 4
+---
+
+# Lorem ipsum: dolor
+
+Source: [Claude](https://claude.ai/chat/11111111-1111-1111-1111-111111111111)
+
+## User
+
+Lorem ipsum dolor sit amet?
+
+- Attachment: [notes.pdf](files/notes.pdf)
+
+## Claude (model-x)
+
+Sed do eiusmod $x^2$ tempor.
+
+\`\`\`\`ts
+const a = "\`\`\`";
+\`\`\`\`
+
+$$
+E = mc^2
+$$
+
+[Artifact](artifacts/Demo%20page.html)
+
+## User
+
+Duis aute irure?
+
+## Claude
+
+Excepteur sint.
+
+![chart](files/chart.png)
+"
+`;
