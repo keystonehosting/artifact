@@ -9,7 +9,7 @@ import { createAdapter } from '../adapters/registry';
 import { defaultContext } from '../adapters/base';
 import { isContentMessage, type ContentMessage } from '../core/messaging/protocol';
 import { contentHandlers } from '../features/content-handlers';
-import { startFeatures } from '../features/runtime';
+import { createFeatures, startFeatures } from '../features/runtime';
 
 export default defineContentScript({
   matches: [...TIER1_HOST_PERMISSIONS],
@@ -20,7 +20,8 @@ export default defineContentScript({
     const siteCtx = defaultContext(document);
     const adapter = await createAdapter(site.id, siteCtx);
     if (!adapter) return;
-    const handlers = contentHandlers(site, adapter);
+    const features = createFeatures(adapter);
+    const handlers = contentHandlers(site, adapter, features);
 
     browser.runtime.onMessage.addListener((msg: unknown, _sender, sendResponse) => {
       if (!isContentMessage(msg)) return undefined;
@@ -30,7 +31,7 @@ export default defineContentScript({
     });
 
     if (document.readyState === 'loading') await new Promise((r) => document.addEventListener('DOMContentLoaded', r, { once: true }));
-    await startFeatures(site, adapter, ctx);
+    await startFeatures(site, adapter, ctx, features);
     ctx.onInvalidated(() => adapter.dispose());
   },
 });

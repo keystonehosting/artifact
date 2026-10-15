@@ -8,13 +8,10 @@ import { GrokListSchema } from '../../core/schema/payloads/grok';
 import { request, requestJson } from '../../core/net/fetch';
 import { fetchBytes } from '../../core/net/bytes';
 import { withExtension } from '../../core/util/bytes';
+import { grokChatId } from '../../core/sites/chat-urls';
+export { grokChatId };
 
 /** /c/<id>, or /project/<pid>?chat=<id>. */
-export function grokChatId(url: URL): string | null {
-  const m = /^\/c\/([0-9a-f-]{8,})/i.exec(url.pathname);
-  if (m) return m[1]!;
-  return url.searchParams.get('chat');
-}
 
 const CHECK_READ = 'grok.conversation';
 const API = '/rest/app-chat/conversations';

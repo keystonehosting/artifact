@@ -116,3 +116,15 @@ export async function accessibleNames(page: Page, pattern: RegExp): Promise<stri
   walk(snap as { name?: string; children?: unknown[] } | null);
   return out;
 }
+
+/** Calls the background library API from an extension page. */
+export async function libCall<T>(extPage: Page, fn: string, ...args: unknown[]): Promise<T> {
+  return extPage.evaluate(
+    async ({ fn, args }) => {
+      const r = (await chrome.runtime.sendMessage({ type: 'lib:call', fn, args })) as { ok: boolean; value?: unknown; error?: string };
+      if (!r.ok) throw new Error(r.error);
+      return r.value;
+    },
+    { fn, args },
+  ) as Promise<T>;
+}

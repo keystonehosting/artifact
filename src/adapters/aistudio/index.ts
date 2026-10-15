@@ -7,12 +7,8 @@ import { aistudioToConversation } from './normalize';
 import { at } from '../../core/schema/payloads/batchexecute';
 import { readCookie, request } from '../../core/net/fetch';
 import { base64ToBytes } from '../../core/util/bytes';
-
-export function aistudioChatId(url: URL): string | null {
-  const m = /^\/(?:u\/\d+\/)?prompts\/([\w-]+)/.exec(url.pathname);
-  if (!m || m[1] === 'new_chat') return null;
-  return m[1]!;
-}
+import { aistudioChatId } from '../../core/sites/chat-urls';
+export { aistudioChatId };
 
 const RPC_BASE = 'https://alkalimakersuite-pa.clients6.google.com/$rpc/google.internal.alkali.applications.makersuite.v1.MakerSuiteService/';
 const CHECK_READ = 'aistudio.conversation';

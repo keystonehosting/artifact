@@ -9,13 +9,10 @@ import { request } from '../../core/net/fetch';
 import { fetchBytes } from '../../core/net/bytes';
 import { withExtension } from '../../core/util/bytes';
 import { textOf } from '../dom-reader';
+import { geminiChatId } from '../../core/sites/chat-urls';
+export { geminiChatId };
 
 /** /app/<id> and /gem/<gemId>/<id>, with an optional /u/<n> account prefix. RPCs use the c_ form. */
-export function geminiChatId(url: URL): string | null {
-  const m = /^\/(?:u\/\d+\/)?(?:app|gem\/[^/]+)\/([0-9a-z_]{8,})/i.exec(url.pathname);
-  if (!m) return null;
-  return m[1]!.startsWith('c_') ? m[1]! : `c_${m[1]}`;
-}
 
 const CHECK_READ = 'gemini.conversation';
 const CHECK_TOKENS = 'gemini.page_tokens';

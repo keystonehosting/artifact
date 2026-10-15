@@ -37,7 +37,10 @@ Shipped in the current release:
   - every artifact version is kept, and any file the site wouldn't serve is listed in `MISSING_FILES.txt`;
   - options: selected messages (Shift-click ranges), all branches, numbering, dates, table of contents, thinking, tool calls, file-name patterns, and Claude project instructions, knowledge files and memory.
 - **Copy as Markdown, preview tab, Send to Obsidian**, the right-click menu, and keyboard shortcuts.
-- **Side panel** with a dashboard, export and settings.
+- **Your chats, organized across sites:** nested folders (also shown in each site's own sidebar), pinned chats, favorite assistants, tags with keyword-based Smart Tags, message labels and bookmarks, highlights on reply text, chat notes, and continue-later reminders. One-click import of projects as folders.
+- **Search every chat on every site** with filters (site, role, model, dates, folder, tag, exact phrase, must-include / exclude), highlighted matches, jump-to-message, and a findings report. A deep scan stores your full history in the background; find-in-chat (Ctrl/Cmd+Shift+F) works on the open chat.
+- **Privacy blur** (Alt+Shift+B) for screen sharing.
+- **Side panel** with a dashboard, folders, search, library, export and settings.
 - **Site health:** each site reports Healthy, Degraded or Broken with the reason. A site change shows up as Degraded instead of producing wrong data. **Self-test** produces a diagnostics report with no message text, cookies, tokens or keys.
 
 The full plan is in [`docs/SPEC.md`](docs/SPEC.md).

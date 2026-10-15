@@ -48,3 +48,15 @@ Tier 2 sites appear in Settings when their adapters ship in M4. Until then, offe
 
 ## D14 — Server-dependent AI Toolbox features skipped
 Announcements, launch-site prompts, review requests, discount surveys, team plans, the public leaderboard, payments and every upsell surface (497 of AI Toolbox's 1,965 strings, `docs/parity.md`) need a vendor server or exist to sell a premium plan. Artifact has no server and no paid plan (SPEC §6 "Deliberate skips").
+
+## D16 — Highlights and find paint with the CSS Custom Highlight API
+Saved highlights and find-in-chat matches are drawn with `CSS.highlights`, which never edits the site's DOM, so the site's own rendering and React state are untouched. MDN lists the API as Baseline since June 2025 (https://developer.mozilla.org/en-US/docs/Web/API/CSS_Custom_Highlight_API, checked 2026-10-15). On older browsers in Artifact's range (Firefox 128–139), highlights and matches are still saved, listed and stepped through, but not painted on the page.
+
+## D17 — Deep scan runs in the site tab
+The scan calls the site with the user's session, which only the site's own page can do without extra permissions. It runs in the content script, so the tab must stay open; the state is stored after every step (`scan:<site>` in the library), so closing the tab only pauses it and the side panel offers Resume. Chats already stored and unchanged in the site's list are never re-fetched.
+
+## D18 — One search index for every site
+MiniSearch holds one document per message (all branches), serialized into the library database after changes. The background is the only writer, so the side panel, popup and content scripts never hold diverging copies. "Rebuild search index" in the Search tab recreates it from stored chats.
+
+## D19 — AI Studio has no sidebar folder tree yet
+The AI Studio adapter has no confirmed place in the page for a chat-list sidebar: its sidebar selector (`ms-navbar, nav`) is from the fixture only and unconfirmed live. Mounting there could cover site controls, so `sidebarFolders` stays off for AI Studio until a live session confirms a spot. Its chats appear in folders, search and the library in the side panel. The site sidebar tree runs on ChatGPT, Claude, Gemini and Grok.

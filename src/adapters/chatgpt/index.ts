@@ -9,11 +9,8 @@ import { readCookie, request, requestJson } from '../../core/net/fetch';
 import { fetchBytes } from '../../core/net/bytes';
 import { mimeFromName, withExtension } from '../../core/util/bytes';
 import type { Plan } from '../../core/limits/limits';
-
-export function chatgptChatId(url: URL): string | null {
-  const m = /\/c\/([0-9a-f-]{8,})/i.exec(url.pathname);
-  return m ? m[1]! : null;
-}
+import { chatgptChatId } from '../../core/sites/chat-urls';
+export { chatgptChatId };
 
 const CHECK_READ = 'chatgpt.conversation';
 const CHECK_AUTH = 'chatgpt.auth';

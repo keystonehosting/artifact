@@ -13,6 +13,7 @@ import { t } from '../../core/i18n/t';
 import { capStatus, hourlyHeatmap, readSendLog, type SendEvent } from '../../features/usage/sendlog';
 import { formatDiagnostics } from '../../core/health/diagnostics';
 import { activeBranch } from '../../core/model/tree';
+import { ThisChat } from './ThisChat';
 
 function when(ms: number | null): string {
   if (!ms) return '';
@@ -88,6 +89,8 @@ export function Dashboard({ tab, settings, update }: { tab: ActiveTab | null; se
         )}
         {report && <pre class="report mono">{report}</pre>}
       </Section>
+
+      {tab?.ready?.chatId ? <ThisChat tab={tab} /> : null}
 
       {usage && (
         <Section title={t('usage_label')}>

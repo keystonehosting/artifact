@@ -6,9 +6,12 @@ import { Tabs } from '../components';
 import { Dashboard } from './Dashboard';
 import { ExportPanel } from './ExportPanel';
 import { SettingsPanel } from './SettingsPanel';
+import { FoldersPanel } from './FoldersPanel';
+import { SearchPanel } from './SearchPanel';
+import { LibraryPanel } from './LibraryPanel';
 import { t } from '../../core/i18n/t';
 
-type Tab = 'dashboard' | 'export' | 'settings';
+type Tab = 'dashboard' | 'folders' | 'search' | 'library' | 'export' | 'settings';
 
 export function SidePanel() {
   const [settings, update] = useSettings();
@@ -21,6 +24,9 @@ export function SidePanel() {
       <Tabs<Tab>
         tabs={[
           ['dashboard', t('tab_dashboard')],
+          ['folders', t('tab_folders')],
+          ['search', t('tab_search')],
+          ['library', t('tab_library')],
           ['export', t('tab_export')],
           ['settings', t('tab_settings')],
         ]}
@@ -28,6 +34,9 @@ export function SidePanel() {
         onChange={setView}
       />
       {view === 'dashboard' && <Dashboard tab={tab} settings={settings} update={update} />}
+      {view === 'folders' && <FoldersPanel tab={tab} />}
+      {view === 'search' && <SearchPanel tab={tab} />}
+      {view === 'library' && <LibraryPanel />}
       {view === 'export' && <ExportPanel tab={tab} settings={settings} update={update} />}
       {view === 'settings' && <SettingsPanel settings={settings} update={update} />}
     </div>

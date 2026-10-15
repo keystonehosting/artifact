@@ -11,11 +11,8 @@ import { mimeFromName, withExtension } from '../../core/util/bytes';
 import { parseClaudeMessageLimit, parseClaudeUsage } from './usage';
 import { z } from 'zod';
 import type { Plan } from '../../core/limits/limits';
-
-export function claudeChatId(url: URL): string | null {
-  const m = /^\/chat\/([0-9a-f-]{36})/i.exec(url.pathname);
-  return m ? m[1]! : null;
-}
+import { claudeChatId } from '../../core/sites/chat-urls';
+export { claudeChatId };
 
 const CHECK_READ = 'claude.conversation';
 const CHECK_ORG = 'claude.organization';

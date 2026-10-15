@@ -23,6 +23,11 @@ export interface ContentRequests {
   'content:delete': { req: { chatId: string }; res: { ok: true } };
   'content:archive': { req: { chatId: string; archived: boolean }; res: { ok: true } };
   'content:rename': { req: { chatId: string; title: string }; res: { ok: true } };
+  'content:jump': { req: { chatId: string; messageId: string | null; url: string | null }; res: { navigated: boolean; found: boolean } };
+  'content:find': { req: Empty; res: { open: boolean } };
+  'content:blur': { req: { on?: boolean }; res: { on: boolean } };
+  'content:deep-scan': { req: { fresh: boolean }; res: { started: boolean } };
+  'content:deep-scan-stop': { req: Empty; res: { ok: true } };
 }
 
 export type ContentMessage = {

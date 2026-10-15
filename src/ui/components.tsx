@@ -1,6 +1,7 @@
 // Small shared controls for extension pages. Native elements, labelled.
 import type { ComponentChildren } from 'preact';
-import { useId } from 'preact/hooks';
+import { useId, useState } from 'preact/hooks';
+import { t } from '../core/i18n/t';
 
 export function Section({ title, children, aside }: { title: string; children: ComponentChildren; aside?: ComponentChildren }) {
   return (
@@ -95,7 +96,53 @@ export function Progress({ done, total, label, onCancel }: { done: number; total
       <span class="mono muted">
         {done}/{total} {label}
       </span>
-      {onCancel && <button onClick={onCancel}>Cancel</button>}
+      {onCancel && <button onClick={onCancel}>{t('common_cancel')}</button>}
     </div>
+  );
+}
+
+/** A button that turns into a text field; Enter saves, Escape cancels. */
+export function InlineEdit({ label, initial = '', onSave, children }: { label: string; initial?: string; onSave(v: string): void; children: ComponentChildren }) {
+  const [editing, setEditing] = useState(false);
+  if (!editing) return <button onClick={() => setEditing(true)}>{children}</button>;
+  return (
+    <input
+      type="text"
+      class="inline-edit"
+      aria-label={label}
+      placeholder={label}
+      value={initial}
+      ref={(el) => el?.focus()}
+      onKeyDown={(e) => {
+        const v = e.currentTarget.value.trim();
+        if (e.key === 'Enter' && v) {
+          setEditing(false);
+          onSave(v);
+        }
+        if (e.key === 'Escape') setEditing(false);
+      }}
+      onBlur={() => setEditing(false)}
+    />
+  );
+}
+
+/** Two-step button for actions that remove something. */
+export function ConfirmButton({ label, confirmLabel, onConfirm }: { label: ComponentChildren; confirmLabel: string; onConfirm(): void }) {
+  const [asking, setAsking] = useState(false);
+  if (!asking) return <button onClick={() => setAsking(true)}>{label}</button>;
+  return (
+    <span class="inline confirm" role="group">
+      <span>{confirmLabel}</span>
+      <button
+        class="danger"
+        onClick={() => {
+          setAsking(false);
+          onConfirm();
+        }}
+      >
+        {t('common_confirm')}
+      </button>
+      <button onClick={() => setAsking(false)}>{t('common_cancel')}</button>
+    </span>
   );
 }

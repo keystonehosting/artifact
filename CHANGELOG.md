@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.3.0] - Organize and search
+
+- **Local library.** Every chat you open is stored and indexed in this browser (IndexedDB), with every branch. A page-text read never replaces a fuller copy from the site's own data.
+- **Deep scan** of a site's full history from the side panel: incremental, resumable, paced by the site rate limiter, and paused while you type or a reply streams.
+- **Full-text search** across all sites, grouped by site with highlighted matches. Filters for site, role, model, date range, folder, tag, exact phrase and titles only, plus a must-include / exclude panel with all/any. Results jump to the message. Findings save as a Markdown report.
+- **Find in chat** (Ctrl/Cmd+Shift+F or the browser command) highlights every match and steps through them.
+- **Folders:** nested to any depth, holding chats from every site, with colors, counts, sorting (recent, A–Z, Z–A, manual), pins, stars, breadcrumbs and drag and drop. The tree also sits at the top of each site's own sidebar, where chat links dragged from the site's list are filed. Projects import as folders in one click.
+- **Pinned chats** and **favorite assistants** (GPTs, Gems, projects).
+- **Tags and Smart Tags:** manual tags, built-in keyword rules, custom rules, and a cross-site tag view.
+- **Message labels and bookmarks** from a margin toolbar on every message, **highlights** on selected reply text (drawn without changing the page), **chat notes**, and **continue-later reminders** with a browser notification.
+- **Privacy blur** (Alt+Shift+B or the browser command) blurs chat titles and content for screen sharing.
+- **Side panel:** Folders, Search and Library tabs, and a "This chat" card on the Dashboard.
+
 ## [0.2.0] - Tier 1 adapters, meter, side panel, export
 
 - **Structured reads.** A page-world hook copies the conversation the page loads. ChatGPT, Claude, Gemini, AI Studio and Grok adapters normalize it into the archive model, with every branch, attachment, artifact and canvas. Site endpoints and then page text are the fallbacks.

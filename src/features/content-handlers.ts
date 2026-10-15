@@ -5,6 +5,9 @@ import type { SiteInfo } from '../core/sites/sites';
 import type { SiteAdapter } from '../adapters/types';
 import type { ContentMessage, ContentRequests } from '../core/messaging/protocol';
 import { bytesToBase64 } from '../core/util/bytes';
+import type { Features } from './runtime';
+import { jumpTo } from './library/jump';
+import { isBlurred, setBlur } from './library/blur';
 
 type Handlers = { [K in keyof ContentRequests]: (msg: Extract<ContentMessage, { type: K }>) => Promise<ContentRequests[K]['res']> };
 
@@ -13,7 +16,7 @@ function need<T>(fn: T | undefined, what: string): T {
   return fn;
 }
 
-export function contentHandlers(site: SiteInfo, adapter: SiteAdapter): Handlers {
+export function contentHandlers(site: SiteInfo, adapter: SiteAdapter, f: Features): Handlers {
   return {
     'content:ping': async () => ({ site: site.id, chatId: adapter.detectConversation(), capabilities: adapter.capabilities }),
     'content:read': async () => {
@@ -52,6 +55,25 @@ export function contentHandlers(site: SiteInfo, adapter: SiteAdapter): Handlers 
     },
     'content:rename': async (m) => {
       await need(adapter.renameChat, 'Renaming chats').call(adapter, m.chatId, m.title);
+      return { ok: true as const };
+    },
+    'content:jump': async (m) => jumpTo(adapter, f.state, m),
+    'content:find': async () => {
+      f.find.toggle();
+      return { open: f.find.isOpen };
+    },
+    'content:blur': async (m) => {
+      setBlur(adapter, m.on ?? !isBlurred());
+      return { on: isBlurred() };
+    },
+    'content:deep-scan': async (m) => {
+      if (f.scan.isRunning) return { started: false };
+      // Runs in the background of the page; progress arrives as scan:progress messages.
+      void f.scan.run(m.fresh).catch(() => undefined);
+      return { started: true };
+    },
+    'content:deep-scan-stop': async () => {
+      f.scan.stop();
       return { ok: true as const };
     },
   };

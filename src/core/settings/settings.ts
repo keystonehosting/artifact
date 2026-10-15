@@ -20,8 +20,15 @@ export const SettingsSchema = z.object({
       usage: z.boolean().catch(true),
       warnings: z.boolean().catch(true),
       messageTokens: z.boolean().catch(true),
+      /** Store and index chats as they are opened. */
+      library: z.boolean().catch(true),
+      sidebarFolders: z.boolean().catch(true),
+      messageTools: z.boolean().catch(true),
+      highlights: z.boolean().catch(true),
+      find: z.boolean().catch(true),
+      blur: z.boolean().catch(true),
     })
-    .catch({ meter: true, usage: true, warnings: true, messageTokens: true }),
+    .catch({ meter: true, usage: true, warnings: true, messageTokens: true, library: true, sidebarFolders: true, messageTools: true, highlights: true, find: true, blur: true }),
   meter: z
     .object({
       amber: z.number().min(1).max(100).catch(50),

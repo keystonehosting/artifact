@@ -98,6 +98,8 @@ export interface SiteAdapter {
   // ---- page ----
   /** The site's id for the conversation on screen, or null on a new/empty chat. */
   detectConversation(): string | null;
+  /** The site's chat id in any chat URL on this site (sidebar links, drag and drop). */
+  chatIdFromUrl(url: URL): string | null;
   /** Full conversation for the open chat: active branch plus every branch the site exposes. */
   readConversation(): Promise<Read<Conversation> | null>;
   getActiveBranch(conv: Conversation): Message[];
@@ -110,6 +112,8 @@ export interface SiteAdapter {
   newChatUrl(): string;
   onConversationChange(cb: (siteChatId: string | null) => void): () => void;
   onStreamingDone(cb: () => void): () => void;
+  /** Called after every successful read of the open chat. */
+  onConversationRead(cb: (r: Read<Conversation>) => void): () => void;
   isStreaming(): boolean;
 
   // ---- account data ----

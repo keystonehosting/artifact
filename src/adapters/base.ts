@@ -62,6 +62,7 @@ export abstract class BaseAdapter implements SiteAdapter {
   readonly capabilities: Capabilities;
   protected readonly tracker: HealthTracker;
   private disposers: Array<() => void> = [];
+  private readListeners = new Set<(r: Read<Conversation>) => void>();
 
   protected readonly doc: Document;
   protected readonly bridge: HookBridge | null;
@@ -90,8 +91,12 @@ export abstract class BaseAdapter implements SiteAdapter {
   }
 
   detectConversation(): string | null {
+    return this.chatIdFromUrl(this.url());
+  }
+
+  chatIdFromUrl(url: URL): string | null {
     try {
-      return this.cfg.chatIdFromUrl(this.url());
+      return this.cfg.chatIdFromUrl(url);
     } catch {
       return null;
     }
@@ -104,6 +109,7 @@ export abstract class BaseAdapter implements SiteAdapter {
         const structured = await this.readStructured(chatId);
         if (structured) {
           this.tracker.setSource(structured.source);
+          this.emitRead(structured);
           return structured;
         }
       } catch (e) {
@@ -117,7 +123,18 @@ export abstract class BaseAdapter implements SiteAdapter {
     }
     this.tracker.pass(DOM_CHECK, `${Object.keys(conv.messages).length} turns read from the page`);
     this.tracker.setSource('dom');
-    return { value: conv, source: 'dom', approximate: true };
+    const read: Read<Conversation> = { value: conv, source: 'dom', approximate: true };
+    this.emitRead(read);
+    return read;
+  }
+
+  onConversationRead(cb: (r: Read<Conversation>) => void): () => void {
+    this.readListeners.add(cb);
+    return () => this.readListeners.delete(cb);
+  }
+
+  private emitRead(r: Read<Conversation>): void {
+    for (const cb of this.readListeners) cb(r);
   }
 
   /** True when the page should be showing messages (a saved chat). */

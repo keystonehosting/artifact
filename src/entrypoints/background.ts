@@ -12,6 +12,8 @@ import { isBackgroundMessage, type BackgroundMessage } from '../core/messaging/b
 import type { ContentRequests } from '../core/messaging/protocol';
 import { WorkerTokenizer } from '../core/tokenizer/host';
 import { hostAllowed } from '../core/net/hosts';
+import { LIBRARY_API, type LibraryApi } from '../core/library/api';
+import { db } from '../core/db/db';
 import type { Conversation } from '../core/schema/archive';
 import { loadSettings } from '../core/settings/settings';
 import { openPreview } from '../core/export/preview';
@@ -75,6 +77,12 @@ async function onCommand(command: string): Promise<void> {
     else if (tab?.windowId !== undefined) await chrome.sidePanel.open({ windowId: tab.windowId });
     return;
   }
+  if (command === 'find-in-chat' || command === 'privacy-blur') {
+    const [tab] = await browser.tabs.query({ active: true, currentWindow: true });
+    if (tab?.id === undefined || !tab.url || !siteForUrl(tab.url)) return;
+    await browser.tabs.sendMessage(tab.id, command === 'find-in-chat' ? { type: 'content:find' } : { type: 'content:blur' }).catch(() => undefined);
+    return;
+  }
   const chat = await readActiveChat();
   if (!chat) return;
   const settings = await loadSettings();
@@ -85,6 +93,35 @@ async function onCommand(command: string): Promise<void> {
     const md = toMarkdown(buildDocument(chat.conv, opts));
     const name = `${formatFilename(opts.filenameTemplate, { platform: siteForUrl(chat.conv.url ?? '')?.name ?? 'AI', title: chat.conv.title, model: chat.conv.model, id: chat.conv.siteChatId })}.md`;
     await browser.downloads.download({ url: `data:text/markdown;charset=utf-8,${encodeURIComponent(md)}`, filename: name, conflictAction: 'uniquify' });
+  }
+}
+
+// Library calls that change nothing; every other call tells open views to refresh.
+const READ_ONLY = new Set<keyof LibraryApi>(['search', 'conversation', 'chat', 'chats', 'chatsById', 'stats', 'folderTree', 'chatsInFolder', 'breadcrumbs', 'foldersOfChat', 'tags', 'rules', 'labels', 'bookmarks', 'highlights', 'note', 'notes', 'reminders', 'favorites', 'kvGet', 'kvSet']);
+let changeTimer: ReturnType<typeof setTimeout> | undefined;
+
+function notifyChanged(): void {
+  clearTimeout(changeTimer);
+  changeTimer = setTimeout(() => {
+    const msg = { type: 'lib:changed' };
+    void browser.runtime.sendMessage(msg).catch(() => undefined);
+    void browser.tabs.query({ url: [...TIER1_HOST_PERMISSIONS] }).then((tabs) => {
+      for (const tab of tabs) if (tab.id !== undefined) void browser.tabs.sendMessage(tab.id, msg).catch(() => undefined);
+    });
+  }, 250);
+}
+
+async function fireReminders(): Promise<void> {
+  const due = await db().reminders.where('dueAt').belowOrEqual(Date.now()).filter((r) => r.done === 0).toArray();
+  for (const r of due) {
+    const chat = await db().chats.get(r.chatId);
+    await browser.notifications.create(`reminder:${r.chatId}|${r.id}`, {
+      type: 'basic',
+      iconUrl: browser.runtime.getURL('/icons/icon128.png'),
+      title: t('reminder_title', chat?.title ?? 'Chat'),
+      message: r.note || t('reminder_default'),
+    });
+    await db().reminders.update(r.id, { done: 1 });
   }
 }
 
@@ -115,7 +152,18 @@ export default defineBackground(() => {
   });
 
   browser.runtime.onMessage.addListener((msg: unknown, _sender, sendResponse) => {
-    const m = msg as { type?: string; texts?: unknown };
+    const m = msg as { type?: string; texts?: unknown; fn?: string; args?: unknown[] };
+    if (m?.type === 'lib:call' && typeof m.fn === 'string' && m.fn in LIBRARY_API) {
+      const fn = LIBRARY_API[m.fn as keyof LibraryApi] as (...a: unknown[]) => Promise<unknown>;
+      fn(...(Array.isArray(m.args) ? m.args : [])).then(
+        (value) => {
+          if (!READ_ONLY.has(m.fn as keyof LibraryApi)) notifyChanged();
+          sendResponse({ ok: true, value });
+        },
+        (e: Error) => sendResponse({ ok: false, error: e.message }),
+      );
+      return true;
+    }
     const ok = isBackgroundMessage(msg) || (m?.type === 'bg:tokenize' && Array.isArray(m.texts));
     if (!ok) return undefined;
     handle(msg as BackgroundMessage).then(sendResponse, (e: Error) => sendResponse({ error: e.message }));
@@ -123,6 +171,18 @@ export default defineBackground(() => {
   });
 
   browser.commands.onCommand.addListener((command) => void onCommand(command));
+
+  // Continue-later reminders: checked every minute while the browser runs.
+  void browser.alarms.create('artifact-reminders', { periodInMinutes: 1 });
+  browser.alarms.onAlarm.addListener((a) => {
+    if (a.name === 'artifact-reminders') void fireReminders();
+  });
+  browser.notifications?.onClicked.addListener((id) => {
+    if (!id.startsWith('reminder:')) return;
+    void db().chats.get(id.slice('reminder:'.length).split('|')[0]!).then((c) => {
+      if (c?.url) void browser.tabs.create({ url: c.url });
+    });
+  });
 
   browser.contextMenus.onClicked.addListener(async (info, tab) => {
     if (info.menuItemId === MENU_OPEN_PANEL && tab?.windowId !== undefined) {

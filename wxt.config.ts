@@ -16,7 +16,7 @@ export default defineConfig({
   }),
   manifest: ({ browser }) => {
     const firefox = browser === 'firefox';
-    const permissions = ['storage', 'unlimitedStorage', 'contextMenus', 'alarms', 'downloads', 'scripting', 'clipboardWrite'];
+    const permissions = ['storage', 'unlimitedStorage', 'contextMenus', 'alarms', 'downloads', 'scripting', 'clipboardWrite', 'notifications'];
     if (!firefox) permissions.push('sidePanel', 'offscreen');
     return {
       name: '__MSG_extensionName__',
@@ -33,6 +33,8 @@ export default defineConfig({
         'export-chat': { suggested_key: { default: 'Alt+Shift+D' }, description: '__MSG_command_export__' },
         'open-preview': { suggested_key: { default: 'Alt+Shift+P' }, description: '__MSG_command_preview__' },
         'open-panel': { suggested_key: { default: 'Alt+Shift+A' }, description: '__MSG_command_open_panel__' },
+        'find-in-chat': { description: '__MSG_command_find__' },
+        'privacy-blur': { description: '__MSG_command_blur__' },
       },
       action: {
         default_title: '__MSG_extensionShortName__',

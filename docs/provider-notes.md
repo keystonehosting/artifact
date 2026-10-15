@@ -100,3 +100,14 @@ No fact in this file has been confirmed live yet (see D5 in `docs/decisions.md`)
 | Rename | `PUT /rest/app-chat/conversations/<id>` `{title, starred}` | dossier | unconfirmed live |
 | Delete | `DELETE /rest/app-chat/conversations/soft/<id>` | dossier | unconfirmed live |
 | Generated images | `generatedImageUrls[]` paths on `https://assets.grok.com/` | Loominary | unconfirmed live |
+
+## Library features (v0.3.0)
+
+Facts the folder tree, deep scan and project import rely on. All are unconfirmed live.
+
+| Fact | Value | Source | Status |
+|---|---|---|---|
+| Sidebar mount point | first child of the site's sidebar element: ChatGPT `nav[aria-label="Chat history"], #history, nav`; Claude `nav[aria-label="Sidebar"], nav`; Gemini `[data-test-id="chat-history-container"], bard-sidenav, side-navigation-v2`; Grok `[data-sidebar="sidebar"], nav` (`src/adapters/selectors.ts`) | ACE captures (Gemini); page structure as commonly seen (others) | fixture (Gemini), unconfirmed live (others) |
+| Sidebar chat links | each chat in the site's list is an `<a href>` to the chat URL, so dragging it gives the URL in `text/uri-list` | browser default for links | unconfirmed live |
+| Chat in a project | ChatGPT list item `gizmo_id`; Claude list item `project_uuid` → `projectId`, matched against the project list ids on import | dossier; Loominary | unconfirmed live |
+| Deep scan listing | each adapter's `listChats` pages (ChatGPT 100 per page; others as in the sections above), compared by `updatedAt` to find changed chats | as above | unconfirmed live |

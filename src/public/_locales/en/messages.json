@@ -549,5 +549,727 @@
   },
   "command_open_panel": {
     "message": "Open the Artifact panel"
+  },
+  "chat_pin": {
+    "message": "Pin"
+  },
+  "chat_unpin": {
+    "message": "Unpin"
+  },
+  "command_blur": {
+    "message": "Blur chats for screen sharing"
+  },
+  "command_find": {
+    "message": "Find in this chat"
+  },
+  "common_cancel": {
+    "message": "Cancel"
+  },
+  "common_confirm": {
+    "message": "Yes"
+  },
+  "common_delete": {
+    "message": "Delete"
+  },
+  "favorite_add": {
+    "message": "Add $NAME$ to favorites",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      }
+    }
+  },
+  "favorite_remove": {
+    "message": "Remove $NAME$ from favorites",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      }
+    }
+  },
+  "favorites_title": {
+    "message": "Favorite assistants"
+  },
+  "find_close": {
+    "message": "Close find"
+  },
+  "find_label": {
+    "message": "Find in chat"
+  },
+  "find_next": {
+    "message": "Next match"
+  },
+  "find_none": {
+    "message": "No matches"
+  },
+  "find_position": {
+    "message": "$CURRENT$ of $TOTAL$",
+    "placeholders": {
+      "current": {
+        "content": "$1"
+      },
+      "total": {
+        "content": "$2"
+      }
+    }
+  },
+  "find_prev": {
+    "message": "Previous match"
+  },
+  "folder_color": {
+    "message": "Color"
+  },
+  "folder_count_title": {
+    "message": "$DIRECT$ here, $TOTAL$ including subfolders",
+    "placeholders": {
+      "direct": {
+        "content": "$1"
+      },
+      "total": {
+        "content": "$2"
+      }
+    }
+  },
+  "folder_delete_confirm": {
+    "message": "Delete “$NAME$”? Its chats and subfolders move up one level.",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      }
+    }
+  },
+  "folder_drop_root": {
+    "message": "Drop a folder here to make it top-level"
+  },
+  "folder_drop_unknown": {
+    "message": "That link isn't a chat on a supported site."
+  },
+  "folder_name": {
+    "message": "Folder name"
+  },
+  "folder_new": {
+    "message": "New folder"
+  },
+  "folder_new_sub": {
+    "message": "New subfolder"
+  },
+  "folder_path": {
+    "message": "Folder path"
+  },
+  "folder_pin": {
+    "message": "Pin folder"
+  },
+  "folder_pinned": {
+    "message": "Pinned"
+  },
+  "folder_rename": {
+    "message": "Rename"
+  },
+  "folder_sort": {
+    "message": "Sort chats and subfolders"
+  },
+  "folder_sort_roots": {
+    "message": "Sort top-level folders"
+  },
+  "folder_star": {
+    "message": "Star"
+  },
+  "folder_starred": {
+    "message": "Starred"
+  },
+  "folder_unpin": {
+    "message": "Unpin folder"
+  },
+  "folder_unstar": {
+    "message": "Unstar"
+  },
+  "folders_add_to": {
+    "message": "Add to folder…"
+  },
+  "folders_added": {
+    "message": "Filed $COUNT$ chats",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "folders_chats": {
+    "message": "Chats ($COUNT$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "folders_empty": {
+    "message": "No folders yet. Folders can hold chats from every site."
+  },
+  "folders_empty_sidebar": {
+    "message": "Drag a chat here after creating a folder with +."
+  },
+  "folders_filter": {
+    "message": "Filter by title"
+  },
+  "folders_include_sub": {
+    "message": "Include subfolders"
+  },
+  "folders_remove_from": {
+    "message": "Remove from this folder"
+  },
+  "folders_remove_named": {
+    "message": "Remove from $NAME$",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      }
+    }
+  },
+  "folders_select": {
+    "message": "Select $TITLE$",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      }
+    }
+  },
+  "folders_selected": {
+    "message": "$COUNT$ selected",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "folders_title": {
+    "message": "Folders"
+  },
+  "folders_folder_empty": {
+    "message": "This folder is empty. Drag chats onto it, or select chats and use Add to folder."
+  },
+  "folders_none": {
+    "message": "No chats here yet. Chats you open are stored automatically; a deep scan in Search stores the rest."
+  },
+  "folders_view_all": {
+    "message": "All"
+  },
+  "folders_view_unfiled": {
+    "message": "Unfiled"
+  },
+  "folders_view_pinned": {
+    "message": "Pinned"
+  },
+  "folders_view_archived": {
+    "message": "Archived"
+  },
+  "highlight_label": {
+    "message": "Highlight selection"
+  },
+  "highlight_with": {
+    "message": "Highlight in $COLOR$",
+    "placeholders": {
+      "color": {
+        "content": "$1"
+      }
+    }
+  },
+  "import_done": {
+    "message": "Created $FOLDERS$ folders and filed $CHATS$ chats",
+    "placeholders": {
+      "folders": {
+        "content": "$1"
+      },
+      "chats": {
+        "content": "$2"
+      }
+    }
+  },
+  "import_go": {
+    "message": "Import as folders"
+  },
+  "import_hint": {
+    "message": "Makes a folder for each project, under one folder for this site, and files the stored chats that belong to it. Running it again only adds what's new."
+  },
+  "import_list": {
+    "message": "List projects"
+  },
+  "import_none": {
+    "message": "This site has no projects on this account."
+  },
+  "import_title": {
+    "message": "Import from $SITE$",
+    "placeholders": {
+      "site": {
+        "content": "$1"
+      }
+    }
+  },
+  "index_empty": {
+    "message": "Nothing stored yet. Open a chat or run a deep scan."
+  },
+  "index_indexed": {
+    "message": "Searchable"
+  },
+  "index_known": {
+    "message": "Known"
+  },
+  "index_rebuild": {
+    "message": "Rebuild search index"
+  },
+  "index_rebuilt": {
+    "message": "Indexed $COUNT$ messages",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "index_site": {
+    "message": "Site"
+  },
+  "index_title": {
+    "message": "Library index"
+  },
+  "library_all_colors": {
+    "message": "All"
+  },
+  "library_bookmarks": {
+    "message": "Bookmarks"
+  },
+  "library_bookmarks_count": {
+    "message": "Bookmarks ($COUNT$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "library_bookmarks_empty": {
+    "message": "No bookmarks. Hover a message on any site and use the bookmark button in its margin."
+  },
+  "library_color_filter": {
+    "message": "Filter by color"
+  },
+  "library_delete_bookmark": {
+    "message": "Delete this bookmark?"
+  },
+  "library_delete_highlight": {
+    "message": "Delete this highlight?"
+  },
+  "library_filter": {
+    "message": "Filter"
+  },
+  "library_highlights": {
+    "message": "Highlights"
+  },
+  "library_highlights_count": {
+    "message": "Highlights ($COUNT$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "library_highlights_empty": {
+    "message": "No highlights. Select text in a reply and pick a color."
+  },
+  "library_labels": {
+    "message": "Labels"
+  },
+  "library_labels_count": {
+    "message": "Labels ($COUNT$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "library_labels_empty": {
+    "message": "No labels with this color."
+  },
+  "library_note": {
+    "message": "Note"
+  },
+  "library_notes": {
+    "message": "Notes"
+  },
+  "library_notes_count": {
+    "message": "Chat notes ($COUNT$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "library_notes_empty": {
+    "message": "No notes. Write one for the open chat on the Dashboard."
+  },
+  "library_reminders": {
+    "message": "Reminders"
+  },
+  "library_reminders_count": {
+    "message": "Reminders ($COUNT$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "library_reminders_empty": {
+    "message": "No reminders. Set one for the open chat on the Dashboard."
+  },
+  "library_remove_label": {
+    "message": "Remove label"
+  },
+  "library_show_done": {
+    "message": "Show finished"
+  },
+  "library_tag_auto": {
+    "message": "from a rule"
+  },
+  "library_tag_counts": {
+    "message": "$MANUAL$ set · $AUTO$ by rules",
+    "placeholders": {
+      "manual": {
+        "content": "$1"
+      },
+      "auto": {
+        "content": "$2"
+      }
+    }
+  },
+  "library_tag_delete_confirm": {
+    "message": "Remove the tag “$NAME$” from every chat?",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      }
+    }
+  },
+  "library_tag_rename": {
+    "message": "New tag name"
+  },
+  "library_tags": {
+    "message": "Tags"
+  },
+  "library_tags_count": {
+    "message": "Tags ($COUNT$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "library_tags_empty": {
+    "message": "No tags yet."
+  },
+  "reminder_add": {
+    "message": "Remind me"
+  },
+  "reminder_default": {
+    "message": "You asked to come back to this chat."
+  },
+  "reminder_done": {
+    "message": "Done"
+  },
+  "reminder_future": {
+    "message": "Pick a time in the future."
+  },
+  "reminder_note": {
+    "message": "What to do next (optional)"
+  },
+  "reminder_title": {
+    "message": "Continue: $TITLE$",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      }
+    }
+  },
+  "reminder_when": {
+    "message": "Reminder time"
+  },
+  "rules_add": {
+    "message": "Add a rule"
+  },
+  "rules_builtin": {
+    "message": "built in"
+  },
+  "rules_hint": {
+    "message": "Rules tag chats by keywords, on this device only. Built-in rules need two matching words in the text, or one in the title."
+  },
+  "rules_in_content": {
+    "message": "Messages"
+  },
+  "rules_in_title": {
+    "message": "Title"
+  },
+  "rules_match": {
+    "message": "Match"
+  },
+  "rules_save": {
+    "message": "Save rule"
+  },
+  "rules_sites": {
+    "message": "Only on (none means every site)"
+  },
+  "rules_tag": {
+    "message": "Tag"
+  },
+  "rules_terms": {
+    "message": "Words or phrases"
+  },
+  "rules_title": {
+    "message": "Smart Tag rules"
+  },
+  "rules_all_of": {
+    "message": "all of:"
+  },
+  "rules_any_of": {
+    "message": "any of:"
+  },
+  "scan_already": {
+    "message": "A scan is already running in that tab."
+  },
+  "scan_chats": {
+    "message": "chats"
+  },
+  "scan_counts": {
+    "message": "listed $LISTED$ · stored $FETCHED$ · failed $FAILED$",
+    "placeholders": {
+      "listed": {
+        "content": "$1"
+      },
+      "fetched": {
+        "content": "$2"
+      },
+      "failed": {
+        "content": "$3"
+      }
+    }
+  },
+  "scan_finished": {
+    "message": "Last finished $WHEN$",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      }
+    }
+  },
+  "scan_hint": {
+    "message": "Reads your full chat list and stores every chat that is new or changed. It pauses while you type or a reply is streaming, and picks up where it stopped. Keep this tab open while it runs."
+  },
+  "scan_need_site": {
+    "message": "Open a supported site in this tab to scan its history."
+  },
+  "scan_restart": {
+    "message": "Start over"
+  },
+  "scan_resume": {
+    "message": "Resume scan"
+  },
+  "scan_start": {
+    "message": "Scan full history"
+  },
+  "scan_title": {
+    "message": "Deep scan: $SITE$",
+    "placeholders": {
+      "site": {
+        "content": "$1"
+      }
+    }
+  },
+  "scan_update": {
+    "message": "Scan for changes"
+  },
+  "search_any_folder": {
+    "message": "Any folder"
+  },
+  "search_any_tag": {
+    "message": "Any tag"
+  },
+  "search_busy": {
+    "message": "Searching…"
+  },
+  "search_exact": {
+    "message": "Exact phrase"
+  },
+  "search_exclude": {
+    "message": "Exclude"
+  },
+  "search_export": {
+    "message": "Save findings"
+  },
+  "search_filters": {
+    "message": "Filters"
+  },
+  "search_folder": {
+    "message": "Folder"
+  },
+  "search_from": {
+    "message": "From"
+  },
+  "search_include": {
+    "message": "Must include"
+  },
+  "search_include_mode": {
+    "message": "Include mode"
+  },
+  "search_label": {
+    "message": "Search every chat"
+  },
+  "search_mode_all": {
+    "message": "All of"
+  },
+  "search_mode_any": {
+    "message": "Any of"
+  },
+  "search_models": {
+    "message": "Models"
+  },
+  "search_models_hint": {
+    "message": "e.g. gpt-5, comma-separated"
+  },
+  "search_none": {
+    "message": "No matches."
+  },
+  "search_results": {
+    "message": "Results ($COUNT$ chats)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "search_roles": {
+    "message": "From"
+  },
+  "search_sites": {
+    "message": "Sites"
+  },
+  "search_tag": {
+    "message": "Tag"
+  },
+  "search_terms_hint": {
+    "message": "comma-separated"
+  },
+  "search_title": {
+    "message": "Search"
+  },
+  "search_titles": {
+    "message": "Titles only"
+  },
+  "search_to": {
+    "message": "To"
+  },
+  "settings_feature_blur": {
+    "message": "Privacy blur hotkey (Alt+Shift+B)"
+  },
+  "settings_feature_find": {
+    "message": "Find in chat (Ctrl/Cmd+Shift+F)"
+  },
+  "settings_feature_highlights": {
+    "message": "Highlights on selected text"
+  },
+  "settings_feature_library": {
+    "message": "Store and index chats I open"
+  },
+  "settings_feature_library_hint": {
+    "message": "Kept in this browser only. Needed for search, folders and the library."
+  },
+  "settings_feature_sidebar": {
+    "message": "Folders in the site sidebar"
+  },
+  "settings_feature_tools": {
+    "message": "Bookmark and label buttons beside messages"
+  },
+  "sort_az": {
+    "message": "A–Z"
+  },
+  "sort_manual": {
+    "message": "Manual"
+  },
+  "sort_recent": {
+    "message": "Recent"
+  },
+  "sort_za": {
+    "message": "Z–A"
+  },
+  "tab_folders": {
+    "message": "Folders"
+  },
+  "tab_library": {
+    "message": "Library"
+  },
+  "tab_search": {
+    "message": "Search"
+  },
+  "tag_add": {
+    "message": "Add tag"
+  },
+  "tag_remove": {
+    "message": "Remove tag $TAG$",
+    "placeholders": {
+      "tag": {
+        "content": "$1"
+      }
+    }
+  },
+  "this_chat": {
+    "message": "This chat in your library"
+  },
+  "this_chat_not_stored": {
+    "message": "Not stored yet; it will be once the chat finishes loading."
+  },
+  "tools_bookmark": {
+    "message": "Bookmark message"
+  },
+  "tools_label": {
+    "message": "Label message"
+  },
+  "color_yellow": {
+    "message": "Yellow"
+  },
+  "color_green": {
+    "message": "Green"
+  },
+  "color_blue": {
+    "message": "Blue"
+  },
+  "color_red": {
+    "message": "Red"
+  },
+  "color_purple": {
+    "message": "Purple"
+  },
+  "role_user": {
+    "message": "You"
+  },
+  "role_assistant": {
+    "message": "Assistant"
+  },
+  "role_system": {
+    "message": "System"
+  },
+  "role_tool": {
+    "message": "Tool"
+  },
+  "kind_project": {
+    "message": "Project"
+  },
+  "kind_gpt": {
+    "message": "GPT"
+  },
+  "kind_gem": {
+    "message": "Gem"
+  },
+  "kind_folder": {
+    "message": "Folder"
+  },
+  "role_artifact": {
+    "message": "Artifact"
+  },
+  "role_unknown": {
+    "message": "Unknown"
   }
 }

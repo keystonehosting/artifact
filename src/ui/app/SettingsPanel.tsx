@@ -45,6 +45,12 @@ export function SettingsPanel({ settings, update }: { settings: Settings; update
         <Toggle label={t('settings_feature_usage')} checked={s.features.usage} onChange={(v) => update((x) => void (x.features.usage = v))} />
         <Toggle label={t('settings_feature_warnings')} checked={s.features.warnings} onChange={(v) => update((x) => void (x.features.warnings = v))} />
         <Toggle label={t('settings_feature_badges')} checked={s.features.messageTokens} onChange={(v) => update((x) => void (x.features.messageTokens = v))} />
+        <Toggle label={t('settings_feature_library')} hint={t('settings_feature_library_hint')} checked={s.features.library} onChange={(v) => update((x) => void (x.features.library = v))} />
+        <Toggle label={t('settings_feature_sidebar')} checked={s.features.sidebarFolders} onChange={(v) => update((x) => void (x.features.sidebarFolders = v))} />
+        <Toggle label={t('settings_feature_tools')} checked={s.features.messageTools} onChange={(v) => update((x) => void (x.features.messageTools = v))} />
+        <Toggle label={t('settings_feature_highlights')} checked={s.features.highlights} onChange={(v) => update((x) => void (x.features.highlights = v))} />
+        <Toggle label={t('settings_feature_find')} checked={s.features.find} onChange={(v) => update((x) => void (x.features.find = v))} />
+        <Toggle label={t('settings_feature_blur')} checked={s.features.blur} onChange={(v) => update((x) => void (x.features.blur = v))} />
       </Section>
 
       <Section title={t('settings_meter')}>
