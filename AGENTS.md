@@ -32,9 +32,10 @@ sh scripts/install-hooks.sh
 
 It needs the private references next to this repo at `../TEMP/artifact` (or `ARTIFACT_REF_DIR`). It fails closed if they are missing. It:
 
-- hashes every 64-character window (whitespace removed) of the closed reference files and fails the push if any window appears in a blob being pushed. Open-source libraries bundled in those builds and license texts found in `node_modules` are excluded;
+- hashes every 64-character window (whitespace removed) of the closed reference files and fails the push if any window appears in a blob being pushed;
+- first subtracts open material that the closed builds also contain: every blob of the ACE import (git tag `ace-import`, pinned in `THIRD_PARTY_NOTICES.md`), the runtime dependencies in `node_modules`, and license texts. Run `pnpm install` before pushing so the dependency subtraction works. A remaining false positive (e.g. common CSS boilerplate) can be allowed by adding the SHA-256 of the normalized window to `scripts/leak-allow.json` under `windows` with a reason, after checking by hand that it is not closed code;
 - fails on the closed references' server hostnames in any non-Markdown file;
-- fails on AI Toolbox locale keys anywhere. If a key collides with a generic name we use legitimately, add it to `scripts/leak-allow.json` under `localeKeys` with a reason.
+- fails on AI Toolbox locale keys anywhere (keys ACE already uses are exempt). If a key collides with a generic name we use legitimately, add it to `scripts/leak-allow.json` under `localeKeys` with a reason.
 
 Other modes: `node scripts/leak-check.mjs --worktree` (current files) and `--all` (every blob in history). CI cannot see TEMP, so this check only runs in a session that has TEMP cloned. Never bypass it with `--no-verify`.
 

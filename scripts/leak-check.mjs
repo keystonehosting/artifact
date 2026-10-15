@@ -162,13 +162,18 @@ function subtract(text) {
 }
 const TEXT_EXT = /\.(m?js|cjs|ts|css|html?|json|svg|txt|md|map)$/i;
 let openFiles = 0;
+const openTokens = new Set(); // identifiers ACE already uses are not reference-only
 try {
   const tree = execFileSync('git', ['ls-tree', '-r', '-z', 'ace-import^{tree}'], { encoding: 'utf8', maxBuffer: 1 << 30 });
   for (const entry of tree.split('\0')) {
     const m = /^\d+ blob ([0-9a-f]+)\t(.*)$/.exec(entry);
     if (!m) continue;
     const buf = execFileSync('git', ['cat-file', 'blob', m[1]], { maxBuffer: 1 << 30 });
-    if (isText(buf)) { subtract(buf.toString('utf8')); openFiles++; }
+    if (!isText(buf)) continue;
+    const text = buf.toString('utf8');
+    subtract(text);
+    for (const t of text.match(/[A-Za-z0-9_$]{10,}/g) || []) openTokens.add(t);
+    openFiles++;
   }
 } catch {
   // No ace-import tag in this clone: nothing to subtract from ACE.
@@ -217,6 +222,7 @@ for (const p of [join(refDir, 'ai-toolbox', 'locales', 'en.json'), join(refDir, 
   if (existsSync(p)) flatten(JSON.parse(readFileSync(p, 'utf8')));
 }
 for (const k of Object.keys(allow.localeKeys || {})) localeKeys.delete(k);
+for (const k of [...localeKeys]) if (openTokens.has(k)) localeKeys.delete(k);
 // Finds locale keys by tokenizing identifiers (and dotted paths) instead of
 // one giant regex, which is far too slow on large fixture files.
 function findLocaleKeys(text) {
