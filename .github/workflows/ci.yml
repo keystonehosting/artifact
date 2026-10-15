@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'web/**'
+      - '**.md'
+  pull_request:
+    branches: [main]
+    paths-ignore:
+      - 'web/**'
+      - '**.md'
+  workflow_dispatch:
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 26
+          cache: 'npm'
+          cache-dependency-path: package.json
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          npm install decant-core@latest --no-save
+
+      - name: Run lint & formatting checks
+        run: |
+          npm run lint
+          npm run format:check
+
+      - name: Build extensions
+        run: |
+          npm run build
+          npm run build:firefox
+
+      - name: Run tests (including manifest version check)
+        run: npm test
+
+      - name: Validate Firefox extension package
+        run: npm run lint:ext
+
+      - name: Install Playwright browsers
+        run: npm run test:e2e:install
+
+      - name: Run E2E tests
+        run: npm run test:e2e
