@@ -15,9 +15,11 @@ import { hostAllowed } from '../core/net/hosts';
 import { LIBRARY_API, type LibraryApi } from '../core/library/api';
 import { db } from '../core/db/db';
 import type { Conversation } from '../core/schema/archive';
-import { loadSettings } from '../core/settings/settings';
+import { loadSettings, onSettingsChanged } from '../core/settings/settings';
 import { openPreview } from '../core/export/preview';
 import { optionsFromSettings } from '../core/export/options';
+import { syncTier2Scripts } from '../core/sites/permissions';
+import { onScheduleAlarm, onScheduleNotification, scheduleBackup } from '../core/backup/schedule';
 import { broadcast, getJob, notifyFinished, onFinishedClick, onPromptMenu, openWithFill, rebuildPromptMenu, takeFill } from '../core/crossai/hub';
 
 const MENU_EXPORT_MD = 'artifact-export-md';
@@ -103,7 +105,7 @@ async function onCommand(command: string): Promise<void> {
 }
 
 // Library calls that change nothing; every other call tells open views to refresh.
-const READ_ONLY = new Set<keyof LibraryApi>(['search', 'conversation', 'chat', 'chats', 'chatsById', 'stats', 'folderTree', 'chatsInFolder', 'breadcrumbs', 'foldersOfChat', 'tags', 'rules', 'labels', 'bookmarks', 'highlights', 'note', 'notes', 'reminders', 'favorites', 'kvGet', 'kvSet', 'prompts', 'prompt', 'promptOfTheDay', 'exportPrompts', 'chains', 'chain', 'promptFiles', 'promptFilesData', 'history', 'handoffs', 'draft', 'setDraft', 'addHistory']);
+const READ_ONLY = new Set<keyof LibraryApi>(['search', 'conversation', 'chat', 'chats', 'chatsById', 'stats', 'folderTree', 'chatsInFolder', 'breadcrumbs', 'foldersOfChat', 'tags', 'rules', 'labels', 'bookmarks', 'highlights', 'note', 'notes', 'reminders', 'favorites', 'kvGet', 'kvSet', 'prompts', 'prompt', 'promptOfTheDay', 'exportPrompts', 'chains', 'chain', 'promptFiles', 'promptFilesData', 'history', 'handoffs', 'draft', 'setDraft', 'addHistory', 'vaultArtifacts', 'vaultArtifact', 'vaultMedia', 'vaultSnippets']);
 let changeTimer: ReturnType<typeof setTimeout> | undefined;
 
 function notifyChanged(): void {
@@ -199,9 +201,17 @@ export default defineBackground(() => {
   void browser.alarms.create('artifact-reminders', { periodInMinutes: 1 });
   browser.alarms.onAlarm.addListener((a) => {
     if (a.name === 'artifact-reminders') void fireReminders();
+    else void onScheduleAlarm(a.name);
   });
+  void scheduleBackup();
+  void loadSettings().then((s) => syncTier2Scripts(s.sites)).catch(() => undefined);
+  onSettingsChanged((s) => {
+    void scheduleBackup(s);
+    void syncTier2Scripts(s.sites).catch(() => undefined);
+  });
+  browser.permissions.onRemoved.addListener(() => void loadSettings().then((s) => syncTier2Scripts(s.sites)).catch(() => undefined));
   browser.notifications?.onClicked.addListener((id) => {
-    if (onFinishedClick(id) || !id.startsWith('reminder:')) return;
+    if (onFinishedClick(id) || onScheduleNotification(id) || !id.startsWith('reminder:')) return;
     void db().chats.get(id.slice('reminder:'.length).split('|')[0]!).then((c) => {
       if (c?.url) void browser.tabs.create({ url: c.url });
     });

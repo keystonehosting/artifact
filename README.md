@@ -43,7 +43,10 @@ Shipped in the current release:
 - **Prompts:** a library with `{{variables}}` (choices, defaults, hidden values, files), `//` to insert, `..` chains that wait for each reply, a send queue, prompt history on the arrow keys, right-click prompts on any page, an enhancer, a profile for new chats, and 44 public-domain starter prompts. See `docs/prompts.md`.
 - **Chat experience:** wide and speed modes, a timeline rail, collapsible messages, right-to-left text, code and formula copy, auto-continue (off by default), draft autosave, and a branch map with a diff of regenerations.
 - **Cross-AI:** carry a chat forward to a new chat on any site, mention another chat with `@@`, and broadcast one prompt to several sites with a compare view. Text is pre-filled; sending automatically is opt-in.
-- **Side panel** with a dashboard, prompts, cross-AI, folders, search, library, export and settings.
+- **Your data, in bulk:** export everything, a site, a folder tree or a project as one ZIP with the real files; archive or delete many chats with a preview, typed confirmation and a log; auto-archive rules that ask first; Deep Import of the official ChatGPT, Claude and Gemini exports; scheduled backups to Downloads or a folder you choose; and restore.
+- **Vaults:** every artifact (with versions, previewed in a sandbox), every image and every code block across your chats.
+- **More sites** (Tier 2): Perplexity, DeepSeek, Le Chat, Kimi, Poe, Microsoft Copilot, GitHub Copilot and Google AI Mode, switched on one by one in Settings.
+- **Side panel** with a dashboard, prompts, cross-AI, folders, search, library, export, data and settings.
 - **Site health:** each site reports Healthy, Degraded or Broken with the reason. A site change shows up as Degraded instead of producing wrong data. **Self-test** produces a diagnostics report with no message text, cookies, tokens or keys.
 
 The full plan is in [`docs/SPEC.md`](docs/SPEC.md).

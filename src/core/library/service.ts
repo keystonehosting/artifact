@@ -300,3 +300,15 @@ export async function setFavorite(f: Omit<FavoriteRow, 'addedAt'>, on: boolean):
   if (on) await db().favorites.put({ ...f, addedAt: Date.now() });
   else await db().favorites.delete(f.id);
 }
+
+/** Removes chats from the library: stored copies, search documents, folder entries and annotations. */
+export async function removeChats(ids: string[]): Promise<void> {
+  const d = db();
+  for (const id of ids) await removeChatFromIndex(id);
+  await d.transaction('rw', [d.chats, d.conversations, d.folderItems, d.bookmarks, d.labels, d.highlights, d.notes, d.reminders], async () => {
+    await d.chats.bulkDelete(ids);
+    await d.conversations.bulkDelete(ids);
+    await d.notes.bulkDelete(ids);
+    for (const t of [d.folderItems, d.bookmarks, d.labels, d.highlights, d.reminders] as const) await t.where('chatId').anyOf(ids).delete();
+  });
+}

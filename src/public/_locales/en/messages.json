@@ -2194,5 +2194,688 @@
   },
   "settings_code_copy": {
     "message": "Copy button on code blocks"
+  },
+  "autoarchive_add": {
+    "message": "Add a rule"
+  },
+  "autoarchive_days": {
+    "message": "Untouched for at least"
+  },
+  "autoarchive_days_suffix": {
+    "message": "days"
+  },
+  "autoarchive_default_name": {
+    "message": "Archive chats untouched for 90 days"
+  },
+  "autoarchive_enabled": {
+    "message": "Check daily and notify me"
+  },
+  "autoarchive_except_folders": {
+    "message": "Except chats in folders"
+  },
+  "autoarchive_except_pinned": {
+    "message": "Except pinned chats"
+  },
+  "autoarchive_hint": {
+    "message": "Rules never archive on their own. Once a day Artifact counts the chats that match and notifies you; you review the list and start it. Archiving is available on: $SITES$.",
+    "placeholders": {
+      "sites": {
+        "content": "$1"
+      }
+    }
+  },
+  "autoarchive_matches": {
+    "message": "$N$ chats match now.",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "autoarchive_note_message": {
+    "message": "$N$ chats match your auto-archive rules. Click to review.",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "autoarchive_note_title": {
+    "message": "Chats ready to archive"
+  },
+  "autoarchive_review": {
+    "message": "Review $N$ chats",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "autoarchive_title": {
+    "message": "Auto-archive rules"
+  },
+  "backup_choose_folder": {
+    "message": "Choose folder"
+  },
+  "backup_daily": {
+    "message": "Daily"
+  },
+  "backup_denied": {
+    "message": "Permission to write to the folder was not given."
+  },
+  "backup_done": {
+    "message": "Backed up $N$ chats.",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "backup_due_message": {
+    "message": "Click to write new and changed chats to your backup folder."
+  },
+  "backup_due_title": {
+    "message": "Backup due"
+  },
+  "backup_enabled": {
+    "message": "Back up automatically"
+  },
+  "backup_every": {
+    "message": "How often"
+  },
+  "backup_everything": {
+    "message": "Save everything"
+  },
+  "backup_everything_hint": {
+    "message": "One Artifact archive with every stored chat, your folders, tags, notes, prompts and settings. Restore it with Deep Import on another computer."
+  },
+  "backup_everything_title": {
+    "message": "Everything in one file"
+  },
+  "backup_folder_is": {
+    "message": "Folder: $NAME$",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      }
+    }
+  },
+  "backup_folder_note": {
+    "message": "The browser may ask again before writing; a scheduled backup to a folder shows a notification you click."
+  },
+  "backup_hint": {
+    "message": "Writes each new or changed chat as Markdown and as an Artifact archive, plus your library. A folder synced by Google Drive, OneDrive or Dropbox doubles as sync."
+  },
+  "backup_hourly": {
+    "message": "Hourly"
+  },
+  "backup_last": {
+    "message": "Last backup: $WHEN$",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      }
+    }
+  },
+  "backup_never": {
+    "message": "No backup yet."
+  },
+  "backup_no_folder": {
+    "message": "No folder chosen yet."
+  },
+  "backup_now": {
+    "message": "Back up now"
+  },
+  "backup_target": {
+    "message": "Save to"
+  },
+  "backup_target_downloads": {
+    "message": "Downloads / Artifact Backup"
+  },
+  "backup_target_folder": {
+    "message": "A folder I choose"
+  },
+  "backup_title": {
+    "message": "Backups"
+  },
+  "backup_weekly": {
+    "message": "Weekly"
+  },
+  "data_action": {
+    "message": "Action"
+  },
+  "data_action_archive": {
+    "message": "Archive"
+  },
+  "data_action_delete": {
+    "message": "Delete on the site"
+  },
+  "data_action_title_archive": {
+    "message": "Archive $N$ chats",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "data_action_title_delete": {
+    "message": "Delete $N$ chats",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "data_action_title_unarchive": {
+    "message": "Unarchive $N$ chats",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "data_action_unarchive": {
+    "message": "Unarchive"
+  },
+  "data_actions": {
+    "message": "Archive or delete many chats"
+  },
+  "data_actions_hint": {
+    "message": "Opens a page with the full list first. Above 10 chats you type a confirmation. It runs one chat at a time, can pause or stop, and keeps a log you can download."
+  },
+  "data_export": {
+    "message": "Export many chats"
+  },
+  "data_export_go": {
+    "message": "Export"
+  },
+  "data_export_hint": {
+    "message": "One ZIP, with files and artifacts for each chat. Stored copies are used when up to date; others are read from the site in a background tab."
+  },
+  "data_export_title": {
+    "message": "Export of $N$ chats",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "data_format_txt": {
+    "message": "Plain text"
+  },
+  "data_include_json": {
+    "message": "Also save JSON for each chat"
+  },
+  "data_include_json_hint": {
+    "message": "Lets Deep Import restore these chats later."
+  },
+  "data_layout": {
+    "message": "Arrange by"
+  },
+  "data_more": {
+    "message": "Import, backups and rules"
+  },
+  "data_none": {
+    "message": "No stored chats in that selection."
+  },
+  "data_open_autoarchive": {
+    "message": "Auto-archive rules"
+  },
+  "data_open_backup": {
+    "message": "Backups"
+  },
+  "data_open_import": {
+    "message": "Deep Import and restore"
+  },
+  "data_pdf_note": {
+    "message": "PDF and PNG are made one chat at a time from the Export tab; for many chats, HTML prints to PDF from any browser."
+  },
+  "data_remove_library": {
+    "message": "Also remove Artifact's copy"
+  },
+  "data_review": {
+    "message": "Review…"
+  },
+  "data_scope": {
+    "message": "Which chats"
+  },
+  "data_scope_all": {
+    "message": "All stored chats"
+  },
+  "data_scope_folder": {
+    "message": "A folder and its subfolders"
+  },
+  "data_scope_project": {
+    "message": "A project"
+  },
+  "data_scope_site": {
+    "message": "One site"
+  },
+  "folder_export": {
+    "message": "Export folder"
+  },
+  "import_chats": {
+    "message": "chats"
+  },
+  "import_choose": {
+    "message": "Choose a .zip or .json"
+  },
+  "import_deep_hint": {
+    "message": "Reads the official export from ChatGPT (conversations.json), Claude (conversations.json) or Google Takeout (My Activity › Gemini Apps, as JSON), and Artifact archives and backups. Nothing is written until you confirm."
+  },
+  "import_done_count": {
+    "message": "Imported $N$ chats.",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "import_folder_name": {
+    "message": "Imported from $SITE$ ($DATE$)",
+    "placeholders": {
+      "site": {
+        "content": "$1"
+      },
+      "date": {
+        "content": "$2"
+      }
+    }
+  },
+  "import_found_in": {
+    "message": "Found in"
+  },
+  "import_gemini_note": {
+    "message": "Google Takeout keeps Gemini activity as separate prompts, not whole chats, so each one is imported as a single exchange. Replies are included when the file has them."
+  },
+  "import_go_count": {
+    "message": "Import $N$ chats",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "import_kind": {
+    "message": "Source"
+  },
+  "import_kind_artifact": {
+    "message": "Artifact archive"
+  },
+  "import_skipped": {
+    "message": "Skipped"
+  },
+  "import_title_deep": {
+    "message": "Deep Import and restore"
+  },
+  "import_to_folder": {
+    "message": "Put imported chats in a new folder"
+  },
+  "import_with_library": {
+    "message": "Restore folders, tags, notes, prompts and settings too"
+  },
+  "import_with_library_hint": {
+    "message": "Items with the same id are replaced."
+  },
+  "settings_sites_tier2": {
+    "message": "More sites"
+  },
+  "settings_sites_tier2_hint": {
+    "message": "Export, copy, prompt insertion, search and bookmarks from the page itself. The browser asks for access to each site when you switch it on."
+  },
+  "tab_data": {
+    "message": "Data"
+  },
+  "tasks_action_done": {
+    "message": "Done: $OK$, failed $FAILED$, skipped $SKIPPED$.",
+    "placeholders": {
+      "ok": {
+        "content": "$1"
+      },
+      "failed": {
+        "content": "$2"
+      },
+      "skipped": {
+        "content": "$3"
+      }
+    }
+  },
+  "tasks_action_go_archive": {
+    "message": "Archive $N$ chats",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "tasks_action_go_delete": {
+    "message": "Delete $N$ chats",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "tasks_action_go_unarchive": {
+    "message": "Unarchive $N$ chats",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "tasks_action_stopped": {
+    "message": "Stopped. Done: $OK$, failed $FAILED$, skipped $SKIPPED$.",
+    "placeholders": {
+      "ok": {
+        "content": "$1"
+      },
+      "failed": {
+        "content": "$2"
+      },
+      "skipped": {
+        "content": "$3"
+      }
+    }
+  },
+  "tasks_action_unsupported": {
+    "message": "$N$ of these are on sites where this isn't available and will be skipped. Available on: $SITES$.",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      },
+      "sites": {
+        "content": "$2"
+      }
+    }
+  },
+  "tasks_action_warning_archive": {
+    "message": "This archives $N$ chats on the site itself.",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "tasks_action_warning_delete": {
+    "message": "This deletes $N$ chats on the site itself. It can't be undone there.",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "tasks_action_warning_unarchive": {
+    "message": "This unarchives $N$ chats on the site itself.",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "tasks_delete_library_keep": {
+    "message": "Artifact keeps its stored copy of each deleted chat."
+  },
+  "tasks_delete_library_remove": {
+    "message": "Artifact's stored copy is removed too."
+  },
+  "tasks_export_done": {
+    "message": "Exported $OK$ chats; $FAILED$ failed.",
+    "placeholders": {
+      "ok": {
+        "content": "$1"
+      },
+      "failed": {
+        "content": "$2"
+      }
+    }
+  },
+  "tasks_export_hint": {
+    "message": "Keep this page open while it runs. Stopping keeps everything finished so far, with a report of what's missing."
+  },
+  "tasks_export_projects": {
+    "message": "With project files: $NAMES$",
+    "placeholders": {
+      "names": {
+        "content": "$1"
+      }
+    }
+  },
+  "tasks_export_stopped": {
+    "message": "Stopped after $OK$ of $TOTAL$ chats. The ZIP has everything finished so far.",
+    "placeholders": {
+      "ok": {
+        "content": "$1"
+      },
+      "total": {
+        "content": "$2"
+      }
+    }
+  },
+  "tasks_export_summary": {
+    "message": "$N$ chats as $FORMAT$, arranged by $LAYOUT$.",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      },
+      "format": {
+        "content": "$2"
+      },
+      "layout": {
+        "content": "$3"
+      }
+    }
+  },
+  "tasks_layout_flat": {
+    "message": "nothing (one folder per chat)"
+  },
+  "tasks_layout_folders": {
+    "message": "your folders"
+  },
+  "tasks_layout_sites": {
+    "message": "site"
+  },
+  "tasks_log": {
+    "message": "Log ($N$)",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "tasks_log_csv": {
+    "message": "Download CSV"
+  },
+  "tasks_log_detail": {
+    "message": "Detail"
+  },
+  "tasks_log_json": {
+    "message": "Download JSON"
+  },
+  "tasks_log_result": {
+    "message": "Result"
+  },
+  "tasks_log_time": {
+    "message": "Time"
+  },
+  "tasks_missing": {
+    "message": "This job has expired. Start it again from the side panel."
+  },
+  "tasks_preview": {
+    "message": "Chats ($N$)",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "tasks_result_failed": {
+    "message": "Failed"
+  },
+  "tasks_result_ok": {
+    "message": "Done"
+  },
+  "tasks_result_partial": {
+    "message": "Done, files missing"
+  },
+  "tasks_result_skipped": {
+    "message": "Skipped"
+  },
+  "tasks_save_as": {
+    "message": "Save as…"
+  },
+  "tasks_save_downloads": {
+    "message": "Save to Downloads"
+  },
+  "tasks_stop_keep": {
+    "message": "Stop"
+  },
+  "tasks_title": {
+    "message": "Artifact tasks"
+  },
+  "tasks_type_to_confirm": {
+    "message": "Type “$PHRASE$” to confirm",
+    "placeholders": {
+      "phrase": {
+        "content": "$1"
+      }
+    }
+  },
+  "vault_all_languages": {
+    "message": "All languages"
+  },
+  "vault_all_sites": {
+    "message": "All sites"
+  },
+  "vault_artifacts": {
+    "message": "Artifacts"
+  },
+  "vault_artifacts_count": {
+    "message": "Artifacts ($N$)",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "vault_artifacts_empty": {
+    "message": "No artifacts or canvases in stored chats yet."
+  },
+  "vault_download": {
+    "message": "Download"
+  },
+  "vault_download_all": {
+    "message": "All versions (ZIP)"
+  },
+  "vault_download_selected": {
+    "message": "Download $N$",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "vault_hint": {
+    "message": "Every artifact, image and code block across your stored chats."
+  },
+  "vault_images": {
+    "message": "images"
+  },
+  "vault_kind": {
+    "message": "Kind"
+  },
+  "vault_kind_all": {
+    "message": "Generated and uploaded"
+  },
+  "vault_kind_generated": {
+    "message": "Generated"
+  },
+  "vault_kind_upload": {
+    "message": "Uploaded"
+  },
+  "vault_language": {
+    "message": "Language"
+  },
+  "vault_load_previews": {
+    "message": "Load previews"
+  },
+  "vault_media": {
+    "message": "Images"
+  },
+  "vault_media_count": {
+    "message": "Images ($N$)",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "vault_media_empty": {
+    "message": "No images in stored chats yet."
+  },
+  "vault_media_failed": {
+    "message": "$N$ images couldn't be loaded from their sites.",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "vault_media_hint": {
+    "message": "Images are loaded from each site with your session, so the site must be signed in. Previews load for up to 60 at a time."
+  },
+  "vault_mermaid_firefox": {
+    "message": "Firefox can't run the sandboxed renderer, so the diagram source is shown."
+  },
+  "vault_open_chat": {
+    "message": "Open chat"
+  },
+  "vault_preview": {
+    "message": "Artifact preview"
+  },
+  "vault_render": {
+    "message": "Render diagram"
+  },
+  "vault_snippet_search": {
+    "message": "Search code"
+  },
+  "vault_snippets": {
+    "message": "Code snippets"
+  },
+  "vault_snippets_count": {
+    "message": "Code snippets ($N$)",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "vault_snippets_empty": {
+    "message": "No code blocks in stored chats yet."
+  },
+  "vault_title": {
+    "message": "Vaults"
+  },
+  "vault_version": {
+    "message": "Version"
+  },
+  "vault_version_n": {
+    "message": "Version $N$ $DATE$",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      },
+      "date": {
+        "content": "$2"
+      }
+    }
+  },
+  "vault_versions": {
+    "message": "$N$ versions",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
   }
 }

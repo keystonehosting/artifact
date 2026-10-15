@@ -9,7 +9,7 @@ Why Artifact asks for each permission. Written so it can be pasted into store li
 | Host access to `chatgpt.com`, `chat.openai.com`, `claude.ai`, `gemini.google.com`, `aistudio.google.com`, `grok.com` | Runs Artifact's tools on these AI chat sites and reads your conversations with your existing session, so they can be exported, searched and organized. |
 | Host access to `*.oaiusercontent.com`, `*.googleusercontent.com`, `assets.grok.com` | These hosts serve the files you uploaded and the images the sites generated. Artifact downloads them so exports contain the real files. |
 | `storage`, `unlimitedStorage` | Keeps your settings, and your local library (folders, tags, bookmarks, the search index), on your device. Long chat histories exceed the default quota. |
-| `downloads` | Saves exports (Markdown, JSON, ZIP...) to your Downloads folder. |
+| `downloads` | Saves exports (Markdown, JSON, ZIP...) to your Downloads folder, and scheduled backups to Downloads/Artifact Backup when you turn them on. |
 | `contextMenus` | Adds Artifact actions to the right-click menu on supported sites. |
 | `alarms` | Schedules background work you turn on: auto-backup, indexing during idle time, and reminders. |
 | `scripting` | Runs Artifact on a Tier 2 site after you turn that site on and grant access to it. |

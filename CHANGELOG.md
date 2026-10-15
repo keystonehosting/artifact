@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.5.0] - Export, backup, lifecycle and Tier 2
+
+- **Bulk export** of all chats, one site, a folder with its subfolders, a project (with its instructions, knowledge and memory) or a selection, as one ZIP that mirrors your folders, with real files and artifacts for each chat and JSON for restore. It streams to a file you pick where the browser allows, paces and retries each chat, can pause or stop, keeps what was finished when stopped, and adds a report of anything missing.
+- **Bulk archive, unarchive and delete** with the full list first, typed confirmation above 10 chats, one chat at a time, pause and stop, and a log you can download.
+- **Auto-archive rules** that count matching chats daily and notify you; nothing is archived until you review the list.
+- **Deep Import** of the official ChatGPT and Claude exports and Google Takeout (Gemini Apps activity), and **restore** of Artifact archives with your folders, tags, notes, prompts and settings.
+- **Backups** of new and changed chats (Markdown and JSON) and your library, on a schedule, to Downloads or a folder you choose; and "everything in one file".
+- **Vaults:** every artifact and canvas with all versions, previewed in a sandbox (Mermaid diagrams included) and downloadable as real files; every image across sites, loaded with your session and downloadable in bulk; every code block, searchable by language.
+- **Tier 2 sites:** Perplexity, DeepSeek, Le Chat, Kimi, Poe, Microsoft Copilot, GitHub Copilot and Google AI Mode, switched on in Settings, with export, copy, prompt insertion, search indexing, folders and bookmarks where their pages can be read.
+- New **Data** tab, and export, archive and delete from the Folders tab.
+
 ## [0.4.0] - Prompts, chat experience and cross-AI
 
 - **Prompt library** with `{{variables}}`: text with defaults and hints, single and multiple choice with an "Other" box, hidden and fixed values, file slots, date, time and selection (`docs/prompts.md`). Categories, favorites, pins, use counts, prompt of the day from your own library, import and export, and files attached to a prompt every time it is used.

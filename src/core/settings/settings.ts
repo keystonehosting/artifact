@@ -148,6 +148,12 @@ export const SettingsSchema = z.object({
     budget: z.number().int().min(300).max(50_000).catch(3000),
     autoSend: z.boolean().catch(false),
   }),
+  backup: group({
+    enabled: z.boolean().catch(false),
+    every: z.enum(['hourly', 'daily', 'weekly']).catch('daily'),
+    /** Downloads/Artifact Backup works everywhere; a chosen folder needs the File System Access API. */
+    target: z.enum(['downloads', 'folder']).catch('downloads'),
+  }),
   broadcast: group({
     sites: z.array(z.enum(TIER1_SITES)).catch(['chatgpt', 'claude', 'gemini']),
     autoSend: z.boolean().catch(false),

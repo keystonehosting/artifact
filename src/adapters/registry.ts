@@ -16,6 +16,15 @@ export async function createAdapter(site: SiteId, ctx: SiteContext = defaultCont
       return new (await import('./aistudio')).AIStudioAdapter(ctx);
     case 'grok':
       return new (await import('./grok')).GrokAdapter(ctx);
+    case 'perplexity':
+    case 'deepseek':
+    case 'mistral':
+    case 'kimi':
+    case 'poe':
+    case 'copilot':
+    case 'ghcopilot':
+    case 'aimode':
+      return new (await import('./tier2')).Tier2Adapter(site, ctx);
     default:
       return null;
   }

@@ -11,9 +11,10 @@ import { SearchPanel } from './SearchPanel';
 import { LibraryPanel } from './LibraryPanel';
 import { PromptsPanel } from './PromptsPanel';
 import { CrossAiPanel } from './CrossAiPanel';
+import { DataPanel } from './DataPanel';
 import { t } from '../../core/i18n/t';
 
-type Tab = 'dashboard' | 'prompts' | 'crossai' | 'folders' | 'search' | 'library' | 'export' | 'settings';
+type Tab = 'dashboard' | 'prompts' | 'crossai' | 'folders' | 'search' | 'library' | 'export' | 'data' | 'settings';
 
 export function SidePanel() {
   const [settings, update] = useSettings();
@@ -32,6 +33,7 @@ export function SidePanel() {
           ['search', t('tab_search')],
           ['library', t('tab_library')],
           ['export', t('tab_export')],
+          ['data', t('tab_data')],
           ['settings', t('tab_settings')],
         ]}
         value={view}
@@ -44,6 +46,7 @@ export function SidePanel() {
       {view === 'search' && <SearchPanel tab={tab} />}
       {view === 'library' && <LibraryPanel />}
       {view === 'export' && <ExportPanel tab={tab} settings={settings} update={update} />}
+      {view === 'data' && <DataPanel />}
       {view === 'settings' && <SettingsPanel settings={settings} update={update} />}
     </div>
   );

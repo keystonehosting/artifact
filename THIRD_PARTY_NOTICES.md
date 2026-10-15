@@ -32,6 +32,8 @@ ACE's site parsers live in the separate package `decant-core`, which is licensed
 | fflate | MIT |
 | katex | MIT |
 | html2canvas-pro | MIT |
+| marked | MIT |
+| mermaid (sandboxed preview page only) | MIT |
 
 License texts ship inside each package in `node_modules` and are reproduced in the release `sources` zip.
 

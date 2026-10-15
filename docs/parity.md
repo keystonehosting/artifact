@@ -31,9 +31,9 @@ Status values:
 | G-search | 43 | History search modal | Search tab and palette | built (v0.3.0); palette entry planned (M6) |
 | G-find | 11 | Find in this chat | Find-in-chat bar | built (v0.3.0) |
 | G-findings | 7 | Export matching parts only | Findings export | built (v0.3.0) |
-| G-deep-import | 17 | Find chats missing from history | Deep scan (M2), Deep Import of official exports (M4) | built (v0.3.0) deep scan; Deep Import planned (M4) |
+| G-deep-import | 17 | Find chats missing from history | Deep scan (M2), Deep Import of official exports (M4) | built (v0.3.0, v0.5.0) |
 | G-sync | 22 | Background history sync status | Deep scan status | built (v0.3.0) |
-| G-data | 35 | Data, cache, backup and restore | Data settings, backup, restore | planned (M4) |
+| G-data | 35 | Data, cache, backup and restore | Data settings, backup, restore | built (v0.5.0) |
 | G-xfolders | 32 | Folders on all platforms, import site folders | Cross-site folders, import projects/Gems | built (v0.3.0) |
 | G-sbf | 12 | Detachable sidebar panels | Detachable floating panels | planned (M6) |
 | G-sidebar-folders | 10 | Folder tree in the site sidebar | Sidebar folder tree | built (v0.3.0) |
@@ -48,14 +48,14 @@ Status values:
 | G-chains | 39 | Prompt chains | Chains | built (v0.4.0) |
 | G-prompt-library | 36 | Bundled prompt catalogue | Starter pack from CC0/public-domain sources | built (v0.4.0) |
 | G-prompts | 95 | Saved prompts | Prompt library | built (v0.4.0) |
-| G-export | 57 | Single and bulk export | Single-chat export in every format with real files (v0.2.0); folder, project and bulk export (M4) | built (v0.2.0), rest planned (M4) |
-| G-bulk | 50 | Manage chats in bulk | Bulk actions with guardrails | planned (M4) |
-| G-artifacts | 37 | Artifact vault | Artifact Vault | planned (M4) |
-| G-media | 38 | Media gallery | Media Gallery | planned (M4) |
+| G-export | 57 | Single and bulk export | Single-chat export in every format with real files (v0.2.0); folder, project and bulk export (M4) | built (v0.2.0, v0.5.0) |
+| G-bulk | 50 | Manage chats in bulk | Bulk actions with guardrails | built (v0.5.0) |
+| G-artifacts | 37 | Artifact vault | Artifact Vault | built (v0.5.0) |
+| G-media | 38 | Media gallery | Media Gallery | built (v0.5.0) |
 | G-voice | 24 | Read-aloud audio download | Read-aloud audio export | planned (M5) |
 | G-stats | 115 | Usage dashboard and recap | Stats and recap | planned (M6) |
 | G-achievements | 68 | Streaks and badges | Streaks and milestone badges | planned (M6) |
-| G-chat-exp | 44 | Collapse, RTL, sounds, counters | Chat experience module | built (v0.4.0); Mermaid rendering planned (M4) |
+| G-chat-exp | 44 | Collapse, RTL, sounds, counters | Chat experience module | built (v0.4.0, v0.5.0) |
 | G-theme | 20 | Accent, font size, chat width | Theme setting (v0.2.0), wide mode (M3), customization (M6) | built (v0.2.0, v0.4.0); customization planned (M6) |
 | G-palette | 38 | Command palette and launcher | Command palette | planned (M6) |
 | G-hotkeys | 16 | Hotkeys | Browser commands (v0.2.0), customizable slots (M6) | built (v0.2.0), rest planned (M6) |
@@ -63,4 +63,4 @@ Status values:
 | G-settings | 24 | Settings shell, language | Settings page and side-panel tab | built (v0.2.0); language list planned (M6) |
 | G-common | 31 | Shared buttons and states | Shared controls | built (v0.2.0) |
 
-**Totals:** 1,965 strings in 53 groups. Recorded skips: 497 strings in 10 groups. Built or partly built: 33 groups (987 strings). Planned: the rest.
+**Totals:** 1,965 strings in 53 groups. Recorded skips: 497 strings in 10 groups. Built or partly built: 37 groups (1,147 strings). Planned: the rest.

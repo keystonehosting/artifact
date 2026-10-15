@@ -121,3 +121,26 @@ Facts the folder tree, deep scan and project import rely on. All are unconfirmed
 | Continue button | visible button labelled "Continue" or "Continue generating" | common page wording | unconfirmed live |
 | Session expiry | a same-origin response with status 401 to the page's own request | HTTP semantics | unconfirmed live |
 | KaTeX source | `.katex annotation[encoding="application/x-tex"]` | KaTeX's MathML output | unconfirmed live per site |
+
+## Official data exports (Deep Import, v0.5.0)
+
+| Fact | Value | Source | Status |
+|---|---|---|---|
+| ChatGPT export | `conversations.json`: an array of conversations with `title`, `create_time`, `mapping` (node tree), `current_node`, `conversation_id` | OpenAI community forum and third-party guides; no official schema | unconfirmed live |
+| Claude export | `conversations.json`: an array with `uuid`, `name`, `chat_messages[]` (`sender` human/assistant, `text`, `created_at`) | third-party guides; no official schema | unconfirmed live |
+| Gemini (Takeout) | My Activity › Gemini Apps › `MyActivity.json` (JSON when chosen under "Multiple formats"); records with `header`, `title`, `time`, `subtitles`, `attachedFiles` | Google data-portability My Activity schema reference (fields); third-party guides (path) | fields documented; Gemini specifics unconfirmed live |
+
+## Tier 2 page selectors (v0.5.0)
+
+All from `docs/dossier/my-prompt/README.md`; none confirmed live. Message text selectors are inside each message element.
+
+| Site | User message / text | Assistant message / text | Composer | Send |
+|---|---|---|---|---|
+| Perplexity | `div.group\/user-bubble` / `div.bg-subtle span.whitespace-pre-line` | `div[data-workflow-final-text]` / `div.prose[data-renderer="lm"]` | `#ask-input` | `button.bg-button-bg` |
+| DeepSeek | `.ds-message:not(:has(.ds-markdown)) > div:first-child` | `.ds-message:has(.ds-markdown)` / `.ds-markdown` | `textarea.ds-scroll-area` | Enter |
+| Le Chat | `div[data-message-author-role="user"] .rounded-3xl` / `.select-text span` | `div:has(>[data-testid="text-message-part"])` / `[data-testid="text-message-part"]` | `div.ProseMirror[contenteditable="true"]` | Enter |
+| Kimi | `.chat-content-item-user .segment-content` / `.user-content` | `.segment-assistant .segment-content-box` / `.markdown` | `div.chat-input-editor[contenteditable="true"]` | Enter |
+| Poe | `.Message_rightSideMessageBubble__ioa_i` / `.Message_selectableText__SQ8WH` | `.Message_leftSideMessageBubble__VPdk6` / same | `textarea[class*="GrowingTextArea_textArea"]` | `button[data-button-send="true"]` |
+| Microsoft Copilot | `div:has(> div[data-content="user-message"])` / `div[data-content="user-message"]` | `div[data-testid="ai-message"]` / `div[id*="-content-"]` | `#userInput`, `textarea[data-testid="composer-input"]` | `button[data-testid="submit-button"]` |
+| GitHub Copilot | none known (D25) | none known | generic contenteditable or textarea | Enter |
+| Google AI Mode | none known (D25) | none known | `textarea.ITIRGe` | `button[data-xid="input-plate-send-button"]` |

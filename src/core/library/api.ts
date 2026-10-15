@@ -5,6 +5,8 @@ import { db, type ChatRow, type FolderRow, type NoteRow } from '../db/db';
 import * as folders from './folders';
 import * as svc from './service';
 import * as prompts from '../prompts/service';
+import { importLibrary } from '../backup/backup';
+import * as vaults from './vaults';
 
 async function chat(chatId: string) {
   const d = db();
@@ -92,6 +94,7 @@ export const LIBRARY_API = {
   chat,
   chats,
   chatsById: async (ids: string[]) => (await db().chats.bulkGet([...new Set(ids)])).filter((c): c is ChatRow => !!c),
+  removeChats: svc.removeChats,
   updateChat: async (chatId: string, patch: Partial<Pick<ChatRow, 'pinned' | 'archived' | 'title'>>) => void (await db().chats.update(chatId, patch)),
   stats,
   // folders
@@ -166,6 +169,11 @@ export const LIBRARY_API = {
   handoffs: async () => db().handoffs.orderBy('at').reverse().toArray(),
   setDraft: prompts.setDraft,
   draft: async (key: string) => (await db().drafts.get(key)) ?? null,
+  importLibrary,
+  vaultArtifacts: vaults.vaultArtifacts,
+  vaultArtifact: vaults.vaultArtifact,
+  vaultMedia: vaults.vaultMedia,
+  vaultSnippets: vaults.vaultSnippets,
   kvGet: async (key: string) => (await db().kv.get(key))?.value ?? null,
   kvSet: async (key: string, value: unknown) => void (await db().kv.put({ key, value })),
 };

@@ -81,7 +81,24 @@ export function artifactFiles(a: Artifact, taken: Set<string>): Array<{ path: st
   return out;
 }
 
-export async function buildBundle(i: BundleInput): Promise<BundleOutput> {
+/** One chat's export as named entries: the main file, its files and artifacts, and a list of what couldn't be fetched. */
+export interface BundleEntries {
+  /** Base name from the filename pattern, already safe for a path. */
+  root: string;
+  ext: string;
+  mimeType: string;
+  main: Uint8Array;
+  /** Paths relative to the chat's folder (files/, artifacts/, project/). */
+  files: Record<string, Uint8Array>;
+  failures: Array<{ name: string; reason: string }>;
+  /** Links in the main file point at paths inside a ZIP (otherwise images are inlined). */
+  zipped: boolean;
+  /** Name for a lone file when nothing else needs saving. */
+  filename: string;
+}
+
+/** Builds one chat's export. `zip` forces ZIP-style links; by default a chat with files is zipped. */
+export async function bundleEntries(i: BundleInput & { zip?: boolean }): Promise<BundleEntries> {
   const now = i.now ?? new Date();
   const doc = buildDocument(i.conv, i.options);
   const site = SITES[i.conv.site].name;
@@ -139,7 +156,7 @@ export async function buildBundle(i: BundleInput): Promise<BundleOutput> {
     for (const k of p.knowledge) if (k.content !== undefined) files[uniqueName(`project/knowledge/${sanitizeFilenamePart(k.name, 'file')}`, taken)] = strToU8(k.content);
   }
 
-  const zip = i.forceZip || Object.keys(files).length > 0;
+  const zip = i.zip ?? (!!i.forceZip || Object.keys(files).length > 0);
   const linkFiles = {
     attachmentPath: (id: string) => attPath.get(id) ?? null,
     artifactPath: (id: string) => artPath.get(id) ?? null,
@@ -176,16 +193,21 @@ export async function buildBundle(i: BundleInput): Promise<BundleOutput> {
       break;
   }
 
-  if (!zip) return { filename: `${base}.${ext}`, mimeType: mime, bytes: main, failures, fileCount: 1 };
+  return { root: sanitizeFilenamePart(base, 'export'), ext, mimeType: mime, main, files, failures, zipped: zip, filename: `${base}.${ext}` };
+}
 
-  const root = sanitizeFilenamePart(base, 'export');
-  const entries: Record<string, Uint8Array> = { [`${root}/${root}.${ext}`]: main };
+/** The text of MISSING_FILES.txt for files that couldn't be downloaded. */
+export function missingFilesText(failures: Array<{ name: string; reason: string }>): string {
+  return `These files could not be downloaded:\n\n${failures.map((f) => `- ${f.name}: ${f.reason}`).join('\n')}\n`;
+}
+
+export async function buildBundle(i: BundleInput): Promise<BundleOutput> {
+  const b = await bundleEntries(i);
+  if (!b.zipped) return { filename: b.filename, mimeType: b.mimeType, bytes: b.main, failures: b.failures, fileCount: 1 };
+  const root = b.root;
+  const entries: Record<string, Uint8Array> = { [`${root}/${root}.${b.ext}`]: b.main };
   if (i.includeJson && i.format !== 'json') entries[`${root}/${root}.json`] = strToU8(toJson(buildArchive([i.conv], i.version)));
-  for (const [p, b] of Object.entries(files)) entries[`${root}/${p}`] = b;
-  if (failures.length) {
-    entries[`${root}/MISSING_FILES.txt`] = strToU8(
-      `These files could not be downloaded:\n\n${failures.map((f) => `- ${f.name}: ${f.reason}`).join('\n')}\n`,
-    );
-  }
-  return { filename: `${root}.zip`, mimeType: 'application/zip', bytes: zipSync(entries, { level: 6 }), failures, fileCount: Object.keys(entries).length };
+  for (const [p, bytes] of Object.entries(b.files)) entries[`${root}/${p}`] = bytes;
+  if (b.failures.length) entries[`${root}/MISSING_FILES.txt`] = strToU8(missingFilesText(b.failures));
+  return { filename: `${root}.zip`, mimeType: 'application/zip', bytes: zipSync(entries, { level: 6 }), failures: b.failures, fileCount: Object.keys(entries).length };
 }

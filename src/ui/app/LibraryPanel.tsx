@@ -1,6 +1,7 @@
 // Library tab (SPEC §6B): bookmarks, highlights, message labels, chat notes,
 // reminders and Smart Tags from every site in one place.
 import { useState } from 'preact/hooks';
+import { browser } from 'wxt/browser';
 import type { ChatRow, TagRuleRow } from '../../core/db/db';
 import { lib } from '../../core/library/client';
 import { COLORS, COLOR_VALUES, type ColorName } from '../colors';
@@ -88,6 +89,14 @@ export function LibraryPanel() {
       {view === 'notes' && <Notes />}
       {view === 'reminders' && <Reminders />}
       {view === 'tags' && <Tags />}
+      <Section title={t('vault_title')}>
+        <p class="hint muted">{t('vault_hint')}</p>
+        <div class="row">
+          {(['artifacts', 'media', 'snippets'] as const).map((v) => (
+            <button onClick={() => void browser.tabs.create({ url: browser.runtime.getURL(`/vault.html?view=${v}`) })}>{t(`vault_${v}`)}</button>
+          ))}
+        </div>
+      </Section>
     </div>
   );
 }

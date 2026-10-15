@@ -15,6 +15,7 @@ import { Icon } from '../icons';
 import { ConfirmButton, InlineEdit, Section, Select } from '../components';
 import { useResolvedDark } from './theme';
 import { fmtDate, openChat, useLib } from './library';
+import { startJob } from '../tasks/start';
 import { t } from '../../core/i18n/t';
 import { SITES } from '../../core/sites/sites';
 
@@ -149,6 +150,7 @@ function FolderHeader({ folder, onDeleted, run }: { folder: FolderNode; onDelete
         <button aria-pressed={!!folder.starred} onClick={() => void run(lib('updateFolder', folder.id, { starred: folder.starred ? 0 : 1 }))}>
           <Icon name="star" size={12} /> {folder.starred ? t('folder_unstar') : t('folder_star')}
         </button>
+        <button onClick={() => void run(lib('chatsInFolder', folder.id, true).then((rows) => startJob({ kind: 'export', title: folder.name, chatIds: rows.map((r) => r.id), format: 'md', layout: 'folders', includeJson: true, projects: [] })))}>{t('folder_export')}</button>
         <ConfirmButton label={t('common_delete')} confirmLabel={t('folder_delete_confirm', folder.name)} onConfirm={() => void run(lib('deleteFolder', folder.id)).then(onDeleted)} />
       </div>
       <div class="row" role="radiogroup" aria-label={t('folder_color')}>
@@ -225,6 +227,9 @@ function ChatList({ view, folders, run }: { view: View; folders: FolderNode[]; r
             <button onClick={() => void run(lib('removeFromFolder', view.id, ids)).then(() => setSelected(new Set()))}>{t('folders_remove_from')}</button>
           ) : null}
           <button onClick={() => void run(Promise.all(ids.map((id) => lib('updateChat', id, { pinned: 1 }))))}>{t('chat_pin')}</button>
+          <button onClick={() => void run(startJob({ kind: 'export', title: t('data_export_title', String(ids.length)), chatIds: ids, format: 'md', layout: 'folders', includeJson: true, projects: [] }))}>{t('data_export_go')}</button>
+          <button onClick={() => void run(startJob({ kind: 'action', title: t('data_action_title_archive', String(ids.length)), action: 'archive', chatIds: ids, removeFromLibrary: false }))}>{t('data_action_archive')}</button>
+          <button onClick={() => void run(startJob({ kind: 'action', title: t('data_action_title_delete', String(ids.length)), action: 'delete', chatIds: ids, removeFromLibrary: false }))}>{t('data_action_delete')}</button>
         </div>
       ) : null}
       {rows.length === 0 ? <p class="muted">{t(view.kind === 'folder' ? 'folders_folder_empty' : 'folders_none')}</p> : null}

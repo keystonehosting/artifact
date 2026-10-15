@@ -4,7 +4,7 @@ import { useState } from 'preact/hooks';
 import type { Settings } from '../../core/settings/settings';
 import { NumberField, Section, Select, TextField, Toggle } from '../components';
 import { t } from '../../core/i18n/t';
-import { ALL_SITES, SITES, TIER1_SITES, type SiteId } from '../../core/sites/sites';
+import { ALL_SITES, SITES, TIER1_SITES, TIER2_SITES, type SiteId } from '../../core/sites/sites';
 import { requestSitePermission } from '../../core/sites/permissions';
 
 const PLAN_OPTIONS: Partial<Record<SiteId, Array<[string, string]>>> = {
@@ -37,6 +37,13 @@ export function SettingsPanel({ settings, update }: { settings: Settings; update
           ))}
         </div>
         <p class="hint muted">{t('settings_sites_hint')}</p>
+        <h3>{t('settings_sites_tier2')}</h3>
+        <div class="grid-2">
+          {TIER2_SITES.map((id) => (
+            <Toggle label={SITES[id].name} checked={s.sites[id] === true} onChange={(v) => void toggleSite(id, v)} />
+          ))}
+        </div>
+        <p class="hint muted">{t('settings_sites_tier2_hint')}</p>
         {siteError && <p class="status error">{siteError}</p>}
       </Section>
 

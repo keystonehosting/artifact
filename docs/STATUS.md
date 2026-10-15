@@ -1,6 +1,6 @@
 # Status
 
-**Current milestone:** M4 Export, backup and lifecycle (target `v0.5.0`). `v0.1.0` to `v0.4.0` released.
+**Current milestone:** M5 AI layer (target `v0.6.0`). `v0.1.0` to `v0.5.0` released.
 
 ## Done
 - Private references in `keystonehosting/TEMP` under `artifact/`.
@@ -15,20 +15,21 @@
 - Docs: README, PRIVACY, SECURITY, CONTRIBUTING, CHANGELOG, THIRD_PARTY_NOTICES, architecture, adding-a-site, decisions (D1–D9), provider-notes, permissions.
 
 - M1: Tier 1 structured adapters, health, meter and usage, export in every format with real files, side panel, settings (`docs/reports/M1.md`).
+- M4: bulk, folder and project export; bulk actions with guardrails; auto-archive rules; Deep Import and restore; backups; Artifact, Media and Snippet vaults; Tier 2 adapters (`docs/reports/M4.md`).
 - M3: prompt library with templates, chains, queue, history, right-click prompts, enhancer (current chat), profile, starter pack; wide and speed modes, timeline, collapse, RTL, code and formula copy, auto-continue, drafts and keep-alive, finish alerts; branch map and diff; handoff, `@@` mentions, broadcast and compare (`docs/reports/M3.md`).
 - M2: local library, full-text search with filters and findings report, deep scan, cross-site folders (side panel and site sidebar), pins, favorites, tags and Smart Tags, labels, bookmarks, highlights, notes, reminders, find in chat, privacy blur (`docs/reports/M2.md`).
 
 ## In progress
-- Nothing yet in M4.
+- M5 is blocked on the user's Gemini API key (SPEC §0.7, §12): it is requested at the start of M5 and used only inside the build session.
 
 ## Next exact step
-- Start M4:
-  1. set the version to `0.5.0-dev`;
-  2. bulk export of many chats (every format) with streaming ZIP, pacing, retries, stop-and-keep-partial; folder and project export mirroring the tree;
-  3. auto-backup to a chosen folder (File System Access API), Deep Import of the official ChatGPT, Claude and Gemini exports, restore of Artifact archives and settings;
-  4. Artifact Vault (sandboxed previews, Mermaid), Media Gallery, Snippet Vault; bulk actions with guardrails and auto-archive rules; Tier 2 adapters and their Settings switches.
+- Ask the user for the Gemini key. Then:
+  1. set the version to `0.6.0-dev`;
+  2. provider layer (the user's own keys; models only from official docs), PII redaction on by default, first-send disclosure per feature, request queue with rate limits and an activity log;
+  3. every §6J feature, plus the API modes deferred in D20 (enhancer, handoff, `@@` summaries, second opinion).
 
 ## Blockers
+- M5 needs the Gemini key from the user.
 - No browser available to the build session. All live tests are pending (D5).
 
 ## Live checks for a separate session
@@ -94,3 +95,15 @@ Run in an `ARTIFACT test` chat only, at most 15 messages per site per milestone.
 13. **Handoff, all three sites pairs you use.** From a test chat: Local summary → open in another site; the text waits, not sent. Current-chat mode: ask, send, use the reply. From the meter's warning: "Continue in a new chat". Check Cross-AI → Recent handoffs.
 14. **`@@`.** In a test chat, `@@` and part of another stored test chat's title inserts its context block.
 15. **Broadcast.** Two sites, auto-send off: both tabs open with the prompt waiting; send in each; the compare page fills both columns.
+
+### M4
+1. **Bulk export** (Data tab → Export many chats): a folder with subfolders, as Markdown, "Save as…". The ZIP mirrors the folders; each chat has its files and artifacts and a JSON; `EXPORT_REPORT.txt` lists anything missing. Stop halfway: the ZIP still opens and the report says what's missing.
+2. **Chats not stored yet**: include one in a bulk export; it is read from the site in a background tab that closes afterwards.
+3. **Project export** (ChatGPT or Claude project with test chats only): instructions and knowledge files appear under `Projects/<name>/project/`.
+4. **Bulk archive** (ChatGPT, `ARTIFACT test` chats only, at most 3): preview list, run, log download; the chats show as archived on the site. Unarchive them the same way.
+5. **Bulk delete** (only `ARTIFACT test` chats made for this check, at most 2 per site): typed confirmation only above 10, log, chats gone on the site, Artifact's copy kept unless chosen otherwise.
+6. **Auto-archive rule**: a rule with 0 days is not allowed; set 1 day, wait for the daily notification or open the review page; nothing is archived until you start it.
+7. **Deep Import**: import your real ChatGPT and Claude exports and a Gemini Takeout (My Activity › Gemini Apps, JSON). Note counts, skipped records and their reasons in `docs/provider-notes.md`; confirm or correct the "unconfirmed" format rows.
+8. **Backups**: Downloads target writes `Artifact Backup/<Site>/...` on the schedule; folder target shows the "Backup due" notification and writes there; a changed chat overwrites its old file.
+9. **Vaults**: an HTML artifact runs its own script in the preview; a Mermaid artifact or code block renders; "All versions" downloads a ZIP; images load and download in bulk; snippets filter by language.
+10. **Tier 2**, per site you can sign in to: switch it on in Settings (the browser asks for access), open a chat: Self-test shows composer and message checks; export, copy and `//` prompts work; the chat appears in Search. On GitHub Copilot and Google AI Mode, health says reading isn't available (D25) and prompt insertion works. Record confirmed selectors in `docs/provider-notes.md`.
