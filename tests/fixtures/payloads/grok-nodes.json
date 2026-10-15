@@ -1,0 +1,5 @@
+{ "responseNodes": [
+  { "responseId": "r1", "sender": "human" },
+  { "responseId": "r2", "parentResponseId": "r1", "sender": "ASSISTANT" },
+  { "responseId": "r3", "parentResponseId": "r1", "sender": "ASSISTANT" }
+] }

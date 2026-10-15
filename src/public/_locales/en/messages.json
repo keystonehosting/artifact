@@ -93,5 +93,149 @@
   },
   "menu_export_markdown": {
     "message": "Artifact: export this chat as Markdown"
+  },
+  "menu_open_panel": {
+    "message": "Open Artifact panel"
+  },
+  "meter_growth_label": {
+    "message": "Context growth per message"
+  },
+  "usage_resets_now": {
+    "message": "Resets now"
+  },
+  "usage_resets_in": {
+    "message": "Resets in $TIME$",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "usage_label": {
+    "message": "Plan usage"
+  },
+  "meter_aria": {
+    "message": "Context meter: $LABEL$",
+    "placeholders": {
+      "label": {
+        "content": "$1"
+      }
+    }
+  },
+  "meter_exchanges_left": {
+    "message": "≈ $COUNT$ exchanges left",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "meter_draft": {
+    "message": "draft"
+  },
+  "meter_breakdown": {
+    "message": "Breakdown"
+  },
+  "meter_user": {
+    "message": "You"
+  },
+  "meter_assistant": {
+    "message": "Assistant"
+  },
+  "meter_tools_code": {
+    "message": "Tools and code"
+  },
+  "meter_attachments": {
+    "message": "Attachments"
+  },
+  "meter_files_unmeasured": {
+    "message": "$COUNT$ files not measured",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "meter_hidden_context": {
+    "message": "Site instructions and memory"
+  },
+  "meter_unknown": {
+    "message": "unknown"
+  },
+  "meter_limit": {
+    "message": "Limit"
+  },
+  "meter_model": {
+    "message": "Model"
+  },
+  "meter_count_method": {
+    "message": "Counting"
+  },
+  "meter_count_estimated": {
+    "message": "o200k estimate (≈)"
+  },
+  "meter_count_exact": {
+    "message": "exact"
+  },
+  "meter_data_source": {
+    "message": "Data source"
+  },
+  "meter_health": {
+    "message": "Health"
+  },
+  "meter_growth": {
+    "message": "Growth"
+  },
+  "meter_heaviest": {
+    "message": "Heaviest messages"
+  },
+  "meter_tokens": {
+    "message": "tokens"
+  },
+  "source_intercept": {
+    "message": "page data"
+  },
+  "source_endpoint": {
+    "message": "site API"
+  },
+  "source_dom": {
+    "message": "page text (approximate)"
+  },
+  "source_import": {
+    "message": "imported file"
+  },
+  "source_site": {
+    "message": "reported by the site"
+  },
+  "warning_text": {
+    "message": "This chat is $PERCENT$% full (≈ $LEFT$ exchanges left). Quality drops as it fills.",
+    "placeholders": {
+      "percent": {
+        "content": "$1"
+      },
+      "left": {
+        "content": "$2"
+      }
+    }
+  },
+  "warning_text_red": {
+    "message": "This chat is $PERCENT$% full (≈ $LEFT$ exchanges left). Consider continuing in a new chat.",
+    "placeholders": {
+      "percent": {
+        "content": "$1"
+      },
+      "left": {
+        "content": "$2"
+      }
+    }
+  },
+  "warning_snooze": {
+    "message": "Snooze for this chat"
+  },
+  "warning_mute": {
+    "message": "Mute warnings"
+  },
+  "warning_dismiss": {
+    "message": "Dismiss"
   }
 }

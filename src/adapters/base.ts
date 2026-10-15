@@ -8,6 +8,20 @@ import { SITES, type SiteId } from '../core/sites/sites';
 import { activeBranch, allBranches } from '../core/model/tree';
 import { clickSend, fillComposerElement, findComposer, readComposer, attachFiles } from '../core/dom/composer';
 import { readDomConversation, readDomTurns, type DomReaderConfig } from './dom-reader';
+import { HookBridge } from '../core/intercept/bridge';
+import { siteLimiter } from '../core/net/fetch';
+import type { RateLimiter } from '../core/queue/ratelimit';
+
+/** What an adapter needs from its environment; tests pass fakes. */
+export interface SiteContext {
+  doc: Document;
+  bridge: HookBridge | null;
+  limiter: RateLimiter;
+}
+
+export function defaultContext(doc: Document = document): SiteContext {
+  return { doc, bridge: typeof window !== 'undefined' ? new HookBridge(window) : null, limiter: siteLimiter() };
+}
 
 export interface BaseConfig {
   site: SiteId;
@@ -49,11 +63,18 @@ export abstract class BaseAdapter implements SiteAdapter {
   protected readonly tracker: HealthTracker;
   private disposers: Array<() => void> = [];
 
+  protected readonly doc: Document;
+  protected readonly bridge: HookBridge | null;
+  protected readonly limiter: RateLimiter;
+
   constructor(
     protected readonly cfg: BaseConfig,
     critical: string[] = [],
-    protected readonly doc: Document = document,
+    ctx: SiteContext = defaultContext(),
   ) {
+    this.doc = ctx.doc;
+    this.bridge = ctx.bridge;
+    this.limiter = ctx.limiter;
     this.id = cfg.site;
     this.capabilities = { ...NO_CAPS, ...cfg.capabilities };
     this.tracker = new HealthTracker(new Set(critical));
@@ -227,5 +248,12 @@ export abstract class BaseAdapter implements SiteAdapter {
 
   dispose(): void {
     for (const off of this.disposers.splice(0)) off();
+    this.bridge?.dispose();
+  }
+
+  /** Records a structured-read failure and rethrows nothing: callers fall back to the DOM. */
+  protected structuredFailed(check: string, e: unknown): null {
+    this.tracker.fail(check, e instanceof Error ? e.message : String(e));
+    return null;
   }
 }

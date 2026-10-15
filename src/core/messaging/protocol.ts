@@ -4,15 +4,25 @@
 import type { Conversation } from '../schema/archive';
 import type { SiteHealth } from '../health/health';
 import type { SiteId } from '../sites/sites';
+import type { Capabilities, ChatSummary, ModelInfo, Page, ProjectDetail, ProjectSummary, UsageReport } from '../../adapters/types';
+
+type Empty = Record<never, never>;
 
 export interface ContentRequests {
-  'content:ping': { req: Record<never, never>; res: { site: SiteId; chatId: string | null } };
-  'content:read': {
-    req: Record<never, never>;
-    res: { conversation: Conversation | null; health: SiteHealth; error?: string };
-  };
-  'content:selftest': { req: Record<never, never>; res: { site: SiteId; health: SiteHealth; url: string } };
+  'content:ping': { req: Empty; res: { site: SiteId; chatId: string | null; capabilities: Capabilities } };
+  'content:read': { req: Empty; res: { conversation: Conversation | null; health: SiteHealth; error?: string } };
+  'content:get-chat': { req: { chatId: string }; res: { conversation: Conversation } };
+  'content:selftest': { req: Empty; res: { site: SiteId; health: SiteHealth; url: string } };
   'content:fill': { req: { text: string; submit?: boolean }; res: { ok: boolean } };
+  'content:model': { req: Empty; res: ModelInfo };
+  'content:usage': { req: Empty; res: { usage: UsageReport | null } };
+  'content:list-chats': { req: { cursor: string | null }; res: Page<ChatSummary> };
+  'content:projects': { req: Empty; res: { projects: ProjectSummary[] } };
+  'content:project': { req: { id: string }; res: { project: ProjectDetail } };
+  'content:download': { req: { conversation: Conversation; attachmentId: string }; res: { name: string; mimeType: string; base64: string } };
+  'content:delete': { req: { chatId: string }; res: { ok: true } };
+  'content:archive': { req: { chatId: string; archived: boolean }; res: { ok: true } };
+  'content:rename': { req: { chatId: string; title: string }; res: { ok: true } };
 }
 
 export type ContentMessage = {

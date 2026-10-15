@@ -4,6 +4,7 @@
 import type { Attachment, Artifact, Conversation, DataSource, Message } from '../core/schema/archive';
 import type { SiteHealth } from '../core/health/health';
 import type { SiteId } from '../core/sites/sites';
+import type { Plan } from '../core/limits/limits';
 
 export interface Capabilities {
   /** Reads the conversation through the site's own data (intercept or endpoint). */
@@ -126,6 +127,10 @@ export interface SiteAdapter {
 
   // ---- usage and anchors ----
   getUsage?(): Promise<UsageReport | null>;
+  /** Account plan, when the site exposes it; used for limit lookup. */
+  getPlan?(): Promise<Plan | null>;
+  /** Token count and limit the page itself shows (AI Studio). */
+  siteTokenCount?(): { used: number; limit: number } | null;
   getSidebarAnchor(): Element | null;
   getComposerAnchor(): Element | null;
   getMessageAnchors(): Array<{ messageId: string | null; index: number; element: Element; role: Message['role'] }>;

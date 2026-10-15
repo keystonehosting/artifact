@@ -1,0 +1,24 @@
+{
+  "title": "Lorem ipsum",
+  "create_time": 1767225600.0,
+  "update_time": 1767229200.0,
+  "current_node": "a2b",
+  "default_model_slug": "gpt-x",
+  "conversation_id": "68f0a1b2-0000-4000-8000-000000000001",
+  "is_archived": false,
+  "mapping": {
+    "root": { "id": "root", "message": null, "parent": null, "children": ["sys"] },
+    "sys": { "id": "sys", "message": { "id": "sys", "author": { "role": "system" }, "create_time": null, "content": { "content_type": "text", "parts": [""] }, "metadata": { "is_visually_hidden_from_conversation": true } }, "parent": "root", "children": ["u1"] },
+    "u1": { "id": "u1", "message": { "id": "u1", "author": { "role": "user" }, "create_time": 1767225601.0, "content": { "content_type": "multimodal_text", "parts": [{ "content_type": "image_asset_pointer", "asset_pointer": "file-service://file-AAA", "size_bytes": 1234 }, "Lorem ipsum dolor?"] }, "metadata": { "attachments": [{ "id": "file-BBB", "name": "notes.pdf", "mime_type": "application/pdf", "size": 999 }] } }, "parent": "sys", "children": ["a1"] },
+    "a1": { "id": "a1", "message": { "id": "a1", "author": { "role": "assistant" }, "create_time": 1767225602.0, "recipient": "canmore.create_textdoc", "content": { "content_type": "code", "language": "json", "text": "{\"name\":\"Lorem doc\",\"type\":\"document\",\"content\":\"Hello world\"}" }, "metadata": { "model_slug": "gpt-x" } }, "parent": "u1", "children": ["t1"] },
+    "t1": { "id": "t1", "message": { "id": "t1", "author": { "role": "tool", "name": "canmore.create_textdoc" }, "create_time": 1767225603.0, "content": { "content_type": "text", "parts": ["Created"] }, "metadata": { "canvas": { "textdoc_id": "doc1", "version": 1 } } }, "parent": "a1", "children": ["a1b"] },
+    "a1b": { "id": "a1b", "message": { "id": "a1b", "author": { "role": "assistant" }, "create_time": 1767225604.0, "recipient": "canmore.update_textdoc", "content": { "content_type": "code", "text": "{\"updates\":[{\"pattern\":\"world\",\"multiple\":false,\"replacement\":\"canvas\"}]}" }, "metadata": { "model_slug": "gpt-x" } }, "parent": "t1", "children": ["t2"] },
+    "t2": { "id": "t2", "message": { "id": "t2", "author": { "role": "tool", "name": "canmore.update_textdoc" }, "create_time": 1767225605.0, "content": { "content_type": "text", "parts": ["Updated"] }, "metadata": { "canvas": { "textdoc_id": "doc1", "version": 2 } } }, "parent": "a1b", "children": ["a1c"] },
+    "a1c": { "id": "a1c", "message": { "id": "a1c", "author": { "role": "assistant" }, "create_time": 1767225606.0, "content": { "content_type": "text", "parts": ["Sed do eiusmod【1†source】."] }, "metadata": { "model_slug": "gpt-x", "content_references": [{ "matched_text": "【1†source】", "items": [{ "url": "https://example.test/a", "title": "Example" }] }] } }, "parent": "t2", "children": ["u2", "u2b"] },
+    "u2": { "id": "u2", "message": { "id": "u2", "author": { "role": "user" }, "create_time": 1767225610.0, "content": { "content_type": "text", "parts": ["Ut enim?"] } }, "parent": "a1c", "children": ["a2"] },
+    "a2": { "id": "a2", "message": { "id": "a2", "author": { "role": "assistant" }, "create_time": 1767225611.0, "content": { "content_type": "text", "parts": ["Veniam."] }, "metadata": { "model_slug": "gpt-x" } }, "parent": "u2", "children": [] },
+    "u2b": { "id": "u2b", "message": { "id": "u2b", "author": { "role": "user" }, "create_time": 1767225620.0, "content": { "content_type": "text", "parts": ["Duis aute?"] } }, "parent": "a1c", "children": ["th", "a2b"] },
+    "th": { "id": "th", "message": { "id": "th", "author": { "role": "assistant" }, "create_time": 1767225621.0, "content": { "content_type": "thoughts", "thoughts": [{ "summary": "Plan", "content": "Consectetur." }] } }, "parent": "u2b", "children": [] },
+    "a2b": { "id": "a2b", "message": { "id": "a2b", "author": { "role": "assistant" }, "create_time": 1767225622.0, "content": { "content_type": "text", "parts": ["Excepteur."] }, "metadata": { "model_slug": "gpt-x-thinking" } }, "parent": "u2b", "children": [] }
+  }
+}

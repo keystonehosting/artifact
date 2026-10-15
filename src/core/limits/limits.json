@@ -1,0 +1,60 @@
+{
+  "retrieved": "2026-10-15",
+  "sites": {
+    "chatgpt": {
+      "kind": "plan-mode",
+      "unit": "total window (input + output)",
+      "plans": {
+        "free": { "instant": 27000, "reasoning": null },
+        "go": { "instant": 54000, "reasoning": 256000 },
+        "plus": { "instant": 54000, "reasoning": 256000 },
+        "pro": { "instant": 128000, "reasoning": 400000 },
+        "business": { "instant": 54000, "reasoning": 256000 },
+        "enterprise": { "instant": 128000, "reasoning": 256000 }
+      },
+      "notes": "OpenAI states the usable input is smaller than the total window, because system instructions, tools, personality and memories also use it. Free reasoning is listed as varying, so it is unknown here.",
+      "sources": [
+        { "url": "https://openai.com/chatgpt/pricing/", "date": "2026-10-15", "via": "search index; the page refuses automated fetches" },
+        { "url": "https://openai.com/business/chatgpt-pricing/", "date": "2026-10-15", "via": "search index" },
+        { "url": "https://help.openai.com/en/articles/6825453-chatgpt-release-notes", "date": "2026-10-15", "via": "search index (Thinking total 256k = 128k input + 128k output, from 2026-02-20)" }
+      ]
+    },
+    "claude": {
+      "kind": "model",
+      "unit": "context window",
+      "scope": "paid plans (Pro, Max, Team, Enterprise); the Free plan is not covered by the source",
+      "default": 200000,
+      "models": [
+        { "label": "Claude Fable 5.1", "match": ["fable-5-1", "fable-5.1"], "tokens": 1000000 },
+        { "label": "Claude Opus 5.5", "match": ["opus-5-5", "opus-5.5"], "tokens": 1000000 },
+        { "label": "Claude Sonnet 5.5", "match": ["sonnet-5-5", "sonnet-5.5"], "tokens": 1000000 },
+        { "label": "Claude Haiku 5.5", "match": ["haiku-5-5", "haiku-5.5"], "tokens": 1000000 },
+        { "label": "Claude Opus 5", "match": ["opus-5"], "tokens": 1000000 },
+        { "label": "Claude Sonnet 5", "match": ["sonnet-5"], "tokens": 1000000 },
+        { "label": "Claude Fable 5", "match": ["fable-5"], "tokens": 500000 },
+        { "label": "Claude Opus 4.8", "match": ["opus-4-8", "opus-4.8"], "tokens": 500000 },
+        { "label": "Claude Opus 4.7", "match": ["opus-4-7", "opus-4.7"], "tokens": 500000 },
+        { "label": "Claude Opus 4.6", "match": ["opus-4-6", "opus-4.6"], "tokens": 500000 },
+        { "label": "Claude Sonnet 4.6", "match": ["sonnet-4-6", "sonnet-4.6"], "tokens": 500000 }
+      ],
+      "sources": [
+        { "url": "https://support.claude.com/en/articles/8606394-how-large-is-the-context-window-on-paid-claude-ai-plans", "date": "2026-10-15", "via": "fetched" }
+      ]
+    },
+    "gemini": {
+      "kind": "plan",
+      "unit": "context window",
+      "plans": { "free": 32000, "plus": 128000, "pro": 1000000, "ultra": 1000000 },
+      "notes": "Limits are per plan, not per model.",
+      "sources": [{ "url": "https://support.google.com/gemini/answer/16275805?hl=en", "date": "2026-10-15", "via": "fetched" }]
+    },
+    "aistudio": {
+      "kind": "site-reported",
+      "notes": "AI Studio shows the prompt's token count and the model's limit on the page; Artifact reads both from there."
+    },
+    "grok": {
+      "kind": "unknown",
+      "notes": "xAI publishes API context sizes (https://docs.x.ai/docs/models, fetched 2026-10-15) but not grok.com app limits, which may differ. Add your own limit in Settings."
+    }
+  }
+}

@@ -1,0 +1,88 @@
+/* Styles inside Artifact's in-page shadow roots. Light and dark follow the site. */
+.artifact-root {
+  --a-font: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  --a-mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, monospace;
+  --a-bg: #ffffff;
+  --a-bg-2: #f4f5f6;
+  --a-fg: #16181b;
+  --a-fg-2: #4a5058;
+  --a-fg-3: #6b727b;
+  --a-line: #dde0e4;
+  --a-accent: #1f6b5c;
+  --a-neutral: #8a9199;
+  --a-amber: #b8860b;
+  --a-orange: #c65d10;
+  --a-red: #b3261e;
+  font: 12px/1.4 var(--a-font);
+  color: var(--a-fg);
+}
+.artifact-root[data-theme='dark'] {
+  --a-bg: #1c1f23;
+  --a-bg-2: #262a2f;
+  --a-fg: #e6e8ea;
+  --a-fg-2: #b4bac1;
+  --a-fg-3: #8d949c;
+  --a-line: #353a41;
+  --a-accent: #5fb8a4;
+  --a-neutral: #7d858e;
+  --a-amber: #e0b23a;
+  --a-orange: #f08c3c;
+  --a-red: #f08a80;
+}
+.artifact-root * { box-sizing: border-box; }
+button { font: inherit; color: inherit; background: none; border: 1px solid var(--a-line); border-radius: 4px; padding: 2px 8px; cursor: pointer; }
+button:hover { background: var(--a-bg-2); }
+button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--a-accent); outline-offset: 1px; }
+.mono { font-family: var(--a-mono); font-variant-numeric: tabular-nums; }
+.muted { color: var(--a-fg-3); }
+
+/* Meter pill: in flow above the composer, never on top of site controls. */
+.meter { display: flex; align-items: center; gap: 8px; padding: 2px 4px 4px; position: relative; }
+.meter-pill { display: inline-flex; align-items: center; gap: 8px; padding: 2px 8px; border: 1px solid var(--a-line); border-radius: 4px; background: var(--a-bg); cursor: default; }
+.meter-bar { width: 72px; height: 4px; background: var(--a-bg-2); border-radius: 2px; overflow: hidden; }
+.meter-bar > i { display: block; height: 100%; background: var(--a-neutral); }
+.lvl-amber .meter-bar > i { background: var(--a-amber); }
+.lvl-orange .meter-bar > i { background: var(--a-orange); }
+.lvl-red .meter-bar > i { background: var(--a-red); }
+.lvl-red .meter-text { color: var(--a-red); }
+.meter-extra { color: var(--a-fg-3); }
+.health-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--a-neutral); }
+.health-dot.healthy { background: #2f7d4a; }
+.health-dot.degraded { background: var(--a-amber); }
+.health-dot.broken { background: var(--a-red); }
+
+.card {
+  position: absolute; bottom: calc(100% + 4px); left: 0; z-index: 2147483000; width: 360px; max-height: 60vh; overflow: auto;
+  background: var(--a-bg); color: var(--a-fg); border: 1px solid var(--a-line); border-radius: 6px; padding: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+.card h3 { color: var(--a-fg-3); letter-spacing: 0.04em; text-transform: uppercase; font-size: 11px; font-weight: 600; margin: 8px 0 4px; }
+.card h3:first-child { margin-top: 0; }
+.kv { display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; }
+.kv dt { color: var(--a-fg-2); }
+.kv dd { margin: 0; text-align: right; font-family: var(--a-mono); font-variant-numeric: tabular-nums; }
+.heavy { list-style: none; margin: 0; padding: 0; }
+.heavy li { display: grid; grid-template-columns: 3.5em 1fr; gap: 6px; padding: 1px 0; }
+.heavy button { border: none; padding: 0; text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.spark { display: block; width: 100%; height: 36px; }
+.spark path { fill: none; stroke: var(--a-accent); stroke-width: 1.25; }
+.spark line { stroke: var(--a-red); stroke-dasharray: 2 2; stroke-width: 1; }
+a { color: var(--a-accent); }
+
+.usage { display: flex; gap: 12px; align-items: center; color: var(--a-fg-2); }
+.usage-item { display: inline-flex; align-items: center; gap: 4px; }
+.usage-bar { width: 48px; height: 4px; background: var(--a-bg-2); border-radius: 2px; overflow: hidden; }
+.usage-bar > i { display: block; height: 100%; background: var(--a-fg-3); }
+
+.toast {
+  position: fixed; right: 16px; bottom: 96px; z-index: 2147483000; max-width: 340px; padding: 10px 12px; background: var(--a-bg);
+  border: 1px solid var(--a-line); border-left: 3px solid var(--a-orange); border-radius: 4px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+.toast.red { border-left-color: var(--a-red); }
+.toast p { margin: 0 0 8px; }
+.toast .actions { display: flex; gap: 6px; flex-wrap: wrap; }
+
+.badge {
+  position: fixed; z-index: 2147483000; padding: 1px 6px; border: 1px solid var(--a-line); border-radius: 4px; background: var(--a-bg);
+  color: var(--a-fg-2); font: 11px/1.4 var(--a-mono); pointer-events: none;
+}

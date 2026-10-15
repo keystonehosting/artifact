@@ -1,0 +1,5 @@
+{ "responses": [
+  { "responseId": "r1", "sender": "human", "message": "Lorem?", "createTime": "2026-01-01T00:00:00Z", "fileAttachments": [] },
+  { "responseId": "r2", "parentResponseId": "r1", "sender": "ASSISTANT", "message": "First draft.", "createTime": "2026-01-01T00:00:01Z", "model": "grok-x" },
+  { "responseId": "r3", "parentResponseId": "r1", "sender": "ASSISTANT", "message": "Second draft <grok:render card_id=\"c1\" type=\"render_inline_citation\"><argument name=\"citation_id\">1</argument></grok:render>.", "createTime": "2026-01-01T00:00:05Z", "model": "grok-x", "thinkingTrace": "Hmm.", "generatedImageUrls": ["users/u/generated/abc/image.jpg"], "webSearchResults": [{ "url": "https://example.test", "title": "Ex" }] }
+] }

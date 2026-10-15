@@ -1,0 +1,8 @@
+[["prompts/1AbCdEf",null,null,null,["Lorem studio"],null,null,null,null,null,null,null,null,[[
+  ["System lorem",null,null,null,null,null,null,null,"user"],
+  ["Thinking lorem",null,null,null,null,null,null,null,"model",null,null,null,null,null,null,null,null,null,null,1],
+  ["Answer part one",null,null,null,null,null,null,null,"model"],
+  ["Answer part two",null,null,null,null,null,null,null,"model"],
+  ["Follow up?",null,null,null,null,null,null,null,"user"],
+  ["Done.",null,null,null,null,null,null,null,"model"]
+]]]]

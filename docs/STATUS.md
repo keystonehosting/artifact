@@ -1,6 +1,6 @@
 # Status
 
-**Current milestone:** M0 Foundation complete, released as `v0.1.0` by CI. Next: M1.
+**Current milestone:** M1 Tier 1 adapters, health, meter and usage, side panel, settings, export (target `v0.2.0`). `v0.1.0` released.
 
 ## Done
 - Private references in `keystonehosting/TEMP` under `artifact/`.
@@ -14,11 +14,26 @@
 - CI (`.github/workflows/ci.yml`) and the release pipeline (`release.yml`).
 - Docs: README, PRIVACY, SECURITY, CONTRIBUTING, CHANGELOG, THIRD_PARTY_NOTICES, architecture, adding-a-site, decisions (D1–D9), provider-notes, permissions.
 
-## In progress
-- Nothing.
+## In progress (M1)
+- Done so far:
+  - page-world hook (`page-hook.content.ts`) and the isolated bridge;
+  - structured reads with Zod guards for ChatGPT, Claude, Gemini, AI Studio and Grok, covering intercept, then endpoint, then DOM;
+  - list, projects, delete, archive and rename where supported;
+  - attachment downloads, including through the background for file hosts;
+  - plan detection (ChatGPT, Claude);
+  - `limits.json` with cited sources;
+  - tokenizer worker (offscreen document on Chrome/Edge, background page on Firefox);
+  - the meter pill with its hover breakdown, top-10 heaviest list and sparkline;
+  - per-message badges, threshold warnings, usage bars (Claude, Gemini), the local send log, calibration and Settings storage.
+- Remaining:
+  - export formats (HTML, PDF, DOCX, PNG, ZIP with real files and artifacts) and selected-message export;
+  - preview tab and Obsidian;
+  - side panel shell (Dashboard, Export, Settings), options page;
+  - ChatGPT rate-limit widget UI;
+  - i18n strings, e2e for the meter and export.
 
 ## Next exact step
-- Start M1: set the version to `0.2.0-dev`, then add structured reads (ChatGPT `backend-api`, Claude `chat_conversations`, Grok `load-responses`, Gemini `hNvQHb`, AI Studio `ResolveDriveResource`) behind a page-world fetch hook.
+- Write `src/core/export/{html,docx,zip}.ts` and the export job runner that downloads attachments through `content:download`, then the side panel.
 
 ## Blockers
 - No browser available to the build session. All live tests are pending (D5).
