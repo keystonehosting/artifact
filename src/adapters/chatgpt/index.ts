@@ -76,7 +76,7 @@ export class ChatGPTAdapter extends BaseAdapter {
   }
 
   protected override async readStructured(chatId: string): Promise<Read<Conversation> | null> {
-    const captured = this.bridge?.find('chatgpt.conversation', chatId);
+    const captured = await this.captured('chatgpt.conversation', chatId);
     if (captured) {
       try {
         const conv = chatgptToConversation(JSON.parse(captured.body), chatId, this.chatUrl(chatId));

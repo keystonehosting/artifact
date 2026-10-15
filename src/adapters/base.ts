@@ -8,7 +8,8 @@ import { SITES, type SiteId } from '../core/sites/sites';
 import { activeBranch, allBranches } from '../core/model/tree';
 import { clickSend, fillComposerElement, findComposer, readComposer, attachFiles } from '../core/dom/composer';
 import { readDomConversation, readDomTurns, type DomReaderConfig } from './dom-reader';
-import { HookBridge } from '../core/intercept/bridge';
+import { HookBridge, type Captured } from '../core/intercept/bridge';
+import type { HookKind } from '../core/intercept/patterns';
 import { siteLimiter } from '../core/net/fetch';
 import type { RateLimiter } from '../core/queue/ratelimit';
 
@@ -82,6 +83,21 @@ export abstract class BaseAdapter implements SiteAdapter {
   }
 
   /** Structured (intercept or endpoint) read; null when unavailable. Must record health checks. */
+  private readonly waited = new Set<string>();
+
+  /**
+   * The page's own copy of a payload. The first read of a chat may come
+   * while the page's request is still in flight, so wait briefly for it
+   * instead of asking the site a second time.
+   */
+  protected async captured(kind: HookKind, chatId: string): Promise<Captured | null> {
+    if (!this.bridge) return null;
+    const key = `${kind}:${chatId}`;
+    const first = !this.waited.has(key);
+    this.waited.add(key);
+    return this.bridge.waitFor(kind, chatId, first ? 1500 : 0);
+  }
+
   protected async readStructured(_siteChatId: string): Promise<Read<Conversation> | null> {
     return null;
   }

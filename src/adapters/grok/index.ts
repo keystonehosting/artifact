@@ -38,8 +38,8 @@ export class GrokAdapter extends BaseAdapter {
   }
 
   protected override async readStructured(chatId: string): Promise<Read<Conversation> | null> {
-    const nodes = this.bridge?.find('grok.nodes', chatId);
-    const responses = this.bridge?.find('grok.responses', chatId);
+    const nodes = await this.captured('grok.nodes', chatId);
+    const responses = await this.captured('grok.responses', chatId);
     if (nodes && responses) {
       try {
         const conv = grokToConversation(JSON.parse(nodes.body), JSON.parse(responses.body), chatId, `https://grok.com/c/${chatId}`, this.titles.get(chatId) ?? this.pageTitle());

@@ -89,7 +89,7 @@ export class GeminiAdapter extends BaseAdapter {
 
   protected override async readStructured(chatId: string): Promise<Read<Conversation> | null> {
     const url = this.url().href.split('?')[0]!;
-    const captured = this.bridge?.find('gemini.batchexecute', chatId);
+    const captured = await this.captured('gemini.batchexecute', chatId);
     if (captured) {
       try {
         const pages = decodeBatchExecute(captured.body)

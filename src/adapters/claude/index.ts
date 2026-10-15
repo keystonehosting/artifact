@@ -90,7 +90,7 @@ export class ClaudeAdapter extends BaseAdapter {
   }
 
   protected override async readStructured(chatId: string): Promise<Read<Conversation> | null> {
-    const captured = this.bridge?.find('claude.conversation', chatId);
+    const captured = await this.captured('claude.conversation', chatId);
     if (captured) {
       try {
         const org = /\/organizations\/([^/]+)\//.exec(captured.url)?.[1] ?? (await this.org());

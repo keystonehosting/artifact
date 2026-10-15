@@ -59,7 +59,7 @@ export class AIStudioAdapter extends BaseAdapter {
 
   protected override async readStructured(chatId: string): Promise<Read<Conversation> | null> {
     const url = `${ORIGIN}/prompts/${chatId}`;
-    const captured = this.bridge?.find('aistudio.resolve', chatId);
+    const captured = await this.captured('aistudio.resolve', chatId);
     if (captured) {
       try {
         const conv = aistudioToConversation(JSON.parse(captured.body.replace(/^\)\]\}'\s*/, '')), chatId, url);

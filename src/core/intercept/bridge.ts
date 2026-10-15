@@ -43,6 +43,24 @@ export class HookBridge {
     return best;
   }
 
+  /** Like find(), but waits up to `ms` for a matching capture to arrive. */
+  waitFor(kind: HookKind, needle: string, ms: number): Promise<Captured | null> {
+    const hit = this.find(kind, needle);
+    if (hit || ms <= 0) return Promise.resolve(hit);
+    return new Promise((resolve) => {
+      const done = (c: Captured | null) => {
+        clearTimeout(timer);
+        off();
+        resolve(c);
+      };
+      const off = this.subscribe(() => {
+        const c = this.find(kind, needle);
+        if (c) done(c);
+      });
+      const timer = setTimeout(() => done(null), ms);
+    });
+  }
+
   subscribe(fn: Listener): () => void {
     this.listeners.add(fn);
     return () => this.listeners.delete(fn);
