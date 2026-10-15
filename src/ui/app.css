@@ -92,3 +92,31 @@ button.snippet:hover { background: var(--bg-2); }
 button.snippet .role { color: var(--fg-3); font-size: 10px; text-transform: uppercase; margin-right: 6px; }
 mark { background: color-mix(in srgb, var(--accent) 28%, transparent); color: inherit; border-radius: 2px; }
 .bulk { padding: 4px 0; }
+
+/* Prompts, cross-AI and branches. */
+.grow { flex: 1 1 0; min-width: 0; }
+.grow, .site-tag { white-space: nowrap; }
+.grow { text-overflow: ellipsis; overflow: hidden; }
+label.button-like { display: inline-flex; align-items: center; height: var(--row); padding: 0 10px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-2); cursor: pointer; }
+label.button-like:focus-within { outline: 2px solid var(--accent); outline-offset: 1px; }
+.prompt-list > li { border-bottom: 1px solid var(--line); padding: 6px 0; }
+.prompt-list .snip { font-size: 12px; margin: 2px 0 4px; }
+ol.steps { padding-left: 20px; margin: 6px 0; display: flex; flex-direction: column; gap: 8px; }
+.preset { border-bottom: 1px solid var(--line); padding: 6px 0; }
+ul.btree, ul.btree ul { list-style: none; margin: 0; padding-left: 12px; border-left: 1px solid var(--line); }
+ul.btree { border-left: none; padding-left: 0; }
+.bnode { display: flex; align-items: center; gap: 6px; padding: 1px 0; font-size: 12px; }
+.bnode .spacer { width: 13px; flex: none; }
+.bnode .role { color: var(--fg-3); font-size: 10px; text-transform: uppercase; }
+.bnode.active > button.link { font-weight: 600; }
+.bnode:not(.active) > button.link { color: var(--fg-2); }
+pre.bfull { white-space: pre-wrap; background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius); padding: 6px 8px; max-height: 240px; overflow: auto; font: 12px/1.45 var(--font); }
+.diff2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.diff2 > div { white-space: pre-wrap; background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius); padding: 6px 8px; max-height: 320px; overflow: auto; font-size: 12px; }
+mark.del { background: color-mix(in srgb, var(--bad) 22%, transparent); text-decoration: line-through; }
+mark.ins { background: color-mix(in srgb, var(--accent) 22%, transparent); }
+.compare .columns { display: grid; gap: 12px; overflow-x: auto; }
+.compare .col { border: 1px solid var(--line); border-radius: var(--radius); padding: 8px 10px; min-width: 0; }
+.compare .col h2 { font-size: 13px; margin: 0; }
+.compare .reply { font-size: 13px; line-height: 1.5; overflow-wrap: anywhere; }
+.compare .reply pre { white-space: pre-wrap; background: var(--bg-2); padding: 6px; border-radius: var(--radius); }

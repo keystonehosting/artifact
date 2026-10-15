@@ -1,0 +1,106 @@
+<!doctype html>
+<!-- Synthetic chat page for e2e: a working composer and send button that
+     "stream" a canned reply, on ChatGPT or Claude markup depending on the
+     host it is served at. Text is lorem ipsum; nothing leaves the page. -->
+<html>
+  <head><title>Lorem sim</title><style>body{font:14px sans-serif;margin:0}main{max-width:640px;margin:0 auto;padding:16px 60px}nav{width:180px;float:left}.turn{margin:12px 0;padding:8px;border:1px solid #ddd}#composer{min-height:40px;border:1px solid #999;padding:6px}</style></head>
+  <body>
+    <nav></nav>
+    <main><div id="turns"></div><form id="form"></form></main>
+    <script>
+      (function () {
+        var claude = location.hostname === 'claude.ai';
+        var nav = document.querySelector('nav');
+        nav.setAttribute('aria-label', claude ? 'Sidebar' : 'Chat history');
+        nav.innerHTML = claude
+          ? '<a href="/chat/33333333-3333-4333-8333-333333333333">Sim chat</a>'
+          : '<a href="/c/68f0a1b2-0000-4000-8000-000000000003">Sim chat</a>';
+        var form = document.getElementById('form');
+        var composer = document.createElement('div');
+        composer.id = claude ? 'claude-input' : 'prompt-textarea';
+        composer.className = 'ProseMirror';
+        composer.setAttribute('contenteditable', 'true');
+        if (claude) composer.setAttribute('data-testid', 'chat-input');
+        composer.innerHTML = '<p><br></p>';
+        var send = document.createElement('button');
+        send.type = 'button';
+        send.textContent = 'Send';
+        if (claude) send.setAttribute('aria-label', 'Send message');
+        else send.setAttribute('data-testid', 'send-button');
+        form.append(composer, send);
+        var turns = document.getElementById('turns');
+        var n = 0;
+        var stop = null;
+        function streaming(on) {
+          if (on && !stop) {
+            stop = document.createElement('button');
+            stop.type = 'button';
+            stop.textContent = 'Stop';
+            if (claude) stop.setAttribute('aria-label', 'Stop response');
+            else stop.setAttribute('data-testid', 'stop-button');
+            form.append(stop);
+          } else if (!on && stop) {
+            stop.remove();
+            stop = null;
+          }
+        }
+        function turn(role, text) {
+          n++;
+          var el = document.createElement('div');
+          el.className = 'turn';
+          if (claude) {
+            if (role === 'user') {
+              el.setAttribute('data-testid', 'user-message');
+              el.textContent = text;
+            } else {
+              el.className += ' font-claude-response';
+              el.innerHTML = '<div class="standard-markdown"><p></p></div>';
+              el.querySelector('p').textContent = text;
+            }
+          } else {
+            el.setAttribute('data-message-author-role', role);
+            el.setAttribute('data-message-id', 'sim-' + n);
+            el.innerHTML = role === 'user' ? '<div class="whitespace-pre-wrap"></div>' : '<div class="markdown"><p></p></div>';
+            (el.querySelector('p') || el.firstChild).textContent = text;
+          }
+          turns.append(el);
+          return el;
+        }
+        function submit() {
+          var text = composer.innerText.trim();
+          if (!text || stop) return;
+          composer.innerHTML = '<p><br></p>';
+          turn('user', text);
+          window.simSent = (window.simSent || []).concat([text]);
+          streaming(true);
+          setTimeout(function () {
+            var reply = turn('assistant', 'Reply to: ' + text);
+            streaming(false);
+            if (/truncate/.test(text)) {
+              var more = document.createElement('button');
+              more.type = 'button';
+              more.textContent = 'Continue generating';
+              more.onclick = function () {
+                more.remove();
+                streaming(true);
+                setTimeout(function () {
+                  reply.querySelector('p').textContent += ' (continued)';
+                  window.simContinued = (window.simContinued || 0) + 1;
+                  streaming(false);
+                }, 300);
+              };
+              turns.after(more);
+            }
+          }, /slow/.test(text) ? 1500 : 700);
+        }
+        send.addEventListener('click', submit);
+        composer.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            submit();
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

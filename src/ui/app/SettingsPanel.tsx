@@ -53,6 +53,65 @@ export function SettingsPanel({ settings, update }: { settings: Settings; update
         <Toggle label={t('settings_feature_blur')} checked={s.features.blur} onChange={(v) => update((x) => void (x.features.blur = v))} />
       </Section>
 
+      <Section title={t('settings_prompts')}>
+        <Toggle label={t('settings_triggers')} hint={t('settings_triggers_hint')} checked={s.prompts.triggers} onChange={(v) => update((x) => void (x.prompts.triggers = v))} />
+        <Toggle label={t('settings_history')} hint={t('settings_history_hint')} checked={s.prompts.history} onChange={(v) => update((x) => void (x.prompts.history = v))} />
+        <Toggle label={t('settings_queue_key')} hint={t('settings_queue_key_hint')} checked={s.prompts.queueKey} onChange={(v) => update((x) => void (x.prompts.queueKey = v))} />
+        <Select<(typeof TIER1_SITES)[number]>
+          label={t('settings_prompt_target')}
+          value={s.prompts.target}
+          options={TIER1_SITES.map((id) => [id, SITES[id].name])}
+          onChange={(v) => update((x) => void (x.prompts.target = v))}
+        />
+      </Section>
+
+      <Section title={t('settings_enhancer')}>
+        <p class="hint muted">{t('settings_enhancer_hint')}</p>
+        {s.enhancer.presets.map((p, i) => (
+          <div class="preset">
+            <div class="row">
+              <input type="text" aria-label={t('settings_preset_name')} value={p.name} onChange={(e) => update((x) => void (x.enhancer.presets[i]!.name = (e.target as HTMLInputElement).value))} />
+              <button disabled={s.enhancer.presets.length < 2} onClick={() => update((x) => void x.enhancer.presets.splice(i, 1))}>
+                {t('common_remove')}
+              </button>
+            </div>
+            <textarea class="note" rows={3} aria-label={t('settings_preset_text')} value={p.text} onChange={(e) => update((x) => void (x.enhancer.presets[i]!.text = (e.target as HTMLTextAreaElement).value))} />
+          </div>
+        ))}
+        <button onClick={() => update((x) => void x.enhancer.presets.push({ name: t('settings_preset_new'), text: '' }))}>{t('common_add')}</button>
+      </Section>
+
+      <Section title={t('settings_profile')}>
+        <p class="hint muted">{t('settings_profile_hint')}</p>
+        <label for="pf-about">{t('settings_profile_about')}</label>
+        <textarea id="pf-about" class="note" rows={3} value={s.profile.about} onChange={(e) => update((x) => void (x.profile.about = (e.target as HTMLTextAreaElement).value))} />
+        <label for="pf-inst">{t('settings_profile_instructions')}</label>
+        <textarea id="pf-inst" class="note" rows={3} value={s.profile.instructions} onChange={(e) => update((x) => void (x.profile.instructions = (e.target as HTMLTextAreaElement).value))} />
+      </Section>
+
+      <Section title={t('settings_experience')}>
+        <Toggle label={t('settings_wide')} checked={s.experience.wide} onChange={(v) => update((x) => void (x.experience.wide = v))} />
+        {s.experience.wide ? <NumberField label={t('settings_wide_width')} value={s.experience.wideWidth} min={50} max={100} step={5} suffix="%" onChange={(v) => update((x) => void (x.experience.wideWidth = v))} /> : null}
+        <Toggle label={t('settings_speed')} hint={t('settings_speed_hint')} checked={s.experience.speed} onChange={(v) => update((x) => void (x.experience.speed = v))} />
+        <Toggle label={t('settings_timeline')} checked={s.experience.timeline} onChange={(v) => update((x) => void (x.experience.timeline = v))} />
+        <Toggle label={t('settings_collapse')} hint={t('settings_collapse_hint')} checked={s.experience.collapse} onChange={(v) => update((x) => void (x.experience.collapse = v))} />
+        <Toggle label={t('settings_rtl')} checked={s.experience.rtl} onChange={(v) => update((x) => void (x.experience.rtl = v))} />
+        <Toggle label={t('settings_counter')} checked={s.experience.counter} onChange={(v) => update((x) => void (x.experience.counter = v))} />
+        <Toggle label={t('settings_code_copy')} checked={s.experience.codeCopy} onChange={(v) => update((x) => void (x.experience.codeCopy = v))} />
+        <Toggle label={t('settings_formula')} checked={s.experience.formulaCopy} onChange={(v) => update((x) => void (x.experience.formulaCopy = v))} />
+        <Toggle label={t('settings_drafts')} checked={s.experience.drafts} onChange={(v) => update((x) => void (x.experience.drafts = v))} />
+        <Toggle label={t('settings_keepalive')} hint={t('settings_keepalive_hint')} checked={s.experience.keepAlive} onChange={(v) => update((x) => void (x.experience.keepAlive = v))} />
+        <Toggle label={t('settings_autocontinue')} hint={t('settings_autocontinue_hint')} checked={s.experience.autoContinue} onChange={(v) => update((x) => void (x.experience.autoContinue = v))} />
+        {s.experience.autoContinue ? <NumberField label={t('settings_autocontinue_max')} value={s.experience.autoContinueMax} min={1} max={10} onChange={(v) => update((x) => void (x.experience.autoContinueMax = v))} /> : null}
+        <Toggle label={t('settings_finish')} hint={t('settings_finish_hint')} checked={s.experience.finishAlert} onChange={(v) => update((x) => void (x.experience.finishAlert = v))} />
+        {s.experience.finishAlert ? (
+          <>
+            <Toggle label={t('settings_finish_sound')} checked={s.experience.finishSound} onChange={(v) => update((x) => void (x.experience.finishSound = v))} />
+            <NumberField label={t('settings_finish_min')} value={s.experience.finishMinSeconds} min={0} max={600} suffix="s" onChange={(v) => update((x) => void (x.experience.finishMinSeconds = v))} />
+          </>
+        ) : null}
+      </Section>
+
       <Section title={t('settings_meter')}>
         <NumberField label={t('settings_amber')} value={s.meter.amber} min={1} max={100} suffix="%" onChange={(v) => update((x) => void (x.meter.amber = v))} />
         <NumberField label={t('settings_orange')} value={s.meter.orange} min={1} max={100} suffix="%" onChange={(v) => update((x) => void (x.meter.orange = v))} />

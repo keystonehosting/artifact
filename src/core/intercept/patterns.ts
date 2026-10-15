@@ -13,7 +13,7 @@ export type CaptureKind =
   | 'grok.responses'
   | 'grok.nodes';
 
-export type HookKind = CaptureKind | 'auth' | 'claude.message_limit' | 'claude.stream_end';
+export type HookKind = CaptureKind | 'auth' | 'claude.message_limit' | 'claude.stream_end' | 'session.expired';
 
 export interface HookMessage {
   source: typeof HOOK_SOURCE;

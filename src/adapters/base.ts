@@ -178,8 +178,49 @@ export abstract class BaseAdapter implements SiteAdapter {
     return findComposer(this.doc, this.cfg.composer);
   }
 
+  getComposerElement(): HTMLElement | null {
+    return this.composerEl();
+  }
+
   getDraftText(): string {
     return readComposer(this.composerEl());
+  }
+
+  onSend(cb: (text: string) => void): () => void {
+    const win = this.doc.defaultView;
+    if (!win) return () => undefined;
+    let lastText = '';
+    let lastAt = 0;
+    // A send is confirmed when the composer empties shortly after Enter or a
+    // click on the send button; a key a menu swallowed leaves the text in place.
+    const watch = () => {
+      const text = this.getDraftText().trim();
+      if (!text) return;
+      win.setTimeout(() => {
+        if (this.getDraftText().trim()) return;
+        if (text === lastText && Date.now() - lastAt < 1500) return;
+        lastText = text;
+        lastAt = Date.now();
+        cb(text);
+      }, 400);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== 'Enter' || e.shiftKey || e.altKey || e.isComposing) return;
+      const el = this.composerEl();
+      if (el && e.target instanceof Node && el.contains(e.target)) watch();
+    };
+    const onClick = (e: MouseEvent) => {
+      const target = e.target instanceof Element ? e.target : null;
+      if (target && this.cfg.send.some((sel) => target.closest(sel))) watch();
+    };
+    win.addEventListener('keydown', onKey, true);
+    this.doc.addEventListener('click', onClick, true);
+    const off = () => {
+      win.removeEventListener('keydown', onKey, true);
+      this.doc.removeEventListener('click', onClick, true);
+    };
+    this.disposers.push(off);
+    return off;
   }
 
   async fillComposer(text: string, files: File[] = []): Promise<boolean> {

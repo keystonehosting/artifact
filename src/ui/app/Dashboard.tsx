@@ -14,6 +14,7 @@ import { capStatus, hourlyHeatmap, readSendLog, type SendEvent } from '../../fea
 import { formatDiagnostics } from '../../core/health/diagnostics';
 import { activeBranch } from '../../core/model/tree';
 import { ThisChat } from './ThisChat';
+import { Branches } from './Branches';
 
 function when(ms: number | null): string {
   if (!ms) return '';
@@ -91,6 +92,7 @@ export function Dashboard({ tab, settings, update }: { tab: ActiveTab | null; se
       </Section>
 
       {tab?.ready?.chatId ? <ThisChat tab={tab} /> : null}
+      {conv && tab ? <Branches conv={conv} tabId={tab.tabId} /> : null}
 
       {usage && (
         <Section title={t('usage_label')}>

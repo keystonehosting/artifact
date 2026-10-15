@@ -40,7 +40,10 @@ Shipped in the current release:
 - **Your chats, organized across sites:** nested folders (also shown in each site's own sidebar), pinned chats, favorite assistants, tags with keyword-based Smart Tags, message labels and bookmarks, highlights on reply text, chat notes, and continue-later reminders. One-click import of projects as folders.
 - **Search every chat on every site** with filters (site, role, model, dates, folder, tag, exact phrase, must-include / exclude), highlighted matches, jump-to-message, and a findings report. A deep scan stores your full history in the background; find-in-chat (Ctrl/Cmd+Shift+F) works on the open chat.
 - **Privacy blur** (Alt+Shift+B) for screen sharing.
-- **Side panel** with a dashboard, folders, search, library, export and settings.
+- **Prompts:** a library with `{{variables}}` (choices, defaults, hidden values, files), `//` to insert, `..` chains that wait for each reply, a send queue, prompt history on the arrow keys, right-click prompts on any page, an enhancer, a profile for new chats, and 44 public-domain starter prompts. See `docs/prompts.md`.
+- **Chat experience:** wide and speed modes, a timeline rail, collapsible messages, right-to-left text, code and formula copy, auto-continue (off by default), draft autosave, and a branch map with a diff of regenerations.
+- **Cross-AI:** carry a chat forward to a new chat on any site, mention another chat with `@@`, and broadcast one prompt to several sites with a compare view. Text is pre-filled; sending automatically is opt-in.
+- **Side panel** with a dashboard, prompts, cross-AI, folders, search, library, export and settings.
 - **Site health:** each site reports Healthy, Degraded or Broken with the reason. A site change shows up as Degraded instead of producing wrong data. **Self-test** produces a diagnostics report with no message text, cookies, tokens or keys.
 
 The full plan is in [`docs/SPEC.md`](docs/SPEC.md).

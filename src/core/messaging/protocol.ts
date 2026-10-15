@@ -28,6 +28,13 @@ export interface ContentRequests {
   'content:blur': { req: { on?: boolean }; res: { on: boolean } };
   'content:deep-scan': { req: { fresh: boolean }; res: { started: boolean } };
   'content:deep-scan-stop': { req: Empty; res: { ok: true } };
+  /** Inserts a saved prompt (asking for its variables in the page). */
+  'content:insert-prompt': { req: { promptId: string; selection?: string }; res: { ok: boolean } };
+  'content:run-chain': { req: { chainId: string }; res: { ok: true } };
+  /** Sends texts one after another, each after the previous reply finishes. */
+  'content:queue': { req: { texts: string[] }; res: { ok: true } };
+  /** The newest reply on the page, for the broadcast compare view and "current chat" handoff. */
+  'content:last-reply': { req: Empty; res: { streaming: boolean; reply: string | null; chatId: string | null } };
 }
 
 export type ContentMessage = {

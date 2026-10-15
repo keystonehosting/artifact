@@ -4,7 +4,7 @@ Artifact keeps your chats on your device. It has no server, no account, no telem
 
 ## Where your data is stored
 
-- **Your browser** (IndexedDB and extension storage): conversations you open or import, the search index, folders, tags, bookmarks, notes, prompts and settings.
+- **Your browser** (IndexedDB and extension storage): conversations you open or import, the search index, folders, tags, bookmarks, highlights, notes, reminders, prompts, chains, files you attach to prompts, the prompts you sent (prompt history), unsent drafts, your profile text, the last 20 handoffs, and settings.
 - **A folder you choose**, if you turn on auto-backup. If that folder is synced by Google Drive, OneDrive or Dropbox, those services receive the files under their own terms.
 
 Uninstalling Artifact deletes its browser storage. Export first if you want to keep it.

@@ -9,9 +9,11 @@ import { SettingsPanel } from './SettingsPanel';
 import { FoldersPanel } from './FoldersPanel';
 import { SearchPanel } from './SearchPanel';
 import { LibraryPanel } from './LibraryPanel';
+import { PromptsPanel } from './PromptsPanel';
+import { CrossAiPanel } from './CrossAiPanel';
 import { t } from '../../core/i18n/t';
 
-type Tab = 'dashboard' | 'folders' | 'search' | 'library' | 'export' | 'settings';
+type Tab = 'dashboard' | 'prompts' | 'crossai' | 'folders' | 'search' | 'library' | 'export' | 'settings';
 
 export function SidePanel() {
   const [settings, update] = useSettings();
@@ -24,6 +26,8 @@ export function SidePanel() {
       <Tabs<Tab>
         tabs={[
           ['dashboard', t('tab_dashboard')],
+          ['prompts', t('tab_prompts')],
+          ['crossai', t('tab_crossai')],
           ['folders', t('tab_folders')],
           ['search', t('tab_search')],
           ['library', t('tab_library')],
@@ -34,6 +38,8 @@ export function SidePanel() {
         onChange={setView}
       />
       {view === 'dashboard' && <Dashboard tab={tab} settings={settings} update={update} />}
+      {view === 'prompts' && <PromptsPanel tab={tab} />}
+      {view === 'crossai' && <CrossAiPanel tab={tab} settings={settings} update={update} />}
       {view === 'folders' && <FoldersPanel tab={tab} />}
       {view === 'search' && <SearchPanel tab={tab} />}
       {view === 'library' && <LibraryPanel />}

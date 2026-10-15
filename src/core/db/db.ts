@@ -138,6 +138,78 @@ export interface ConversationRow {
   storedAt: number;
 }
 
+export interface PromptRow {
+  id: string;
+  name: string;
+  /** Template text (src/core/prompts/template.ts). */
+  body: string;
+  category: string;
+  favorite: 0 | 1;
+  pinned: 0 | 1;
+  uses: number;
+  lastUsedAt: number | null;
+  createdAt: number;
+  updatedAt: number;
+  /** Send right after inserting. Off unless the user turns it on for this prompt. */
+  autoSend: boolean;
+  /** Files from the prompt file library attached on every use. */
+  fileIds: string[];
+  /** Where an imported prompt came from, e.g. "starter:<name>". */
+  source: string | null;
+}
+
+export interface ChainStep {
+  name: string;
+  text: string;
+  /** After this step: continue when the reply finishes, or wait for the user. */
+  after: 'reply' | 'confirm';
+}
+
+export interface ChainRow {
+  id: string;
+  name: string;
+  steps: ChainStep[];
+  uses: number;
+  lastUsedAt: number | null;
+  createdAt: number;
+  updatedAt: number;
+}
+
+export interface PromptFileRow {
+  id: string;
+  name: string;
+  mimeType: string;
+  size: number;
+  /** Base64, so the file crosses extension messaging unchanged. */
+  data: string;
+  addedAt: number;
+}
+
+export interface HistoryRow {
+  seq?: number;
+  site: SiteId;
+  text: string;
+  at: number;
+}
+
+export interface HandoffRow {
+  id: string;
+  at: number;
+  fromChatId: string | null;
+  fromTitle: string;
+  fromSite: SiteId;
+  targetSite: SiteId;
+  mode: 'local' | 'chat' | 'api';
+  text: string;
+}
+
+export interface DraftRow {
+  /** `${site}:${chatId}`, or `${site}:new` for a new chat. */
+  key: string;
+  text: string;
+  updatedAt: number;
+}
+
 export interface KvRow {
   key: string;
   value: unknown;
@@ -157,6 +229,12 @@ export class ArtifactDB extends Dexie {
   reminders!: EntityTable<ReminderRow, 'id'>;
   favorites!: EntityTable<FavoriteRow, 'id'>;
   kv!: EntityTable<KvRow, 'key'>;
+  prompts!: EntityTable<PromptRow, 'id'>;
+  chains!: EntityTable<ChainRow, 'id'>;
+  promptFiles!: EntityTable<PromptFileRow, 'id'>;
+  history!: EntityTable<HistoryRow, 'seq'>;
+  handoffs!: EntityTable<HandoffRow, 'id'>;
+  drafts!: EntityTable<DraftRow, 'key'>;
 
   constructor(name = 'artifact') {
     super(name);
@@ -174,6 +252,14 @@ export class ArtifactDB extends Dexie {
       reminders: 'id, chatId, dueAt, done',
       favorites: 'id, site, kind',
       kv: 'key',
+    });
+    this.version(2).stores({
+      prompts: 'id, category, favorite, pinned, uses, lastUsedAt, updatedAt, source',
+      chains: 'id, uses, lastUsedAt',
+      promptFiles: 'id, name',
+      history: '++seq, site, at',
+      handoffs: 'id, at',
+      drafts: 'key, updatedAt',
     });
   }
 }

@@ -111,3 +111,13 @@ Facts the folder tree, deep scan and project import rely on. All are unconfirmed
 | Sidebar chat links | each chat in the site's list is an `<a href>` to the chat URL, so dragging it gives the URL in `text/uri-list` | browser default for links | unconfirmed live |
 | Chat in a project | ChatGPT list item `gizmo_id`; Claude list item `project_uuid` → `projectId`, matched against the project list ids on import | dossier; Loominary | unconfirmed live |
 | Deep scan listing | each adapter's `listChats` pages (ChatGPT 100 per page; others as in the sections above), compared by `updatedAt` to find changed chats | as above | unconfirmed live |
+
+## Chat experience and cross-AI (v0.4.0)
+
+| Fact | Value | Source | Status |
+|---|---|---|---|
+| New-chat URLs | ChatGPT `https://chatgpt.com/`, Claude `https://claude.ai/new`, Gemini `https://gemini.google.com/app`, AI Studio `https://aistudio.google.com/prompts/new_chat`, Grok `https://grok.com/` (`src/core/sites/sites.ts`) | dossier (handoff targets); ACE | unconfirmed live |
+| Send detection | composer empties within 400 ms of Enter or a click on the site's send button | Artifact's own approach (D23) | fixture |
+| Continue button | visible button labelled "Continue" or "Continue generating" | common page wording | unconfirmed live |
+| Session expiry | a same-origin response with status 401 to the page's own request | HTTP semantics | unconfirmed live |
+| KaTeX source | `.katex annotation[encoding="application/x-tex"]` | KaTeX's MathML output | unconfirmed live per site |

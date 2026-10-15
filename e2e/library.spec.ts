@@ -39,7 +39,8 @@ test('bookmark and label from the message margin', async ({ context, extPage }) 
   const top = Math.max(4, box.y + 4);
   await page.mouse.click(left + 13, top + 13);
   await expect.poll(() => accessibleNames(page, /^Yellow$/), { timeout: 5_000 }).toHaveLength(1);
-  await page.mouse.click(Math.max(4, left) + 4 + 1 + 9, top + 26 + 2 + 26 + 2 + 4 + 9);
+  // Bookmark, label and collapse buttons, then the swatch row.
+  await page.mouse.click(Math.max(4, left) + 4 + 1 + 9, top + 3 * (26 + 2) + 4 + 9);
   await expect.poll(async () => (await libCall<Array<{ messageId: string; color: string }>>(extPage, 'bookmarks', CHAT)).map((b) => `${b.messageId}:${b.color}`), { timeout: 5_000 }).toEqual(['a1c:yellow']);
   await libCall(extPage, 'addLabel', { chatId: CHAT, messageId: 'a1c', color: 'red', text: '' });
   const labels = await libCall<unknown[]>(extPage, 'labels', CHAT);

@@ -18,6 +18,13 @@ const PATHS = {
   eye: 'M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z',
   plus: 'M12 5v14M5 12h14',
   highlight: 'M4 20h7M14.5 4.5l5 5L10 19H5v-5z',
+  chain: 'M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1',
+  sparkle: 'M12 3v4M12 17v4M3 12h4M17 12h4M6.5 6.5l2.5 2.5M15 15l2.5 2.5M6.5 17.5 9 15M15 9l2.5-2.5',
+  person: 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21a8 8 0 0 1 16 0',
+  rtl: 'M20 6H9M20 10H12M20 14H9M20 18H12M7 9l-3 3 3 3',
+  queue: 'M4 6h16M4 12h10M4 18h7M17 15v6M14 18h6',
+  tree: 'M6 4v16M6 8h6a3 3 0 0 1 3 3v1M6 16h6M15 12a2 2 0 1 0 4 0 2 2 0 0 0-4 0zM12 16a2 2 0 1 0 4 0',
+  collapse: 'M6 9l6-6 6 6M6 15l6 6 6-6',
 } as const;
 
 export type IconName = keyof typeof PATHS;

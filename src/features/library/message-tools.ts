@@ -11,10 +11,13 @@ import { COLORS, COLOR_VALUES, type ColorName } from '../../ui/colors';
 import { t } from '../../core/i18n/t';
 import { Icon } from '../../ui/icons';
 import type { BookmarkRow, LabelRow } from '../../core/db/db';
+import type { Collapser } from '../experience/replies';
+
+type Anchor = { messageId: string | null; index: number };
 
 export class MessageTools {
   private mount: ShadowMount | null = null;
-  private current: { el: Element; messageId: string } | null = null;
+  private current: { el: Element; messageId: string; anchor: Anchor } | null = null;
   private bookmarks: BookmarkRow[] = [];
   private labels: LabelRow[] = [];
   private pickerFor: 'label' | 'bookmark' | null = null;
@@ -23,6 +26,7 @@ export class MessageTools {
   constructor(
     private readonly adapter: SiteAdapter,
     private readonly state: PageState,
+    private readonly collapser: Collapser | null = null,
   ) {}
 
   start(): () => void {
@@ -62,7 +66,7 @@ export class MessageTools {
     }
     window.clearTimeout(this.hideTimer);
     if (this.current?.el === hit.element) return;
-    this.current = { el: hit.element, messageId: msg.id };
+    this.current = { el: hit.element, messageId: msg.id, anchor: { messageId: hit.messageId, index: hit.index } };
     this.pickerFor = null;
     this.render();
   }
@@ -120,6 +124,20 @@ export class MessageTools {
         h('button', { class: `tool${bm ? ' on' : ''}`, 'aria-label': t('tools_bookmark'), title: t('tools_bookmark'), onClick: () => ((this.pickerFor = this.pickerFor === 'bookmark' ? null : 'bookmark'), this.render()) }, h(Icon, { name: bm ? 'bookmarkFill' : 'bookmark' })),
         h('button', { class: 'tool', 'aria-label': t('tools_label'), title: t('tools_label'), onClick: () => ((this.pickerFor = this.pickerFor === 'label' ? null : 'label'), this.render()) },
           lbls.length ? h('span', { class: 'dots' }, lbls.map((l) => h('i', { style: { background: COLOR_VALUES[l.color as ColorName]?.[dark ? 'dark' : 'light'] } }))) : h(Icon, { name: 'tag' })),
+        this.collapser &&
+          h(
+            'button',
+            {
+              class: `tool${this.collapser.isCollapsed(this.current.anchor) ? ' on' : ''}`,
+              'aria-label': this.collapser.isCollapsed(this.current.anchor) ? t('tools_expand') : t('tools_collapse'),
+              title: this.collapser.isCollapsed(this.current.anchor) ? t('tools_expand') : t('tools_collapse'),
+              onClick: () => {
+                this.collapser!.toggle(this.current!.anchor);
+                this.render();
+              },
+            },
+            h(Icon, { name: 'collapse' }),
+          ),
         this.pickerFor && swatches(this.pickerFor),
       ),
     );

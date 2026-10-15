@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.4.0] - Prompts, chat experience and cross-AI
+
+- **Prompt library** with `{{variables}}`: text with defaults and hints, single and multiple choice with an "Other" box, hidden and fixed values, file slots, date, time and selection (`docs/prompts.md`). Categories, favorites, pins, use counts, prompt of the day from your own library, import and export, and files attached to a prompt every time it is used.
+- **`//` prompts, `..` chains and `@@` mentions** in every Tier 1 composer, with keyboard navigation. Pasted text never triggers them.
+- **Chains** with per-step "continue when the reply ends" or "wait for me", pause, stop and retry; a **send queue** (Ctrl/Cmd+Shift+Enter or the side panel); **prompt history** on Up and Down; **right-click prompts** on selected text on any page.
+- **Enhancer** in "current chat" mode with editable presets and a before/after word diff.
+- **44 starter prompts** from a CC0 collection, with the source and commit recorded.
+- **Universal profile** inserted into a new chat with one click.
+- **Chat experience:** wide mode with adjustable width, speed mode for long chats, a timeline rail, collapsible messages (Alt+Shift+E for all), right-to-left text, a word and character counter, copy buttons on code blocks, double-click to copy a formula's LaTeX, auto-continue (off by default), draft autosave per chat, offline and expired-session notices, and an alert when a long reply finishes in a background tab.
+- **Branch map and diff** of every edit and regeneration on the Dashboard.
+- **Handoff** to a new chat on any site, from a Local summary (goal, constraints, decisions, recent code, latest exchanges, within a token budget) or a summary the current chat writes; also from the meter's warning. The text waits in the new chat's composer; sending automatically is opt-in. The last 20 handoffs are kept.
+- **Broadcast** one prompt to several sites, with a side-by-side compare page.
+- Fixes: the first read of a chat waits briefly for the page's own request instead of fetching it again; settings changed while a page is loading are no longer missed.
+
 ## [0.3.0] - Organize and search
 
 - **Local library.** Every chat you open is stored and indexed in this browser (IndexedDB), with every branch. A page-text read never replaces a fuller copy from the site's own data.

@@ -37,6 +37,8 @@ export default defineContentScript({
       const method = (init?.method ?? (input instanceof Request ? input.method : 'GET')).toUpperCase();
       captureAuth(input, init);
       const res = await origFetch.call(this as typeof globalThis, input, init);
+      // The site's own API refusing the session: Artifact keeps the draft and offers a reload.
+      if (res.status === 401 && url.startsWith(window.location.origin)) post({ kind: 'session.expired', url, method, status: res.status, body: '' });
       const kind = matchCapture(url, method);
       if (kind && res.ok) {
         const type = res.headers.get('content-type') ?? '';

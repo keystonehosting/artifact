@@ -8,6 +8,9 @@ import { bytesToBase64 } from '../core/util/bytes';
 import type { Features } from './runtime';
 import { jumpTo } from './library/jump';
 import { isBlurred, setBlur } from './library/blur';
+import { lib } from '../core/library/client';
+import { activeBranch, messageText } from '../core/model/tree';
+import { applyPrompt } from './prompts/insert';
 
 type Handlers = { [K in keyof ContentRequests]: (msg: Extract<ContentMessage, { type: K }>) => Promise<ContentRequests[K]['res']> };
 
@@ -75,6 +78,29 @@ export function contentHandlers(site: SiteInfo, adapter: SiteAdapter, f: Feature
     'content:deep-scan-stop': async () => {
       f.scan.stop();
       return { ok: true as const };
+    },
+    'content:insert-prompt': async (m) => {
+      const prompt = await lib('prompt', m.promptId);
+      if (!prompt) throw new Error('That prompt no longer exists');
+      return { ok: await applyPrompt(adapter, prompt, { selection: m.selection, before: m.selection ? undefined : adapter.getDraftText() }) };
+    },
+    'content:run-chain': async (m) => {
+      const chain = await lib('chain', m.chainId);
+      if (!chain) throw new Error('That chain no longer exists');
+      // The variables form shows in the page; the answer arrives later.
+      void f.triggers.runChain(chain);
+      return { ok: true as const };
+    },
+    'content:queue': async (m) => {
+      for (const text of m.texts.map((x) => x.trim()).filter(Boolean)) f.runner.enqueue(text);
+      return { ok: true as const };
+    },
+    'content:last-reply': async () => {
+      const streaming = adapter.isStreaming();
+      const read = streaming ? null : await adapter.readConversation().catch(() => null);
+      const msgs = read ? activeBranch(read.value).filter((x) => !x.hidden) : [];
+      const last = msgs[msgs.length - 1];
+      return { streaming, reply: last?.role === 'assistant' ? messageText(last) : null, chatId: adapter.detectConversation() };
     },
   };
 }

@@ -106,6 +106,10 @@ export interface SiteAdapter {
   getAllBranches(conv: Conversation): string[][];
   getModel(): Promise<ModelInfo>;
   getDraftText(): string;
+  /** The composer the user types into, when it is on the page. */
+  getComposerElement(): HTMLElement | null;
+  /** Called with the composer text just before the user sends it (Enter or the send button). */
+  onSend(cb: (text: string) => void): () => void;
   fillComposer(text: string, files?: File[]): Promise<boolean>;
   /** Only called on an explicit user action. */
   submit(): Promise<boolean>;

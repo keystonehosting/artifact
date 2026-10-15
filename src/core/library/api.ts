@@ -4,6 +4,7 @@
 import { db, type ChatRow, type FolderRow, type NoteRow } from '../db/db';
 import * as folders from './folders';
 import * as svc from './service';
+import * as prompts from '../prompts/service';
 
 async function chat(chatId: string) {
   const d = db();
@@ -139,6 +140,32 @@ export const LIBRARY_API = {
   deleteReminder: async (id: string) => void (await db().reminders.delete(id)),
   favorites: async () => db().favorites.toArray(),
   setFavorite: svc.setFavorite,
+  // prompts and chains
+  prompts: prompts.listPrompts,
+  prompt: async (id: string) => (await db().prompts.get(id)) ?? null,
+  savePrompt: prompts.savePrompt,
+  deletePrompts: prompts.deletePrompts,
+  usePrompt: prompts.usePrompt,
+  importStarter: prompts.importStarter,
+  promptOfTheDay: async () => prompts.promptOfTheDay(),
+  exportPrompts: prompts.exportPrompts,
+  importPrompts: prompts.importPrompts,
+  chains: prompts.listChains,
+  chain: async (id: string) => (await db().chains.get(id)) ?? null,
+  saveChain: prompts.saveChain,
+  deleteChains: async (ids: string[]) => void (await db().chains.bulkDelete(ids)),
+  useChain: prompts.useChain,
+  promptFiles: async () => (await db().promptFiles.toArray()).map(({ data: _data, ...meta }) => meta),
+  promptFilesData: async (ids: string[]) => (await db().promptFiles.bulkGet(ids)).filter((f): f is NonNullable<typeof f> => !!f),
+  addPromptFile: prompts.addPromptFile,
+  deletePromptFile: async (id: string) => void (await db().promptFiles.delete(id)),
+  addHistory: prompts.addHistory,
+  history: prompts.history,
+  clearHistory: async () => void (await db().history.clear()),
+  addHandoff: prompts.addHandoff,
+  handoffs: async () => db().handoffs.orderBy('at').reverse().toArray(),
+  setDraft: prompts.setDraft,
+  draft: async (key: string) => (await db().drafts.get(key)) ?? null,
   kvGet: async (key: string) => (await db().kv.get(key))?.value ?? null,
   kvSet: async (key: string, value: unknown) => void (await db().kv.put({ key, value })),
 };

@@ -20,6 +20,14 @@ export const SITE_FIXTURES: Record<string, { url: string; file: string; keepScri
   chatgptLive: { url: 'https://chatgpt.com/c/68f0a1b2-0000-4000-8000-000000000001?live=1', file: 'synthetic/chatgpt-live.html', keepScripts: true },
 };
 
+/** Interactive pages (composer, send, a canned streamed reply) for prompt, chain and handoff tests. */
+export const SIM_PAGES: Record<string, { url: string; file: string; keepScripts: true }> = {
+  chatgptSim: { url: 'https://chatgpt.com/c/68f0a1b2-0000-4000-8000-000000000003', file: 'synthetic/chat-sim.html', keepScripts: true },
+  chatgptNew: { url: 'https://chatgpt.com/', file: 'synthetic/chat-sim.html', keepScripts: true },
+  claudeNew: { url: 'https://claude.ai/new', file: 'synthetic/chat-sim.html', keepScripts: true },
+  claudeSim: { url: 'https://claude.ai/chat/33333333-3333-4333-8333-333333333333', file: 'synthetic/chat-sim.html', keepScripts: true },
+};
+
 const PNG_1X1 = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
 
 /** Fake site API responses served at real URLs (never the network). */
@@ -40,12 +48,14 @@ export const test = base.extend<Fixtures>({
     const context = await chromium.launchPersistentContext('', {
       channel: 'chromium',
       headless: true,
-      args: [`--disable-extensions-except=${EXT}`, `--load-extension=${EXT}`],
+      // No name resolves, so nothing can reach the network even if a request escapes routing
+      // (tabs the extension opens can start loading before routes attach).
+      args: [`--disable-extensions-except=${EXT}`, `--load-extension=${EXT}`, '--host-resolver-rules=MAP * ~NOTFOUND'],
     });
     await context.route('**/*', async (route) => {
       const url = route.request().url();
       if (url.startsWith('chrome-extension://')) return route.continue();
-      const hit = Object.values(SITE_FIXTURES).find((f) => url.split('#')[0] === f.url);
+      const hit = [...Object.values(SITE_FIXTURES), ...Object.values(SIM_PAGES)].find((f) => url.split('#')[0] === f.url);
       if (hit && route.request().resourceType() === 'document') {
         const raw = readFileSync(join(FIXTURES, hit.file), 'utf8');
         const html = hit.keepScripts ? raw : raw.replace(/<script\b[\s\S]*?<\/script>/gi, '');
@@ -76,9 +86,9 @@ export const test = base.extend<Fixtures>({
 export const expect = test.expect;
 
 /** Opens a fixture site page and returns its tab id as seen by the extension. */
-export async function openSite(context: BrowserContext, extPage: Page, site: keyof typeof SITE_FIXTURES): Promise<{ page: Page; tabId: number }> {
+export async function openSite(context: BrowserContext, extPage: Page, site: string): Promise<{ page: Page; tabId: number }> {
   const page = await context.newPage();
-  const { url } = SITE_FIXTURES[site]!;
+  const { url } = (SITE_FIXTURES[site] ?? SIM_PAGES[site])!;
   await page.goto(url);
   const tabId = await extPage.evaluate(async (u) => {
     const tabs = await chrome.tabs.query({ url: u });
@@ -127,4 +137,55 @@ export async function libCall<T>(extPage: Page, fn: string, ...args: unknown[]):
     },
     { fn, args },
   ) as Promise<T>;
+}
+
+/** Merges a patch into the stored settings (one level deep per group). */
+export async function patchSettings(extPage: Page, patch: Record<string, Record<string, unknown>>): Promise<void> {
+  await extPage.evaluate(async (p) => {
+    const cur = ((await chrome.storage.local.get('settings')).settings ?? {}) as Record<string, Record<string, unknown>>;
+    for (const [k, v] of Object.entries(p)) cur[k] = { ...(cur[k] ?? {}), ...v };
+    await chrome.storage.local.set({ settings: cur });
+  }, patch);
+}
+
+/** The composer's text on a sim page. */
+export function composerText(page: Page): Promise<string> {
+  return page.evaluate(() => (document.querySelector('[contenteditable="true"]') as HTMLElement | null)?.innerText.trim() ?? '');
+}
+
+/** Messages the sim page has received, in order. */
+export function simSent(page: Page): Promise<string[]> {
+  return page.evaluate(() => (window as unknown as { simSent?: string[] }).simSent ?? []);
+}
+
+/**
+ * Site tabs the extension opens. Their first load can start before routes
+ * attach; with DNS blocked it then fails, so any such tab is reloaded at its
+ * fixture URL. Returns the tabs that are at `urls`, in order.
+ */
+export async function extensionOpened(context: BrowserContext, urls: string[], open: () => Promise<unknown>): Promise<Page[]> {
+  const before = new Set(context.pages());
+  await open();
+  const found = new Map<string, Page>();
+  for (let i = 0; i < 100 && found.size < urls.length; i++) {
+    for (const p of context.pages()) {
+      if (before.has(p) || [...found.values()].includes(p)) continue;
+      const u = p.url();
+      const match = urls.find((x) => !found.has(x) && u.startsWith(x));
+      if (match) found.set(match, p);
+      else if (u.startsWith('chrome-error://')) {
+        const next = urls.find((x) => !found.has(x));
+        if (next) {
+          await p.goto(next);
+          found.set(next, p);
+        }
+      }
+    }
+    await new Promise((r) => setTimeout(r, 100));
+  }
+  return urls.map((u) => {
+    const p = found.get(u);
+    if (!p) throw new Error(`No tab opened at ${u}`);
+    return p;
+  });
 }

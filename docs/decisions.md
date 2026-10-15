@@ -60,3 +60,18 @@ MiniSearch holds one document per message (all branches), serialized into the li
 
 ## D19 — AI Studio has no sidebar folder tree yet
 The AI Studio adapter has no confirmed place in the page for a chat-list sidebar: its sidebar selector (`ms-navbar, nav`) is from the fixture only and unconfirmed live. Mounting there could cover site controls, so `sidebarFolders` stays off for AI Studio until a live session confirms a spot. Its chats appear in folders, search and the library in the side panel. The site sidebar tree runs on ChatGPT, Claude, Gemini and Grok.
+
+## D20 — Features that call an AI API arrive with the AI layer (M5)
+The enhancer's API mode with key rotation, the API handoff mode, AI summaries for long `@@` mentions, and "second opinion" all need the provider layer, its first-send disclosure and PII redaction (SPEC §0.4, §6J), which M5 builds. Until then the enhancer works in "current chat" mode, handoffs use Local or current-chat summaries, and long mentions insert a local excerpt (the opening and the latest turns). Nothing in the UI offers an API mode before it works.
+
+## D21 — Mermaid rendering ships with the sandboxed preview (M4)
+Rendering Mermaid needs the Mermaid library (several hundred KB) and must not run on the site's page. M4 builds sandboxed iframes for the Artifact Vault; Mermaid diagrams render there and in the preview tab, which keeps the content script under its 400 KB budget (SPEC §7).
+
+## D22 — Quick model switch lives in the command palette (M6)
+SPEC §6E puts the quick model switch in the command palette, which M6 builds. Model selectors per site are unconfirmed live, so the action ships with the palette and its live checks.
+
+## D23 — Composer actions avoid site class names
+Sending is detected by the composer emptying shortly after Enter or a click on the site's send button, not by watching the site's network requests, so it works the same on every site. Auto-continue looks for a visible button labelled "Continue" or "Continue generating" outside Artifact's own UI (English labels only; unconfirmed live). Wide mode lifts the pixel max-width of the containers around the messages and composer instead of targeting class names.
+
+## D24 — End-to-end tests block DNS
+Tabs the extension opens can start loading before Playwright's routing attaches to them. The test browser now resolves no host names (`--host-resolver-rules`), so an escaped request fails instead of reaching a real site, and the tests reload such a tab once routing is in place. One test run before this change loaded `https://claude.ai/new` from the network without credentials; nothing was sent.

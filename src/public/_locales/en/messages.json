@@ -1271,5 +1271,928 @@
   },
   "role_unknown": {
     "message": "Unknown"
+  },
+  "ago_days": {
+    "message": "$N$ days ago",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "ago_today": {
+    "message": "today"
+  },
+  "ago_yesterday": {
+    "message": "yesterday"
+  },
+  "autocontinue_limit": {
+    "message": "Stopped continuing after $N$ times in a row.",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "bar_chains": {
+    "message": "Run a chain (..)"
+  },
+  "bar_count": {
+    "message": "$WORDS$ words · $CHARS$ characters",
+    "placeholders": {
+      "words": {
+        "content": "$1"
+      },
+      "chars": {
+        "content": "$2"
+      }
+    }
+  },
+  "bar_enhance": {
+    "message": "Enhance this prompt"
+  },
+  "bar_profile": {
+    "message": "Insert my profile"
+  },
+  "bar_prompts": {
+    "message": "Insert a prompt (//)"
+  },
+  "bar_rtl": {
+    "message": "Right-to-left text"
+  },
+  "branches_compare_pick": {
+    "message": "Compare this reply"
+  },
+  "branches_diff": {
+    "message": "Differences between the two replies"
+  },
+  "branches_hint": {
+    "message": "Every edit and regeneration in this chat. Messages on the version shown on the page jump to it; others open here. Tick two replies to compare them."
+  },
+  "branches_jump": {
+    "message": "Jump to this message"
+  },
+  "branches_pick_second": {
+    "message": "Tick one more reply to compare."
+  },
+  "branches_show": {
+    "message": "Show this message"
+  },
+  "branches_title": {
+    "message": "Branches ($N$ forks)",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "branches_versions": {
+    "message": "$N$ versions",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "broadcast_autosend": {
+    "message": "Send automatically in each tab"
+  },
+  "broadcast_autosend_hint": {
+    "message": "Off: the prompt waits in each composer for you to send. On: it is sent as soon as each page is ready."
+  },
+  "broadcast_go": {
+    "message": "Open on $N$ sites and compare",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "broadcast_hint": {
+    "message": "Opens a new chat on each site with this prompt in the composer, and a page that shows the replies side by side."
+  },
+  "broadcast_prompt": {
+    "message": "Prompt to broadcast"
+  },
+  "broadcast_title": {
+    "message": "Broadcast and compare"
+  },
+  "chains_add_step": {
+    "message": "Add step"
+  },
+  "chains_after": {
+    "message": "After this step"
+  },
+  "chains_after_confirm": {
+    "message": "Wait for me"
+  },
+  "chains_after_reply": {
+    "message": "Continue when the reply ends"
+  },
+  "chains_count": {
+    "message": "Chains ($N$)",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "chains_down": {
+    "message": "Move step down"
+  },
+  "chains_edit": {
+    "message": "Edit chain"
+  },
+  "chains_empty": {
+    "message": "No chains yet."
+  },
+  "chains_hint": {
+    "message": "A chain sends its steps one after another in the open chat, each when the previous reply has finished. Type .. in the composer to start one there."
+  },
+  "chains_new": {
+    "message": "New chain"
+  },
+  "chains_paste": {
+    "message": "Paste several steps at once"
+  },
+  "chains_paste_hint": {
+    "message": "Separate steps with a line containing only ---"
+  },
+  "chains_remove_step": {
+    "message": "Remove step"
+  },
+  "chains_run": {
+    "message": "Run here"
+  },
+  "chains_split": {
+    "message": "Add as steps"
+  },
+  "chains_started": {
+    "message": "Chain started in the tab."
+  },
+  "chains_step_name": {
+    "message": "Step $N$ name (optional)",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "chains_step_text": {
+    "message": "Step $N$ text",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "chains_up": {
+    "message": "Move step up"
+  },
+  "collapse_collapsed_all": {
+    "message": "All messages collapsed. Alt+Shift+E expands them."
+  },
+  "collapse_expanded_all": {
+    "message": "All messages expanded."
+  },
+  "common_close": {
+    "message": "Close"
+  },
+  "common_save": {
+    "message": "Save"
+  },
+  "compare_copy": {
+    "message": "Copy"
+  },
+  "compare_missing": {
+    "message": "This comparison has expired. Start a new broadcast from the side panel."
+  },
+  "compare_open": {
+    "message": "Go to tab"
+  },
+  "compare_title": {
+    "message": "Broadcast replies"
+  },
+  "compare_loading": {
+    "message": "loading"
+  },
+  "compare_waiting": {
+    "message": "waiting for you to send"
+  },
+  "compare_streaming": {
+    "message": "replying…"
+  },
+  "compare_done": {
+    "message": "done"
+  },
+  "compare_closed": {
+    "message": "tab closed"
+  },
+  "composer_not_found": {
+    "message": "Couldn't find the message box on this page."
+  },
+  "draft_discard": {
+    "message": "Discard draft"
+  },
+  "draft_restored": {
+    "message": "Your unsent draft was restored."
+  },
+  "enhance_edit": {
+    "message": "Edit"
+  },
+  "enhance_empty": {
+    "message": "Type a prompt first, then enhance it."
+  },
+  "enhance_enhanced": {
+    "message": "Enhanced"
+  },
+  "enhance_keep": {
+    "message": "Keep original"
+  },
+  "enhance_original": {
+    "message": "Original"
+  },
+  "enhance_review": {
+    "message": "Enhanced prompt"
+  },
+  "enhance_send_hint": {
+    "message": "Send this message; when the reply arrives you can review the rewritten prompt."
+  },
+  "enhance_show_diff": {
+    "message": "Show changes"
+  },
+  "enhance_use": {
+    "message": "Use enhanced"
+  },
+  "files_add": {
+    "message": "Add files"
+  },
+  "files_hint": {
+    "message": "Files here can be attached automatically whenever a prompt that uses them is inserted. They are kept in this browser only."
+  },
+  "files_title": {
+    "message": "Prompt files ($N$)",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "fill_copy": {
+    "message": "Copy text"
+  },
+  "fill_failed": {
+    "message": "The text couldn't be placed in the message box. Copy it and paste it yourself."
+  },
+  "finished_message": {
+    "message": "$TITLE$ — finished after $SECONDS$ s",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      },
+      "seconds": {
+        "content": "$2"
+      }
+    }
+  },
+  "finished_title": {
+    "message": "Reply ready"
+  },
+  "finished_untitled": {
+    "message": "Untitled chat"
+  },
+  "formula_copied": {
+    "message": "LaTeX copied."
+  },
+  "formula_copy_failed": {
+    "message": "The browser blocked copying."
+  },
+  "handoff_ask": {
+    "message": "Ask this chat for a summary"
+  },
+  "handoff_asking": {
+    "message": "Putting the request in the composer…"
+  },
+  "handoff_autosend": {
+    "message": "Send automatically in the new chat"
+  },
+  "handoff_autosend_hint": {
+    "message": "Off: the summary waits in the new chat's composer for you to read and send."
+  },
+  "handoff_budget": {
+    "message": "Summary budget"
+  },
+  "handoff_build": {
+    "message": "Build summary"
+  },
+  "handoff_building": {
+    "message": "Building the handoff…"
+  },
+  "handoff_chat_hint": {
+    "message": "Puts a request in this chat's composer for the assistant to write the handoff. Send it, wait for the reply, then use the reply as the summary."
+  },
+  "handoff_chat_sent": {
+    "message": "Request placed in the composer. Send it, then use the reply."
+  },
+  "handoff_continue_new": {
+    "message": "Continue in a new chat"
+  },
+  "handoff_hint": {
+    "message": "Starts a new chat, on this site or another, that picks up where this one is. The current chat is not changed."
+  },
+  "handoff_local_hint": {
+    "message": "Built here from the chat: the goal, constraints, decisions, recent code and the latest exchanges, cut to the budget."
+  },
+  "handoff_mode": {
+    "message": "Summary from"
+  },
+  "handoff_mode_api": {
+    "message": "API"
+  },
+  "handoff_mode_chat": {
+    "message": "This chat"
+  },
+  "handoff_mode_local": {
+    "message": "Local"
+  },
+  "handoff_need_chat": {
+    "message": "Open a chat on a supported site to carry it forward."
+  },
+  "handoff_no_reply": {
+    "message": "There is no reply to use yet."
+  },
+  "handoff_open": {
+    "message": "Open in $SITE$",
+    "placeholders": {
+      "site": {
+        "content": "$1"
+      }
+    }
+  },
+  "handoff_opened": {
+    "message": "Opened a new chat in $SITE$.",
+    "placeholders": {
+      "site": {
+        "content": "$1"
+      }
+    }
+  },
+  "handoff_opening": {
+    "message": "Opening…"
+  },
+  "handoff_reading": {
+    "message": "Reading the latest reply…"
+  },
+  "handoff_recent": {
+    "message": "Recent handoffs"
+  },
+  "handoff_reopen": {
+    "message": "Open again"
+  },
+  "handoff_still_streaming": {
+    "message": "The reply is still coming in."
+  },
+  "handoff_summary": {
+    "message": "Summary (edit freely)"
+  },
+  "handoff_title": {
+    "message": "Carry this chat forward"
+  },
+  "handoff_to": {
+    "message": "To"
+  },
+  "handoff_token_count": {
+    "message": "$N$ tokens",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "handoff_tokens": {
+    "message": "tokens"
+  },
+  "handoff_use_reply": {
+    "message": "Use the latest reply"
+  },
+  "history_clear": {
+    "message": "Clear history"
+  },
+  "history_clear_confirm": {
+    "message": "Forget every remembered prompt?"
+  },
+  "history_hint": {
+    "message": "Prompts you sent, newest first. In an empty message box, the Up and Down keys bring them back."
+  },
+  "history_save": {
+    "message": "Save as prompt"
+  },
+  "history_saved": {
+    "message": "Saved to your prompts."
+  },
+  "history_title": {
+    "message": "Prompt history ($N$)",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "keepalive_offline": {
+    "message": "You're offline. Your draft is saved."
+  },
+  "keepalive_online": {
+    "message": "Back online."
+  },
+  "keepalive_reload": {
+    "message": "Reload"
+  },
+  "keepalive_session": {
+    "message": "The site says your session expired. Your draft is saved; reload to sign back in and it will be restored."
+  },
+  "mention_not_stored": {
+    "message": "That chat isn't stored yet. Open it once, or run a deep scan, then mention it."
+  },
+  "menu_prompts": {
+    "message": "Run an Artifact prompt on “%s”"
+  },
+  "picker_chains": {
+    "message": "Chains"
+  },
+  "picker_mentions": {
+    "message": "Mention a chat"
+  },
+  "picker_messages": {
+    "message": "$N$ messages",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "picker_no_chains": {
+    "message": "No chains yet. Create them in the side panel's Prompts tab."
+  },
+  "picker_no_chats": {
+    "message": "No stored chats match."
+  },
+  "picker_no_prompts": {
+    "message": "No saved prompts yet. Add them in the side panel's Prompts tab."
+  },
+  "picker_prompts": {
+    "message": "Prompts"
+  },
+  "picker_steps": {
+    "message": "$N$ steps",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "picker_uses": {
+    "message": "used $N$×",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "prompt_missing": {
+    "message": "That prompt no longer exists."
+  },
+  "prompts_all_categories": {
+    "message": "All categories"
+  },
+  "prompts_attach": {
+    "message": "Attach these files every time"
+  },
+  "prompts_autosend": {
+    "message": "Send right after inserting"
+  },
+  "prompts_autosend_hint": {
+    "message": "Off by default. When on, inserting this prompt also sends it."
+  },
+  "prompts_category": {
+    "message": "Category"
+  },
+  "prompts_count": {
+    "message": "Prompts ($N$)",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "prompts_delete_many": {
+    "message": "Delete $N$ prompts?",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "prompts_delete_one": {
+    "message": "Delete “$NAME$”?",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      }
+    }
+  },
+  "prompts_duplicate": {
+    "message": "Duplicate"
+  },
+  "prompts_edit": {
+    "message": "Edit"
+  },
+  "prompts_empty": {
+    "message": "No prompts yet. Create one, import a file, or add the starter prompts below."
+  },
+  "prompts_export": {
+    "message": "Export selected"
+  },
+  "prompts_export_all": {
+    "message": "Export all"
+  },
+  "prompts_favorite": {
+    "message": "Add to favorites"
+  },
+  "prompts_fields": {
+    "message": "Asks for: $NAMES$",
+    "placeholders": {
+      "names": {
+        "content": "$1"
+      }
+    }
+  },
+  "prompts_import": {
+    "message": "Import file"
+  },
+  "prompts_import_title": {
+    "message": "Import and export"
+  },
+  "prompts_imported": {
+    "message": "Imported $PROMPTS$ prompts and $CHAINS$ chains.",
+    "placeholders": {
+      "prompts": {
+        "content": "$1"
+      },
+      "chains": {
+        "content": "$2"
+      }
+    }
+  },
+  "prompts_inserted": {
+    "message": "Inserted in the tab."
+  },
+  "prompts_name": {
+    "message": "Name"
+  },
+  "prompts_need_site": {
+    "message": "Open a chat on a supported site in this tab first."
+  },
+  "prompts_new": {
+    "message": "New prompt"
+  },
+  "prompts_of_the_day": {
+    "message": "Prompt of the day"
+  },
+  "prompts_sort": {
+    "message": "Sort"
+  },
+  "prompts_sort_newest": {
+    "message": "Newest"
+  },
+  "prompts_sort_recent": {
+    "message": "Recently used"
+  },
+  "prompts_sort_used": {
+    "message": "Most used"
+  },
+  "prompts_starter": {
+    "message": "Add $N$ starter prompts",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "prompts_starter_added": {
+    "message": "Added $N$ starter prompts.",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "prompts_starter_source": {
+    "message": "Starter prompts are from a public-domain collection:"
+  },
+  "prompts_syntax": {
+    "message": "Variables and other syntax"
+  },
+  "prompts_tab_chains": {
+    "message": "Chains"
+  },
+  "prompts_tab_files": {
+    "message": "Files"
+  },
+  "prompts_tab_history": {
+    "message": "History"
+  },
+  "prompts_tab_prompts": {
+    "message": "Prompts"
+  },
+  "prompts_tab_queue": {
+    "message": "Queue"
+  },
+  "prompts_text": {
+    "message": "Text"
+  },
+  "prompts_unfavorite": {
+    "message": "Remove from favorites"
+  },
+  "prompts_use": {
+    "message": "Use"
+  },
+  "prompts_vars": {
+    "message": "$N$ fields",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "queue_added": {
+    "message": "Queued. It will be sent when the current reply finishes."
+  },
+  "queue_hint": {
+    "message": "Prompts to send one after another in the open chat, each when the previous reply finishes. In the message box, Ctrl/Cmd+Shift+Enter adds to the queue too."
+  },
+  "queue_send": {
+    "message": "Send $N$ in order",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "queue_started": {
+    "message": "Queued $N$ prompts in the tab.",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "queue_title": {
+    "message": "Send queue"
+  },
+  "run_confirm": {
+    "message": "waiting for you"
+  },
+  "run_continue": {
+    "message": "Continue"
+  },
+  "run_done": {
+    "message": "done"
+  },
+  "run_failed": {
+    "message": "couldn't write the step"
+  },
+  "run_pause": {
+    "message": "Pause"
+  },
+  "run_paused": {
+    "message": "paused"
+  },
+  "run_queue": {
+    "message": "Queue"
+  },
+  "run_retry": {
+    "message": "Retry"
+  },
+  "run_sending": {
+    "message": "sending"
+  },
+  "run_step": {
+    "message": "$I$/$N$",
+    "placeholders": {
+      "i": {
+        "content": "$1"
+      },
+      "n": {
+        "content": "$2"
+      }
+    }
+  },
+  "run_stop": {
+    "message": "Stop"
+  },
+  "run_stopped": {
+    "message": "stopped"
+  },
+  "run_timeout": {
+    "message": "no reply started"
+  },
+  "run_waiting": {
+    "message": "waiting for the reply"
+  },
+  "settings_autocontinue": {
+    "message": "Continue truncated replies automatically"
+  },
+  "settings_autocontinue_hint": {
+    "message": "Clicks the site's Continue button when a reply stops early. Off by default."
+  },
+  "settings_autocontinue_max": {
+    "message": "At most, in a row"
+  },
+  "settings_collapse": {
+    "message": "Collapsible messages"
+  },
+  "settings_collapse_hint": {
+    "message": "A button beside each message, and Alt+Shift+E for all."
+  },
+  "settings_counter": {
+    "message": "Word and character count under the composer"
+  },
+  "settings_drafts": {
+    "message": "Save drafts per chat"
+  },
+  "settings_enhancer": {
+    "message": "Prompt enhancer"
+  },
+  "settings_enhancer_hint": {
+    "message": "Each preset is an instruction the enhancer puts above your prompt. Pick one from the enhance button."
+  },
+  "settings_experience": {
+    "message": "Chat experience"
+  },
+  "settings_finish": {
+    "message": "Alert when a long reply finishes in another tab"
+  },
+  "settings_finish_hint": {
+    "message": "A desktop notification, and a short chime if you like."
+  },
+  "settings_finish_min": {
+    "message": "Only for replies longer than"
+  },
+  "settings_finish_sound": {
+    "message": "Chime"
+  },
+  "settings_formula": {
+    "message": "Double-click a formula to copy its LaTeX"
+  },
+  "settings_history": {
+    "message": "Prompt history with Up and Down"
+  },
+  "settings_history_hint": {
+    "message": "In an empty message box."
+  },
+  "settings_keepalive": {
+    "message": "Watch for lost connections and expired sessions"
+  },
+  "settings_keepalive_hint": {
+    "message": "Shows a notice and keeps your draft so a reload loses nothing."
+  },
+  "settings_preset_name": {
+    "message": "Preset name"
+  },
+  "settings_preset_new": {
+    "message": "New preset"
+  },
+  "settings_preset_text": {
+    "message": "Preset instruction"
+  },
+  "settings_profile": {
+    "message": "Profile"
+  },
+  "settings_profile_about": {
+    "message": "About me"
+  },
+  "settings_profile_hint": {
+    "message": "Insert this into any new chat with the person button above the composer."
+  },
+  "settings_profile_instructions": {
+    "message": "How I'd like answers"
+  },
+  "settings_prompt_target": {
+    "message": "Right-click prompts on other pages open"
+  },
+  "settings_prompts": {
+    "message": "Prompts"
+  },
+  "settings_queue_key": {
+    "message": "Ctrl/Cmd+Shift+Enter queues the message"
+  },
+  "settings_queue_key_hint": {
+    "message": "It is sent after the current reply finishes."
+  },
+  "settings_rtl": {
+    "message": "Show the right-to-left switch"
+  },
+  "settings_speed": {
+    "message": "Speed mode for long chats"
+  },
+  "settings_speed_hint": {
+    "message": "The browser skips drawing messages far off screen."
+  },
+  "settings_timeline": {
+    "message": "Timeline rail at the right edge"
+  },
+  "settings_triggers": {
+    "message": "// prompts, .. chains and @@ mentions"
+  },
+  "settings_triggers_hint": {
+    "message": "Typed in the site's message box."
+  },
+  "settings_wide": {
+    "message": "Wide mode"
+  },
+  "settings_wide_width": {
+    "message": "Chat width"
+  },
+  "syntax_builtin": {
+    "message": "Filled in for you: today's date, the time, or the selected text"
+  },
+  "syntax_choice": {
+    "message": "Pick one; * marks the default and ... adds an Other box"
+  },
+  "syntax_const": {
+    "message": "A fixed value used elsewhere as {{lang}}; never asked"
+  },
+  "syntax_default": {
+    "message": "A text field with a default and a hint"
+  },
+  "syntax_escape": {
+    "message": "Two literal braces"
+  },
+  "syntax_file": {
+    "message": "Ask for a file to attach"
+  },
+  "syntax_hidden": {
+    "message": "Asked, but printed only where {{audience}} appears"
+  },
+  "syntax_multi": {
+    "message": "Pick several, joined with commas"
+  },
+  "syntax_text": {
+    "message": "A text field, asked once, used everywhere it appears"
+  },
+  "tab_crossai": {
+    "message": "Cross-AI"
+  },
+  "tab_prompts": {
+    "message": "Prompts"
+  },
+  "timeline_label": {
+    "message": "Messages in this chat"
+  },
+  "timeline_mark": {
+    "message": "Message $N$: $TEXT$",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      },
+      "text": {
+        "content": "$2"
+      }
+    }
+  },
+  "tools_collapse": {
+    "message": "Collapse message"
+  },
+  "tools_expand": {
+    "message": "Expand message"
+  },
+  "var_hidden": {
+    "message": "Not printed here; used where the prompt refers to it."
+  },
+  "var_insert": {
+    "message": "Insert"
+  },
+  "var_other": {
+    "message": "Other"
+  },
+  "var_title": {
+    "message": "Fill in “$NAME$”",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      }
+    }
+  },
+  "code_copy": {
+    "message": "Copy"
+  },
+  "code_copy_label": {
+    "message": "Copy this code"
+  },
+  "code_copied": {
+    "message": "Code copied."
+  },
+  "settings_code_copy": {
+    "message": "Copy button on code blocks"
   }
 }

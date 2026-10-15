@@ -66,6 +66,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
+## Data
+
+- **Starter prompts** (`src/core/prompts/starter-pack.json`): 44 prompts selected from `prompts.csv` in awesome-chatgpt-prompts (https://github.com/f/awesome-chatgpt-prompts) at commit `7a507e2afc6157f40295624b3e86596362e14368`. The repository's LICENSE (checked 2026-10-15) dedicates prompt content and data, including `prompts.csv`, to the public domain under CC0 1.0 Universal; its code is MIT and none of it is used. Artifact changed the trailing example request of 28 prompts into a `{{request}}` variable with that example as its default. Contributor handles are kept in the file.
+
 ## Ideas only (no code used)
 
 - Gemini Voyager (https://github.com/Nagi-ovo/gemini-voyager): GPL-3.0. SPEC §1 listed it as "MIT (confirm)". The LICENSE file is GPL-3.0, so it is used for ideas only (D2).

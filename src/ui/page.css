@@ -124,3 +124,55 @@ a { color: var(--a-accent); }
 .tree .twisty { width: 12px; display: inline-grid; place-items: center; color: var(--a-fg-3); flex: none; }
 .tree .name, .tree .chat-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
 .tree a.row { text-decoration: none; }
+
+/* Composer bar: in flow above the meter. */
+.cbar { display: flex; align-items: center; gap: 4px; padding: 2px 4px; flex-wrap: wrap; min-height: 26px; }
+.cbar .tool { width: 24px; height: 24px; padding: 0; display: grid; place-items: center; border-color: transparent; color: var(--a-fg-3); }
+.cbar .tool:hover, .cbar .tool[aria-pressed='true'], .cbar .tool[aria-expanded='true'] { color: var(--a-fg); border-color: var(--a-line); }
+.cbar .count { margin-left: auto; font-size: 11px; }
+.menu-wrap { position: relative; }
+.menu { position: absolute; bottom: 28px; left: 0; z-index: 2147483000; list-style: none; margin: 0; padding: 4px; min-width: 160px; background: var(--a-bg); border: 1px solid var(--a-line); border-radius: 4px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); }
+.menu button { display: block; width: 100%; text-align: left; border: none; padding: 4px 8px; }
+.run { display: flex; align-items: center; gap: 6px; padding: 1px 6px; border-left: 2px solid var(--a-accent); }
+.run.timeout, .run.failed { border-left-color: var(--a-red); }
+.run-name { font-weight: 600; max-width: 14em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.run button { padding: 0 6px; }
+
+/* Trigger picker above the composer. */
+.picker { position: fixed; z-index: 2147483000; max-height: 320px; display: flex; flex-direction: column; background: var(--a-bg); border: 1px solid var(--a-line); border-radius: 4px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18); }
+.picker-head { padding: 4px 8px; font-size: 11px; color: var(--a-fg-3); border-bottom: 1px solid var(--a-line); }
+.picker-empty { margin: 8px; }
+.picker ul { list-style: none; margin: 0; padding: 2px; overflow: auto; }
+.picker li { display: flex; gap: 8px; align-items: baseline; padding: 4px 6px; border-radius: 3px; cursor: pointer; }
+.picker li.on { background: var(--a-bg-2); outline: 1px solid var(--a-line); }
+.picker .name { flex: 1 1 0; min-width: 0; text-overflow: ellipsis; }
+.picker .name, .run-name { overflow: hidden; white-space: nowrap; }
+.picker .meta { font-size: 11px; white-space: nowrap; }
+
+/* Modals: variables form and enhancer review. */
+.modal-back { position: fixed; inset: 0; z-index: 2147483600; background: rgba(0, 0, 0, 0.35); display: grid; place-items: center; }
+.modal { width: min(520px, calc(100vw - 32px)); max-height: calc(100vh - 64px); overflow: auto; background: var(--a-bg); border: 1px solid var(--a-line); border-radius: 6px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; }
+.modal.wide { width: min(960px, calc(100vw - 32px)); }
+.modal h2 { margin: 0; font-size: 14px; }
+.modal h3 { margin: 0 0 4px; font-size: 11px; color: var(--a-fg-3); text-transform: uppercase; letter-spacing: 0.04em; }
+.modal .field { display: flex; flex-direction: column; gap: 3px; }
+.modal label { font-weight: 600; }
+.modal textarea, .modal input[type='text'], .modal select { font: inherit; color: inherit; background: var(--a-bg-2); border: 1px solid var(--a-line); border-radius: 4px; padding: 4px 6px; width: 100%; }
+.modal .help { margin: 0; color: var(--a-fg-3); font-size: 11px; }
+.modal .checks { display: flex; flex-wrap: wrap; gap: 4px 12px; }
+.modal .actions { display: flex; justify-content: flex-end; gap: 6px; }
+button.primary { background: var(--a-accent); border-color: var(--a-accent); color: var(--a-bg); }
+.diff { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.diff-side { white-space: pre-wrap; background: var(--a-bg-2); border: 1px solid var(--a-line); border-radius: 4px; padding: 6px 8px; max-height: 50vh; overflow: auto; }
+.diff textarea { min-height: 200px; }
+mark.del { background: color-mix(in srgb, var(--a-red) 25%, transparent); color: inherit; text-decoration: line-through; }
+mark.ins { background: color-mix(in srgb, var(--a-accent) 25%, transparent); color: inherit; }
+
+/* Timeline rail at the right edge. */
+.timeline { position: fixed; right: 18px; top: 15vh; height: 70vh; width: 12px; z-index: 2147481000; }
+.timeline .mark { position: absolute; left: 2px; width: 8px; height: 4px; padding: 0; border: none; border-radius: 2px; background: var(--a-line); }
+.timeline .mark.user { background: var(--a-fg-3); }
+.timeline .mark.on { background: var(--a-accent); }
+.timeline .mark:hover, .timeline .mark:focus-visible { width: 12px; left: 0; }
+
+.toast.info { border-left-color: var(--a-accent); bottom: 24px; }

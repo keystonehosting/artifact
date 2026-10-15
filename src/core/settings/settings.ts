@@ -8,6 +8,27 @@ import { DEFAULT_EXPORT_OPTIONS } from '../export/document';
 
 const KEY = 'settings';
 
+/** An object whose fields all have defaults; a broken stored value falls back to them as a whole. */
+function group<T extends z.ZodRawShape>(shape: T) {
+  const o = z.object(shape);
+  return o.catch(() => o.parse({}));
+}
+
+export const DEFAULT_ENHANCER_PRESETS = [
+  {
+    name: 'Clearer',
+    text: 'Rewrite the prompt below so it is clear and specific: state the goal, the context the reader needs, any constraints, and the form the answer should take. Keep the original language and intent. Return only the rewritten prompt.',
+  },
+  {
+    name: 'Step by step',
+    text: 'Rewrite the prompt below so it asks for a structured, step-by-step answer, with any assumptions stated first. Keep the original language and intent. Return only the rewritten prompt.',
+  },
+  {
+    name: 'Shorter',
+    text: 'Rewrite the prompt below to be as short as possible without losing any requirement. Keep the original language. Return only the rewritten prompt.',
+  },
+];
+
 const siteFlags = (on: readonly string[]) => Object.fromEntries(ALL_SITES.map((s) => [s, on.includes(s)])) as Record<SiteId, boolean>;
 
 export const SettingsSchema = z.object({
@@ -84,6 +105,53 @@ export const SettingsSchema = z.object({
       obsidianVault: '',
       obsidianFolder: 'AI Chats',
     }),
+  prompts: group({
+    /** `//` prompts, `..` chains and `@@` mentions in the composer. */
+    triggers: z.boolean().catch(true),
+    /** Arrow keys in an empty composer cycle earlier prompts. */
+    history: z.boolean().catch(true),
+    /** Site a right-click prompt opens when the current page isn't an AI site. */
+    target: z.enum(TIER1_SITES).catch('chatgpt'),
+    /** Ctrl/Cmd+Shift+Enter queues the composer text to send after the current reply. */
+    queueKey: z.boolean().catch(true),
+  }),
+  enhancer: group({
+    presets: z.array(z.object({ name: z.string(), text: z.string() })).min(1).catch(DEFAULT_ENHANCER_PRESETS),
+    selected: z.number().int().min(0).catch(0),
+  }),
+  profile: group({
+    about: z.string().catch(''),
+    instructions: z.string().catch(''),
+  }),
+  experience: group({
+    wide: z.boolean().catch(false),
+    /** Share of the available width the chat column may take, in percent. */
+    wideWidth: z.number().min(50).max(100).catch(90),
+    speed: z.boolean().catch(false),
+    timeline: z.boolean().catch(true),
+    collapse: z.boolean().catch(true),
+    rtl: z.boolean().catch(false),
+    counter: z.boolean().catch(true),
+    formulaCopy: z.boolean().catch(true),
+    codeCopy: z.boolean().catch(true),
+    autoContinue: z.boolean().catch(false),
+    autoContinueMax: z.number().int().min(1).max(10).catch(3),
+    drafts: z.boolean().catch(true),
+    keepAlive: z.boolean().catch(true),
+    finishAlert: z.boolean().catch(false),
+    finishSound: z.boolean().catch(true),
+    /** Only alert for replies that took at least this many seconds. */
+    finishMinSeconds: z.number().min(0).max(600).catch(20),
+  }),
+  handoff: group({
+    mode: z.enum(['local', 'chat', 'api']).catch('local'),
+    budget: z.number().int().min(300).max(50_000).catch(3000),
+    autoSend: z.boolean().catch(false),
+  }),
+  broadcast: group({
+    sites: z.array(z.enum(TIER1_SITES)).catch(['chatgpt', 'claude', 'gemini']),
+    autoSend: z.boolean().catch(false),
+  }),
 });
 
 export type Settings = z.infer<typeof SettingsSchema>;
